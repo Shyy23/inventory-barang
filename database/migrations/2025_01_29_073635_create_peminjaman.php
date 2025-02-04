@@ -10,35 +10,36 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('log_peminjamans', function (Blueprint $table) {
-            $table->increments('id_peminjaman');
-            $table->unsignedInteger('siswa_id');
-            $table->enum('status_peminjaman', ['dipinjam', 'dikembalikan', 'rusak']);
-            $table->timestamp('tanggal_pinjam')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->time('waktu_kembali');
-            $table->unsignedInteger('approved_by');
-            $table->foreign('siswa_id')->references('id_siswa')->on('siswas')->onDelete('cascade')->onUpdate('cascade')->index('idx_siswa_peminjaman');
-            $table->foreign('approved_by')->references('id_guru')->on('gurus')->onDelete('cascade')->onUpdate('cascade')->index('idx_guru_peminjaman');
+        Schema::create('loan_logs', function (Blueprint $table) {
+            $table->increments('loan_id');
+            $table->string('nisn', 25);
+            $table->enum('loan_status', ['borrowed', 'returned', 'damaged']);
+            $table->timestamp('loan_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->time('return_time');
+            $table->string('approved_by', 25);
+            $table->foreign('nisn')->references('nisn')->on('students')->onDelete('cascade')->onUpdate('cascade')->index('idx_student_loan');
+            $table->foreign('approved_by')->references('nip')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_loan');
         });
-        Schema::create('detail_peminjamans', function (Blueprint $table) {
-            $table->increments('id_detail');
-            $table->unsignedInteger('peminjaman_id');
-            $table->unsignedInteger('barang_id');
-            $table->unsignedInteger('unit_id')->nullable();
-            $table->integer('jumlah_barang');
-            $table->text('deskripsi_peminjaman');
-            $table->foreign('peminjaman_id')->references('id_peminjaman')->on('log_peminjamans')->onDelete('cascade')->onUpdate('cascade')->index('idx_peminjaman_detail_peminjaman');
-            $table->foreign('barang_id')->references('id_barang')->on('barangs')->onDelete('cascade')->onUpdate('cascade')->index('idx_barang_detail_peminjaman');
-            $table->foreign('unit_id')->references('id_unit')->on('unit_barangs')->onDelete('cascade')->onUpdate('cascade')->index('idx_unit_detail_peminjaman');
 
+        Schema::create('loan_details', function (Blueprint $table) {
+            $table->increments('detail_id');
+            $table->unsignedInteger('loan_id');
+            $table->unsignedInteger('item_id');
+            $table->unsignedInteger('unit_id')->nullable();
+            $table->integer('item_quantity');
+            $table->text('loan_description');
+            $table->foreign('loan_id')->references('loan_id')->on('loan_logs')->onDelete('cascade')->onUpdate('cascade')->index('idx_loan_detail');
+            $table->foreign('item_id')->references('item_id')->on('items')->onDelete('cascade')->onUpdate('cascade')->index('idx_item_detail');
+            $table->foreign('unit_id')->references('unit_id')->on('item_units')->onDelete('cascade')->onUpdate('cascade')->index('idx_unit_detail');
         });
-        Schema::create('peminjaman_kbm', function (Blueprint $table) {
-            $table->unsignedInteger('peminjaman_id');
-            $table->unsignedInteger('kelas_id');
-            $table->unsignedInteger('mapel_id');
-            $table->foreign('peminjaman_id')->references('id_peminjaman')->on('log_peminjamans')->onDelete('cascade')->onUpdate('cascade')->index('idx_peminjaman_kbm');
-            $table->foreign('kelas_id')->references('id_kelas')->on('kelass')->onDelete('cascade')->onUpdate('cascade')->index('idx_kelas_kbm');
-            $table->foreign('mapel_id')->references('id_mapel')->on('mapels')->onDelete('cascade')->onUpdate('cascade')->index('idx_mapel_kbm');
+
+        Schema::create('class_loans', function (Blueprint $table) {
+            $table->unsignedInteger('loan_id');
+            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('subject_id');
+            $table->foreign('loan_id')->references('loan_id')->on('loan_logs')->onDelete('cascade')->onUpdate('cascade')->index('idx_loan_class');
+            $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade')->onUpdate('cascade')->index('idx_class_loan');
+            $table->foreign('subject_id')->references('subject_id')->on('subjects')->onDelete('cascade')->onUpdate('cascade')->index('idx_subject_loan');
         });
     }
 
@@ -47,8 +48,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('peminjaman');
-        Schema::dropIfExists('detail_peminjamans');
-        Schema::dropIfExists('peminjaman');
+        Schema::dropIfExists('class_loans'); 
+        Schema::dropIfExists('loan_details');      
+        Schema::dropIfExists('loan_logs');
     }
 };

@@ -10,24 +10,22 @@ return new class extends Migration {
      */
     public function up(): void
     {
-
-
         Schema::create('abcs', function (Blueprint $table) {
-            $table->increments('id_abc');
-            $table->string('nama_abc', 25);
+            $table->increments('abc_id');
+            $table->string('abc_name', 25);
         });
 
-        Schema::create('mapels', function (Blueprint $table) {
-            $table->increments('id_mapel');
-            $table->string('nama_mapel', 100);
+        Schema::create('subjects', function (Blueprint $table) {
+            $table->increments('subject_id');
+            $table->string('subject_name', 100);
         });
 
-        Schema::create('kelass', function (Blueprint $table) {
-            $table->increments('id_kelas');
-            $table->enum('tingkatan', ['10', '11', '12']);
-            $table->enum('jurusan', ['RPL']);
+        Schema::create('classes', function (Blueprint $table) {
+            $table->increments('class_id');
+            $table->enum('level', ['10', '11', '12']);
+            $table->enum('major', ['RPL'])->default('RPL');
             $table->unsignedInteger('abc_id');
-            $table->foreign('abc_id')->references('id_abc')->on('abcs')->onDelete('cascade')->onUpdate('cascade')->index('idx_abc_kelas');
+            $table->foreign('abc_id')->references('abc_id')->on('abcs')->onDelete('cascade')->onUpdate('cascade')->index('idx_abc_class');
         });
     }
 
@@ -36,9 +34,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-
-        Schema::dropIfExists('kelass');
-        Schema::dropIfExists('mapels');
+        Schema::dropIfExists('classes');
+        Schema::dropIfExists('subjects');
         Schema::dropIfExists('abcs');
     }
 };

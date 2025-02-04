@@ -1,8 +1,10 @@
 @extends("layouts.app")
 @section("title", "Welcome Admin")
 @section("content")
-    <div class="container">
-        <h2>Hello World</h2>
+    <div
+        class="container mt-[20px] rounded-[1em] border border-solid border-[--line-clr] p-[3em_15%]"
+    >
+        <h2 class="mt-[1em]">Hello World</h2>
         <p class="mb-[15px] mt-[5px] text-secondary">
             Lorem Ipsdausdno asf aofknask foaijsf askdma pdkqow kasdm al
             skajfpasdif[ o[aspkdf pas;fm sadjf psojfdpo jpa laskdfp lakfpas
@@ -13,8 +15,10 @@
             aofpoasporaposfjajfp ak]]]]]}]]
         </p>
     </div>
-    <div class="container">
-        <h2>Hello World</h2>
+    <div
+        class="container mt-[20px] rounded-[1em] border border-solid border-line p-[3em_15%]"
+    >
+        <h2 class="mt-[1em]">Hello World</h2>
         <p class="mb-[15px] mt-[5px] text-secondary">
             Lorem Ipsdausdno asf aofknask foaijsf askdma pdkqow kasdm al
             skajfpasdif[ o[aspkdf pas;fm sadjf psojfdpo jpa laskdfp lakfpas
@@ -25,8 +29,10 @@
             aofpoasporaposfjajfp ak]]]]]}]]
         </p>
     </div>
-    <div class="container">
-        <h2>Hello World</h2>
+    <div
+        class="container mt-[20px] rounded-[1em] border border-solid border-[--line-clr] p-[3em_15%]"
+    >
+        <h2 class="mt-[1em]">Hello World</h2>
         <p class="mb-[15px] mt-[5px] text-secondary">
             Lorem Ipsdausdno asf aofknask foaijsf askdma pdkqow kasdm al
             skajfpasdif[ o[aspkdf pas;fm sadjf psojfdpo jpa laskdfp lakfpas

@@ -13,6 +13,8 @@
     --toggle-theme-bg: #435ebe;
     --toggle-theme-border: #435ebe;
     --border-clr: #393b42;
+    --toggle-theme-border-default: #a1afdf;
+    --shadow-clr: rgba(67, 94, 190, 0.25);
 }
 
 .light:root {
@@ -30,6 +32,8 @@
     --toggle-theme-bg: #fff;
     --toggle-theme-border: #a1afdf;
     --border-clr: #e1e3ea;
+    --toggle-theme-border-default: #a1afdf;
+    --shadow-clr: rgba(67, 94, 190, 0.25);
 }
 @tailwind base;
 @tailwind components;
@@ -37,89 +41,104 @@
 @import "tailwindcss";
 
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-html[data-bs-theme="dark"] {
-    .sidebar__wrapper.active {
-        left: 0px;
-        overflow-y: auto;
-        transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
 
-    .form-check-input {
-        background-color: var(--toggle-theme-bg);
-        background-image: var(--toggle-theme-bg);
-        background-repeat: no-repeat;
-        background-size: contain;
-        border: 3px solid var(--border-clr);
-        print-color-adjust: exact;
-        transition:
-            background-color 0.15s ease-in-out,
-            background-position 0.15s ease-in-out,
-            border-color 0.15s ease-in-out,
-            box-shadow 0.15s ease-in-out;
-    }
-    .form-check-input:focus {
-        border-color: #a1afdf;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem rgba(67, 94, 190, 0.25);
-    }
-
-    .form-check-input:checked {
-        background-color: var(--toggle-theme-bg);
-        border-color: var(--toggle-theme-border);
-    }
-
-    .form-switch .form-check-input {
-        width: 2em;
-        margin-left: -2.5em;
-        background: #239899ac;
-        background-position: left center;
-        border-radius: 2em;
-        transition: background-position 0.15 ease-in-out;
-    }
-
-    .form-switch .form-check-input::before {
-        content: "";
-        position: absolute;
-        width: 0.5em; /* Ukuran circle */
-        height: 0.5em;
-        background-color: white; /* Warna circle */
-        border-radius: 50%; /* Membuat circle bulat */
-        top: 50%;
-        left: 0.25em;
-        transform: translateY(-50%);
-        transition: transform 0.3s ease-in-out;
-    }
-    .form-switch .form-check-input:checked {
-        background-position: right center;
-    }
-
-    /* Animasi circle saat toggle aktif */
-    .form-switch .form-check-input:checked::before {
-        transform: translate(1.75em, -50%); /* Geser circle ke kanan */
+/* =========== SIDEBAR =============== */
+#sidebar > ul > li:first-child {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    .logo {
+        font-weight: 600;
     }
 }
 
-/* .form-check-input:checked {
-    background-color: var(--toggle-theme-bg);
-    border-color: var(--toggle-theme-border);
+#sidebar ul li.active a {
+    color: var(--primary-clr);
+
+    svg {
+        fill: var(--primary-clr);
+    }
 }
-.form-check-input:checked::before {
-    transform: translateX(14px);
-} */
-/* .show {
+
+#sidebar a,
+#sidebar .dropdown__btn,
+#sidebar .logo {
+    border-radius: 0.5em;
+    padding: 0.85em;
+    color: var(--text-clr);
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.dropdown__btn {
+    font: inherit;
+}
+
+#sidebar svg {
+    fill: var(--primary-clr);
+}
+
+#sidebar a span,
+#sidebar .dropdown__btn span {
+    flex-grow: 1;
+}
+
+#sidebar a:hover,
+#sidebar .dropdown__btn:hover {
+    background-color: var(--primary-clr);
+
+    span {
+        color: var(--text-clr);
+    }
+    svg {
+        fill: var(--text-clr);
+    }
+}
+
+.show {
     grid-template-rows: 1fr;
 }
+.rotate svg:last-child {
+    rotate: -180deg;
+}
+
+#toggle-btn {
+    border: none;
+    background: none;
+
+    svg {
+        transition: rotate 150ms ease;
+    }
+}
+
+#sidebar.close {
+    padding-inline: 0;
+    padding-block: 5px;
+    width: 50px;
+
+    #toggle-btn {
+        padding-inline: 0.8em;
+        padding-block: 1em;
+    }
+}
+
+#toggle-btn:hover {
+    background: var(--primary-clr);
+    svg {
+        fill: var(--text-clr);
+    }
+}
+/* #sidebar .sub__menu .show {
+    grid-template-rows: 1fr;
+} */
+/* 
 #sidebar {
     transition: all 300ms ease-in-out;
 }
 
-#sidebar.close {
-    padding: 5px;
-    width: 50px;
-}
-.rotate i:last-child {
-    rotate: -180deg;
-} */
+
+ */
 
 /*=============== BREAKPOINTS  ============== */
 /* Medium device */

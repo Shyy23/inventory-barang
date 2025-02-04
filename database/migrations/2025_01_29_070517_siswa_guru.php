@@ -10,39 +10,38 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('siswas', function (Blueprint $table) {
-            $table->increments('id_siswa');
+        Schema::create('students', function (Blueprint $table) {
+            $table->string('nisn', 25)->primary();
             $table->unsignedInteger('user_id');
-            $table->string('nisn', 25);
-            $table->string('nama', 250);
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->unsignedInteger('kelas_id');
-            $table->string('no_telepon', 100);
-            $table->text('alamat');
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_siswa');
-            $table->foreign('kelas_id')->references('id_kelas')->on('kelass')->onDelete('cascade')->onUpdate('cascade')->index('idx_kelas_siswa');
+            $table->string('name', 250);
+            $table->enum('gender', ['M', 'F']);
+            $table->unsignedInteger('class_id');
+            $table->string('phone_number', 100);
+            $table->text('address');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_student');
+            $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade')->onUpdate('cascade')->index('idx_class_student');
         });
 
-        Schema::create('gurus', function (Blueprint $table) {
-            $table->increments('id_guru');
+        Schema::create('teachers', function (Blueprint $table) {
+            $table->string('nip', 25)->primary();
             $table->unsignedInteger('user_id');
+            $table->string('name', 250);
+            $table->enum('gender', ['M', 'F']);
+            $table->enum('teacher_role', ['homeroom_teacher', 'subject_teacher', 'others']);
+            $table->string('phone_number', 100);
+            $table->text('address');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_teacher');
+        });
+
+        Schema::create('teacher_details', function (Blueprint $table) {
+            $table->increments('teacher_detail_id');
             $table->string('nip', 25);
-            $table->string('nama', 250);
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->enum('role_guru', ['walikelas', 'guru_mapel', 'lainnya']);
-            $table->string('no_telepon', 100);
-            $table->text('alamat');
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_guru');
-        });
-
-        Schema::create('detail_gurus', function (Blueprint $table) {
-            $table->unsignedInteger('guru_id');
-            $table->unsignedInteger('kelas_id');
-            $table->unsignedInteger('mapel_id');
-            $table->unsignedInteger('tahun_ajaran');
-            $table->foreign('guru_id')->references('id_guru')->on('gurus')->onDelete('cascade')->onUpdate('cascade')->index('idx_guru_detail');
-            $table->foreign('kelas_id')->references('id_kelas')->on('kelass')->onDelete('cascade')->onUpdate('cascade')->index('idx_kelas_detail');
-            $table->foreign('mapel_id')->references('id_mapel')->on('mapels')->onDelete('cascade')->onUpdate('cascade')->index('idx_mapel_detail');
+            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('academic_year');
+            $table->foreign('nip')->references('nip')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_detail');
+            $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade')->onUpdate('cascade')->index('idx_class_detail');
+            $table->foreign('subject_id')->references('subject_id')->on('subjects')->onDelete('cascade')->onUpdate('cascade')->index('idx_subject_detail');
         });
     }
 
@@ -51,9 +50,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('siswas');
-        Schema::dropIfExists('gurus');
-        Schema::dropIfExists('detail_gurus');
-
+        Schema::dropIfExists('teacher_details');
+        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('students');
     }
 };
