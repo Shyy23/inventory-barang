@@ -26,3 +26,5 @@ function closeAllSubMenus() {
         ul.classList.previousElementSibling.classList.remove("rotate");
     });
 }
+
+const toggleDark = document.getElementById;

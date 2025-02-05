@@ -11,9 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->string('nisn', 25)->primary();
+            $table->increments('student_id');
             $table->unsignedInteger('user_id');
             $table->string('name', 250);
+            $table->string('nisn', 25)->unique();
             $table->enum('gender', ['M', 'F']);
             $table->unsignedInteger('class_id');
             $table->string('phone_number', 100);
@@ -23,9 +24,10 @@ return new class extends Migration {
         });
 
         Schema::create('teachers', function (Blueprint $table) {
-            $table->string('nip', 25)->primary();
+            $table->increments('teacher_id');
             $table->unsignedInteger('user_id');
             $table->string('name', 250);
+            $table->string('nip', 25)->unique();
             $table->enum('gender', ['M', 'F']);
             $table->enum('teacher_role', ['homeroom_teacher', 'subject_teacher', 'others']);
             $table->string('phone_number', 100);
@@ -35,11 +37,11 @@ return new class extends Migration {
 
         Schema::create('teacher_details', function (Blueprint $table) {
             $table->increments('teacher_detail_id');
-            $table->string('nip', 25);
+            $table->unsignedInteger('teacher_id');
             $table->unsignedInteger('class_id');
             $table->unsignedInteger('subject_id');
-            $table->unsignedInteger('academic_year');
-            $table->foreign('nip')->references('nip')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_detail');
+            $table->string('academic_year', 10);
+            $table->foreign('teacher_id')->references('teacher_id')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_detail');
             $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade')->onUpdate('cascade')->index('idx_class_detail');
             $table->foreign('subject_id')->references('subject_id')->on('subjects')->onDelete('cascade')->onUpdate('cascade')->index('idx_subject_detail');
         });

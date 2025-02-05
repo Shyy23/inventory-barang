@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('loan_logs', function (Blueprint $table) {
             $table->increments('loan_id');
-            $table->string('nisn', 25);
+            $table->unsignedInteger('student_id');
             $table->enum('loan_status', ['borrowed', 'returned', 'damaged']);
             $table->timestamp('loan_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->time('return_time');
-            $table->string('approved_by', 25);
-            $table->foreign('nisn')->references('nisn')->on('students')->onDelete('cascade')->onUpdate('cascade')->index('idx_student_loan');
-            $table->foreign('approved_by')->references('nip')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_loan');
+            $table->unsignedInteger('approved_by');
+            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade')->onUpdate('cascade')->index('idx_student_loan');
+            $table->foreign('approved_by')->references('teacher_id')->on('teachers')->onDelete('cascade')->onUpdate('cascade')->index('idx_teacher_loan');
         });
 
         Schema::create('loan_details', function (Blueprint $table) {
