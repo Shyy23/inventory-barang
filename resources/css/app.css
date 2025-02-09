@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 :root {
     --primary-clr: #435ebe;
     --body-clr: #151521;
     --text-clr: #c2c2d9;
     --red-clr: #ff7976;
-    --green-clr: #5ddab4;
-    --blue-clr: #57caeb;
+    --green-clr: #4fcaa5;
+    --blue-clr: #48b6d4;
+    --yellow-clr: #d2db4c;
     --purple-clr: #9694ff;
     --secondary-clr: rgba(222, 226, 230, 0.75);
     --title-clr: #9899ac;
@@ -40,9 +42,21 @@
 @tailwind utilities;
 @import "tailwindcss";
 
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
 /* =========== SIDEBAR =============== */
+
+#sidebar {
+    left: -300px;
+}
+
+#sidebar.active {
+    left: 0;
+}
+.overlay {
+    display: none;
+}
+.overlay.active {
+    display: block;
+}
 #sidebar > ul > li:first-child {
     display: flex;
     justify-content: flex-end;
@@ -106,6 +120,7 @@
 #toggle-btn {
     border: none;
     background: none;
+    display: none;
 
     svg {
         transition: rotate 150ms ease;
@@ -123,92 +138,44 @@
     }
 }
 
+#close-btn:hover {
+    background: var(--primary-clr);
+    i {
+        color: var(--text-clr);
+    }
+}
 #toggle-btn:hover {
     background: var(--primary-clr);
     svg {
         fill: var(--text-clr);
     }
 }
-/* #sidebar .sub__menu .show {
-    grid-template-rows: 1fr;
-} */
-/* 
-#sidebar {
-    transition: all 300ms ease-in-out;
+
+/*============= Card history Peminjaman =============*/
+.status__icon i.purple {
+    color: var(--purple-clr);
 }
-
-
- */
-
-/*=============== BREAKPOINTS  ============== */
-/* Medium device */
-/* @media screen and (max-width: 800px) {
-    body {
-        grid-template-columns: 1fr;
-    }
-    main {
-        padding: 2em 1em 60px 1em;
+.status__icon i.red {
+    color: var(--red-clr);
+}
+.status__icon i.green {
+    color: var(--green-clr);
+}
+.status__icon i.yellow {
+    color: var(--yellow-clr);
+}
+/*============= BREAKPOINTS =============*/
+@media screen and (min-width: 1240px) {
+    #menu-btn {
+        display: none;
     }
     #sidebar {
-        height: 60px;
-        width: 100%;
-        border-right: none;
-        border-top: 1px solid var(--line-clr);
-        padding: 0;
-        position: fixed;
-        top: unset;
-        bottom: 0;
-
-        > ul {
-            padding: 0;
-            display: grid;
-            grid-auto-columns: 60px;
-            grid-auto-flow: column;
-            align-items: center;
-            overflow-x: scroll;
-        }
-        ul li {
-            height: 100%;
-        }
-        ul a,
-        ul .dropdown__btn {
-            width: 60px;
-            height: 60px;
-            padding: 0;
-            border-radius: 0;
-            justify-content: center;
-        }
-
-        ul li span,
-        ul li:first-child,
-        .dropdown__btn i:last-child {
-            display: none;
-        }
-
-        ul li .sub__menu.show {
-            position: fixed;
-            bottom: 60px;
-            left: 0;
-            box-sizing: border-box;
-            height: 60px;
-            width: 100%;
-            background-color: var(--hover-clr);
-            border-top: 1px solid var(--line-clr);
-            display: flex;
-            justify-content: center;
-
-            > div {
-                overflow-x: auto;
-            }
-            li {
-                display: inline-flex;
-            }
-            a {
-                box-sizing: border-box;
-                padding: 1em;
-                width: auto;
-                justify-content: center;
-            }
-        }
+        left: 0;
     }
-} */
+    #toggle-btn {
+        display: block;
+    }
+    #close-btn {
+        display: none;
+    }
+}

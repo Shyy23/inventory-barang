@@ -22,7 +22,7 @@ return new class extends Migration {
         });
 
         Schema::create('loan_details', function (Blueprint $table) {
-            $table->increments('detail_id');
+            $table->increments('loan_detail_id');
             $table->unsignedInteger('loan_id');
             $table->unsignedInteger('item_id');
             $table->unsignedInteger('unit_id')->nullable();

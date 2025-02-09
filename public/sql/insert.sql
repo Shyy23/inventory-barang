@@ -146,3 +146,4 @@ INSERT INTO `teacher_details`(`teacher_id`, `class_id`, `subject_id`, `academic_
 (4, 4, 5, '2024/2025'),
 (5, 3, 6, '2024/2025');
 
+

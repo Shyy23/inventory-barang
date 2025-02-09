@@ -1,10 +1,16 @@
 <nav
     id="sidebar"
-    class="sticky top-0 box-border h-screen w-[250px] self-start overflow-hidden text-nowrap border-r border-solid border-line bg-[--container-clr] p-[5px_1em] transition-all duration-[300ms] ease-in-out"
+    class="fixed top-0 z-[100] box-border h-screen w-[250px] self-start overflow-hidden text-nowrap border-r border-solid border-line bg-[--container-clr] p-[5px_1em] transition-all duration-[300ms] ease-in-out"
 >
     <ul>
         <li>
             <span class="logo">Inventory</span>
+            <button
+                id="close-btn"
+                class="ml-auto cursor-pointer rounded-[.5em] p-[1em] text-[--primary-clr]"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
             <button
                 onclick="toggleSidebar()"
                 id="toggle-btn"

@@ -35,22 +35,40 @@
         @endif
     </head>
 
-    <body class="font-poppins leading-[1.5rem]">
-        <div
-            id="app"
-            class="grid min-h-dvh grid-cols-[auto_1fr] bg-[--body-clr] text-[--text-clr]"
-        >
+    <body class="font-n leading-[1.5rem]">
+        <div id="app" class="min-h-dvh bg-[--body-clr] text-[--text-clr]">
             <!--========== SIDEBAR START ==========-->
             @include("layouts.navigation")
+            <div
+                class="overlay fixed left-0 top-0 z-[99] h-screen w-full bg-[rgba(0,0,0,.5)]"
+                id="overlay"
+            ></div>
             <!--========== SIDEBAR END ==========-->
             <!--========== MAIN CONTENT START ==========-->
-            <main id="main" class="main p-[30px_7%]">
+            <main id="main" class="main flex min-h-screen w-full flex-col p-8">
+                <!-- Heading of Content -->
+                <header class="page__heading mb-4 flex pb-2" id="header">
+                    <div
+                        class="menu__btn flex h-[calc(1.2rem+.6vw)] w-[calc(1.2rem+.6vw)] cursor-pointer items-center justify-center"
+                        id="menu-btn"
+                    >
+                        <i class="fa-solid fa-bars text-[calc(1rem+.6vw)]"></i>
+                    </div>
+                </header>
+                <div class="content__heading mb-8">
+                    <h3
+                        class="mb-2 mt-0 font-nunito text-[calc(1.3rem+.6vw)] font-bold"
+                    >
+                        @yield("page title", "Inventory Statistik")
+                    </h3>
+                </div>
                 @yield("content")
+                <!--========== FOOTER START ==========-->
+                <footer id="footer" class="footer mt-auto"></footer>
+                <!--========== FOOTER END ==========-->
             </main>
+
             <!--========== MAIN CONTENT END ==========-->
-            <!--========== FOOTER START ==========-->
-            <footer id="footer" class="footer"></footer>
-            <!--========== FOOTER END ==========-->
         </div>
         <!-- Main Js -->
         <script
