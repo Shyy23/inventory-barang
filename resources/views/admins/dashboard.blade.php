@@ -422,7 +422,7 @@
                             @foreach ($jumlahSiswaKelas as $siswa)
                                 <!-- card content start-->
                                 <div
-                                    class="item-stock grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
+                                    class="grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
                                 >
                                     <h3
                                         class="col-span-2 text-sm font-semibold"
