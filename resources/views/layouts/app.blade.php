@@ -63,11 +63,10 @@
                     </h3>
                 </div>
                 @yield("content")
-                <!--========== FOOTER START ==========-->
-                <footer id="footer" class="footer mt-auto"></footer>
-                <!--========== FOOTER END ==========-->
             </main>
-
+            <!--========== FOOTER START ==========-->
+            <footer id="footer" class="footer mt-auto"></footer>
+            <!--========== FOOTER END ==========-->
             <!--========== MAIN CONTENT END ==========-->
         </div>
         <!-- Main Js -->

@@ -29,7 +29,7 @@ class PagesController extends Controller
             ->orderBy('updated_at', 'desc')
             ->take(5)
             ->get();
-
+        $jumlahSiswaKelas = DB::table('vstudents')->select('class_name', DB::raw('COUNT(*) as total'))->groupBy('class_name')->orderBy('class_name')->get();
 
         foreach ($pinjamanTertunda as $pinjaman) {
             $pinjaman->loan_date = Carbon::parse($pinjaman->loan_date);
@@ -38,6 +38,6 @@ class PagesController extends Controller
             $aktivitas->updated_at = Carbon::parse($aktivitas->updated_at);
         }
 
-        return view('admins.dashboard', compact('jumlahSiswa', 'jumlahBarang', 'jumlahPinjamanTertunda', 'jumlahBarangDipinjam', 'barangBaruDipinjam', 'barangSeringDipinjam', 'barangStokTerbanyak', 'barangStokMauHabis', 'aktivitasTerbaru', 'pinjamanTertunda'));
+        return view('admins.dashboard', compact('jumlahSiswa', 'jumlahBarang', 'jumlahPinjamanTertunda', 'jumlahBarangDipinjam', 'barangBaruDipinjam', 'barangSeringDipinjam', 'barangStokTerbanyak', 'barangStokMauHabis', 'aktivitasTerbaru', 'pinjamanTertunda',  'jumlahSiswaKelas'));
     }
 }

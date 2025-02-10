@@ -325,10 +325,10 @@
                             @foreach ($pinjamanTertunda as $pinjaman)
                                 <!-- card content start-->
                                 <div
-                                    class="grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
+                                    class="grid grid-cols-5 border-b border-[rgba(255,255,255,.2)] pb-2"
                                 >
                                     <h3
-                                        class="col-span-1 text-sm font-semibold"
+                                        class="col-span-2 text-sm font-semibold"
                                     >
                                         {{ $pinjaman->item_name }}
                                     </h3>
@@ -338,7 +338,7 @@
                                         {{ $pinjaman->item_quantity }}
                                     </p>
                                     <p
-                                        class="col-span-2 text-sm font-semibold text-[rgba(255,255,255,.2)]"
+                                        class="col-span-2 text-center text-sm font-semibold text-[rgba(255,255,255,.2)]"
                                     >
                                         {{ $pinjaman->loan_date->diffForHumans() }}
                                     </p>
@@ -357,7 +357,7 @@
                     </div>
                 </div>
                 <!-- Delayed Info End -->
-                <!-- Delayed Info Start -->
+                <!-- Data Stock Item Darurat Start -->
                 <div
                     class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
                 >
@@ -405,7 +405,57 @@
                         </div>
                     </div>
                 </div>
-                <!-- Delayed Info End -->
+                <!-- Data Stock Item Darurat End -->
+                <!-- Data Jumlah Siswa Start -->
+                <div
+                    class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
+                >
+                    <div class="grid items-center gap-4">
+                        <!-- card header -->
+                        <div class="mb-4 p-2">
+                            <h4 class="text-lg font-bold lg:text-[1rem]">
+                                Data Jumlah Siswa
+                            </h4>
+                        </div>
+                        <!-- card body -->
+                        <div class="grid gap-4">
+                            @foreach ($jumlahSiswaKelas as $siswa)
+                                <!-- card content start-->
+                                <div
+                                    class="item-stock grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
+                                >
+                                    <h3
+                                        class="col-span-2 text-sm font-semibold"
+                                    >
+                                        {{ $siswa->class_name }}
+                                    </h3>
+                                    <p
+                                        class="col-span-1 pr-2 text-end text-sm font-semibold"
+                                    >
+                                        {{ $siswa->total }}
+                                    </p>
+                                    <p
+                                        class="col-span-1 text-center text-sm font-semibold text-[rgba(255,255,255,.2)]"
+                                    >
+                                        <i
+                                            class="fas fa-user text-[--green-clr]"
+                                        ></i>
+                                    </p>
+                                </div>
+                                <!-- card content end-->
+                            @endforeach
+
+                            <button
+                                class="my-2 rounded-md border-2 border-[--green-3-clr] bg-[--transparent] p-4 text-[--green-3-clr] shadow-lg hover:bg-[--green-3-clr] hover:text-[--text-clr]"
+                            >
+                                <a href="#" class="text-sm font-bold">
+                                    Lihat Kelas
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Data Jumlah Siswa End -->
             </div>
         </section>
     </div>
