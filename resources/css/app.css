@@ -17,6 +17,12 @@
     --border-clr: #393b42;
     --toggle-theme-border-default: #a1afdf;
     --shadow-clr: rgba(67, 94, 190, 0.25);
+    --red-2-clr: rgba(238, 62, 100, 0.8);
+    --blue-2-clr: rgba(62, 132, 238, 0.8);
+    --green-2-clr: rgba(57, 196, 64, 0.8);
+    --purple-2-clr: rgba(204, 54, 218, 0.8);
+    --yellow-2-clr: rgba(213, 224, 54, 0.8);
+    --orange-2-clr: rgba(218, 114, 45, 0.8);
 }
 
 .light:root {
@@ -162,6 +168,19 @@
     color: var(--green-clr);
 }
 .status__icon i.yellow {
+    color: var(--yellow-clr);
+}
+
+i.purple {
+    color: var(--purple-clr);
+}
+i.red {
+    color: var(--red-clr);
+}
+i.green {
+    color: var(--green-clr);
+}
+i.yellow {
     color: var(--yellow-clr);
 }
 /*============= BREAKPOINTS =============*/

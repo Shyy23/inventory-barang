@@ -168,7 +168,10 @@
                         <div
                             class="card__body col-span-12 whitespace-normal break-words p-4"
                         >
-                            <canvas id="myChart" class="min-h-[315px]"></canvas>
+                            <canvas
+                                id="chartStockBarang"
+                                class="min-h-[315px]"
+                            ></canvas>
                         </div>
                     </div>
 
@@ -176,7 +179,7 @@
                 </div>
                 <!-- Stat of Highlight Stock End-->
 
-                <!-- Stat Product where that show in chart Start -->
+                <!-- Latest Loan  Start -->
                 <div class="highlight__product grid grid-cols-12">
                     <div
                         id="card__loan__stat "
@@ -241,7 +244,30 @@
                         </div>
                     </div>
                 </div>
-                <!-- Stat Product where that show in chart End -->
+                <!-- Latest Loan  End -->
+                <!-- Stat Category Start -->
+                <div
+                    class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
+                >
+                    <!-- Card Start -->
+                    <div class="grid items-center">
+                        <!-- Card header -->
+                        <div class="mb-4 p-2">
+                            <h4 class="text-[1.2rem] font-bold">
+                                Kategory Barang
+                            </h4>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="p-4">
+                            <div id="chart-container">
+                                <canvas id="categoryPieChart"></canvas>
+                                <div id="legend-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Card End -->
+                </div>
+                <!-- Stat Category End -->
             </div>
             <!-- Stat of Highlight User -->
             <div
@@ -323,8 +349,57 @@
                             <button
                                 class="my-2 rounded-md border-2 border-[--primary-clr] bg-[--transparent] p-4 text-[--primary-clr] shadow-lg hover:bg-[--primary-clr] hover:text-[--text-clr]"
                             >
-                                <a href="#" class="text-sm font-semibold">
+                                <a href="#" class="text-sm font-bold">
                                     Approve Peminjaman
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Delayed Info End -->
+                <!-- Delayed Info Start -->
+                <div
+                    class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
+                >
+                    <div class="grid items-center gap-4">
+                        <!-- card header -->
+                        <div class="mb-4 p-2">
+                            <h4 class="text-lg font-bold lg:text-[1rem]">
+                                Stock Darurat
+                            </h4>
+                        </div>
+                        <!-- card body -->
+                        <div class="grid gap-4">
+                            @foreach ($barangStokMauHabis as $barang)
+                                <!-- card content start-->
+                                <div
+                                    class="item-stock grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
+                                    data-stock="{{ $barang->stock }}"
+                                >
+                                    <h3
+                                        class="col-span-2 text-sm font-semibold"
+                                    >
+                                        {{ $barang->item_name }}
+                                    </h3>
+                                    <p
+                                        class="col-span-1 pr-2 text-end text-sm font-semibold"
+                                    >
+                                        {{ $barang->stock }}
+                                    </p>
+                                    <p
+                                        class="col-span-1 text-center text-sm font-semibold text-[rgba(255,255,255,.2)]"
+                                    >
+                                        <i class="fas icon-stock"></i>
+                                    </p>
+                                </div>
+                                <!-- card content end-->
+                            @endforeach
+
+                            <button
+                                class="my-2 rounded-md border-2 border-[--red-2-clr] bg-[--transparent] p-4 text-[--red-2-clr] shadow-lg hover:bg-[--red-2-clr] hover:text-[--text-clr]"
+                            >
+                                <a href="#" class="text-sm font-bold">
+                                    Tambah Stock
                                 </a>
                             </button>
                         </div>
@@ -336,100 +411,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const stocks = @json($chartData);
-        const labels = @json($chartLabels);
-        document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('myChart').getContext('2d');
-            // Ambil warna dari variabel CSS
-            const rootStyles = getComputedStyle(document.documentElement);
-            const redColor = rootStyles.getPropertyValue('--red-clr').trim();
-            const yellowColor = rootStyles
-                .getPropertyValue('--yellow-clr')
-                .trim();
-            const textColor = rootStyles.getPropertyValue('--text-clr').trim();
-            const primaryColor = rootStyles
-                .getPropertyValue('--primary-clr')
-                .trim();
-            // Data dari database (contoh)
-            const data = {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Stok Barang',
-                        data: stocks, // Jumlah stok
-                        backgroundColor: function (context) {
-                            const value = context.raw; // Ambil nilai stok
-                            if (value < 5) {
-                                return redColor;
-                            } else if (value < 8) {
-                                return yellowColor;
-                            } else {
-                                return primaryColor;
-                            }
-                        },
-                        borderRadius: '.25rem',
-                        borderColor: 'transparent', // Warna border batang
-                        borderWidth: 1,
-                    },
-                ],
-            };
-
-            // Konfigurasi chart
-            const config = {
-                type: 'bar',
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: textColor,
-                                autoSkip: false,
-                                maxRotation: 0, // Rotasi label nama barang
-                                minRotation: 0,
-                                font: {
-                                    size: 10,
-                                },
-                                callback: function (value, index, values) {
-                                    let label = labels[index]; // Ambil teks asli dari labels
-                                    return label.split(' ');
-                                },
-                            },
-                            grid: {
-                                display: false, // Hilangkan grid vertikal
-                            },
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 8, // Hitungan per 8 (8, 16, 24, 32)
-                                font: {
-                                    size: 12,
-                                },
-                                callback: function (value) {
-                                    return value; // Tampilkan nilai stok
-                                },
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.2)', // Warna garis horizontal
-                            },
-                        },
-                    },
-                    plugins: {
-                        legend: {
-                            display: false, // Sembunyikan legend
-                        },
-                        tooltip: {
-                            enabled: true, // Aktifkan tooltip
-                        },
-                    },
-                },
-            };
-
-            // Inisialisasi chart
-            const myChart = new Chart(ctx, config);
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="{{ asset("js/chart.js") }}"></script>
 @endsection
