@@ -9,6 +9,8 @@
     --yellow-clr: #d2db4c;
     --purple-clr: #9694ff;
     --secondary-clr: rgba(222, 226, 230, 0.75);
+    --text-2-clr: rgba(250, 250, 250, 0.75);
+    --border-2-clr: rgba(255, 255, 255, 0.2);
     --title-clr: #9899ac;
     --icon-clr: #7c8db5;
     --container-clr: #1e1e2d;
@@ -183,6 +185,15 @@ i.green {
 }
 i.yellow {
     color: var(--yellow-clr);
+}
+
+abbr {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+#footer {
+    box-shadow: 0 -8px 12px rgba(0, 0, 0, 0.1);
 }
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
