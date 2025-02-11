@@ -55,13 +55,24 @@
                         <i class="fa-solid fa-bars text-[calc(1rem+.6vw)]"></i>
                     </div>
                 </header>
-                <div class="content__heading mb-8">
-                    <h3
-                        class="mb-2 mt-0 font-nunito text-[calc(1.3rem+.6vw)] font-bold"
-                    >
-                        @yield("page title", "Inventory Statistik")
-                    </h3>
+                <div class="content-heading-group grid grid-cols-[auto_1fr]">
+                    <div class="content__heading mb-8">
+                        <h3
+                            class="mb-2 mt-0 font-nunito text-[calc(1.3rem+.6vw)] font-bold"
+                        >
+                            @yield("page title", "Inventory Statistik")
+                        </h3>
+                    </div>
+                    <div class="breadcrumb text-end">
+                        <nav
+                            class="breadcrumb-container"
+                            aria-label="Breadcrumb"
+                        >
+                            @yield("breadcrumbs")
+                        </nav>
+                    </div>
                 </div>
+
                 @yield("content")
             </main>
             <!--========== FOOTER START ==========-->

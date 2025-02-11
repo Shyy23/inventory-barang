@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 :root {
     --primary-clr: #435ebe;
+    --primary-hover-clr: #314eb6;
     --body-clr: #151521;
     --text-clr: #c2c2d9;
     --red-clr: #ff7976;
@@ -14,6 +15,7 @@
     --title-clr: #9899ac;
     --icon-clr: #7c8db5;
     --container-clr: #1e1e2d;
+    --container-card-clr: #3131ade8;
     --toggle-theme-bg: #435ebe;
     --toggle-theme-border: #435ebe;
     --border-clr: #393b42;
@@ -194,6 +196,40 @@ abbr {
 
 #footer {
     box-shadow: 0 -8px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ========= Scrollbar ========== */
+
+/* Menghilangkan scrollbar thumb */
+.card-items-scroll::-webkit-scrollbar {
+    height: 6px; /* Tinggi scrollbar */
+    background: transparent; /* Background scrollbar invisible */
+    border-radius: 999px;
+    /* Scrollbar bulat */
+}
+
+/* Scrollbar track (jalur scrollbar) */
+.card-items-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Warna track */
+    border-radius: 999px; /* Track bulat */
+}
+
+/* Scrollbar thumb (bagian yang bisa digerakkan) */
+.card-items-scroll::-webkit-scrollbar-thumb {
+    background: var(--border-2-clr); /* Warna thumb */
+    border-radius: 999px; /* Thumb bulat */
+    opacity: 0; /* Awalnya invisible */
+    transition: opacity 0.3s ease; /* Animasi muncul saat hover */
+}
+
+/* Scrollbar corner (kotak pertemuan scroll x dan y) */
+.card-items-scroll::-webkit-scrollbar-corner {
+    background: transparent; /* Hilangkan corner */
+}
+
+/* Munculkan scrollbar thumb saat hover */
+.card-items-scroll:hover::-webkit-scrollbar-thumb {
+    opacity: 1; /* Munculkan thumb saat hover */
 }
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
