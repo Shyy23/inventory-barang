@@ -128,10 +128,27 @@
         </div>
 
         <div
-            class="category-select w-[150px] rounded-lg bg-[--container-clr] p-4 lg:w-[250px]"
+            class="category-select h-screen w-[150px] rounded-lg bg-[--container-clr] p-4 lg:w-[250px]"
         >
             <div class="tools border-b-2 border-[--border-2-clr] pb-2">
-                <div class="grid grid-rows-[auto_1fr] gap-6 p-4">
+                <div class="grid gap-6 p-4">
+                    <form action="#" class="search-group relative">
+                        <div class="relative">
+                            <input
+                                type="text"
+                                placeholder="Cari Barang"
+                                class="w-full rounded-lg border-2 border-[--border-2-clr] bg-transparent py-3 pl-4 pr-12 text-[--text-clr] transition-all duration-300 focus:border-[--primary-clr] focus:outline-none focus:ring-2 focus:ring-[--primary-clr]"
+                            />
+                            <button
+                                type="submit"
+                                class="absolute right-0 top-0 flex h-full items-center justify-center rounded-r-lg bg-transparent px-4 text-center transition-all duration-300 hover:bg-[--primary-hover-clr]"
+                            >
+                                <i
+                                    class="fa-solid fa-magnifying-glass text-lg text-[--text-clr]"
+                                ></i>
+                            </button>
+                        </div>
+                    </form>
                     <div
                         class="tambah cursor-pointer rounded-lg border-2 border-[--green-3-clr] bg-transparent p-4 text-center font-semibold text-[--green-3-clr] transition-all duration-[.3s] ease-in-out hover:bg-[--green-3-clr] hover:text-[--text-clr]"
                     >
@@ -152,7 +169,7 @@
                         <!-- Left Arrow -->
                         <a
                             href="#"
-                            class="rounded-full border-2 border-[--primary-clr] p-2 font-semibold"
+                            class="rounded-full border-2 border-[--primary-clr] p-2 font-semibold text-[--primary-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
                         >
                             <i class="fa-solid fa-angle-left"></i>
                         </a>
@@ -182,14 +199,127 @@
                         <!-- Right Arrow -->
                         <a
                             href="#"
-                            class="rounded-full border-2 border-[--primary-clr] p-2 font-semibold"
+                            class="rounded-full border-2 border-[--primary-clr] p-2 font-semibold text-[--primary-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
                         >
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="filtering">p</div>
+            <div class="filtering relative mt-4 flex flex-col rounded-lg p-2">
+                <!-- Bagian Selection Filter -->
+                <div
+                    class="selection-filter relative grid max-h-[100px] flex-1 grid-cols-2 gap-4 overflow-y-auto pr-2"
+                >
+                    <!-- Checkbox Item 1 -->
+                    <div
+                        class="check-group relative max-h-10 cursor-pointer overflow-hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            name="check"
+                            id="check1"
+                            value="option1"
+                            class="peer absolute inset-0 h-full w-full appearance-none rounded-lg border-2 border-[--border-clr] transition-all duration-300 ease-in-out checked:border-[--primary-hover-clr] checked:bg-[--primary-clr] hover:border-[--primary-clr]"
+                        />
+                        <label
+                            for="check1"
+                            class="relative z-10 grid h-full w-full cursor-pointer select-none place-items-center bg-transparent p-2 text-center text-[--border-clr] transition-all duration-300 ease-in-out peer-checked:text-[--text-clr]"
+                        >
+                            <span class="text-[.75rem] font-medium">
+                                Option 1
+                            </span>
+                        </label>
+                    </div>
+                    <!-- Checkbox Item 2 -->
+                    <div
+                        class="check-group relative max-h-10 cursor-pointer overflow-hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            name="check"
+                            id="check2"
+                            value="option2"
+                            class="peer absolute inset-0 h-full w-full appearance-none rounded-lg border-2 border-[--border-clr] transition-all duration-300 ease-in-out checked:border-[--primary-hover-clr] checked:bg-[--primary-clr]"
+                        />
+                        <label
+                            for="check2"
+                            class="relative z-10 grid h-full w-full cursor-pointer select-none place-items-center bg-transparent p-2 text-center text-[--border-clr] transition-all duration-300 ease-in-out peer-checked:text-[--text-clr]"
+                        >
+                            <span class="text-[.75rem] font-medium">
+                                Option 2
+                            </span>
+                        </label>
+                    </div>
+                    <!-- Tambahkan lebih banyak checkbox sesuai kebutuhan -->
+                    <div
+                        class="check-group relative max-h-10 cursor-pointer overflow-hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            name="check"
+                            id="check3"
+                            value="option3"
+                            class="peer absolute inset-0 h-full w-full appearance-none rounded-lg border-2 border-[--border-clr] transition-all duration-300 ease-in-out checked:border-[--primary-hover-clr] checked:bg-[--primary-clr]"
+                        />
+                        <label
+                            for="check3"
+                            class="relative z-10 grid h-full w-full cursor-pointer select-none place-items-center bg-transparent p-2 text-center text-[--border-clr] transition-all duration-300 ease-in-out peer-checked:text-[--text-clr]"
+                        >
+                            <span class="text-[.75rem] font-medium">
+                                Option 3
+                            </span>
+                        </label>
+                    </div>
+                    <div
+                        class="check-group relative max-h-10 cursor-pointer overflow-hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            name="check"
+                            id="check4"
+                            value="option4"
+                            class="peer absolute inset-0 h-full w-full appearance-none rounded-lg border-2 border-[--border-clr] transition-all duration-300 ease-in-out checked:border-[--primary-hover-clr] checked:bg-[--primary-clr]"
+                        />
+                        <label
+                            for="check4"
+                            class="relative z-10 grid h-full w-full cursor-pointer select-none place-items-center bg-transparent p-2 text-center text-[--border-clr] transition-all duration-300 ease-in-out peer-checked:text-[--text-clr]"
+                        >
+                            <span class="text-[.75rem] font-medium">
+                                Option 4
+                            </span>
+                        </label>
+                    </div>
+                    <div
+                        class="check-group relative max-h-10 cursor-pointer overflow-hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            name="check"
+                            id="check5"
+                            value="option5"
+                            class="peer absolute inset-0 h-full w-full appearance-none rounded-lg border-2 border-[--border-clr] transition-all duration-300 ease-in-out checked:border-[--primary-hover-clr] checked:bg-[--primary-clr]"
+                        />
+                        <label
+                            for="check5"
+                            class="relative z-10 grid h-full w-full cursor-pointer select-none place-items-center bg-transparent p-2 text-center text-[--border-clr] transition-all duration-300 ease-in-out peer-checked:text-[--text-clr]"
+                        >
+                            <span class="text-[.75rem] font-medium">
+                                Option 5
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Bagian Clear Button -->
+                <div class="clear mt-auto p-4">
+                    <button
+                        class="w-full rounded-lg bg-[--primary-clr] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-[--primary-hover-clr]"
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

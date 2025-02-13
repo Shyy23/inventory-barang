@@ -161,32 +161,50 @@
         fill: var(--text-clr);
     }
 }
-
-/*============= Card history Peminjaman =============*/
-.status__icon i.purple {
-    color: var(--purple-clr);
-}
-.status__icon i.red {
-    color: var(--red-clr);
-}
-.status__icon i.green {
-    color: var(--green-clr);
-}
-.status__icon i.yellow {
-    color: var(--yellow-clr);
+/* =================== SCROLLBAR =================== */
+.card-items-scroll::-webkit-scrollbar {
+    height: 6px;
+    background: transparent;
+    border-radius: 999px;
+    visibility: hidden;
 }
 
-i.purple {
-    color: var(--purple-clr);
+.selection-filter::-webkit-scrollbar {
+    width: 3px;
+    background: transparent;
+    border-radius: 999px;
+    visibility: hidden;
 }
-i.red {
-    color: var(--red-clr);
+
+.card-items-scroll::-webkit-scrollbar-thumb,
+.selection-filter::-webkit-scrollbar-thumb {
+    background: var(--border-2-clr);
+    border-radius: 999px;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
-i.green {
-    color: var(--green-clr);
+
+.card-items-scroll:hover::-webkit-scrollbar-thumb,
+.selection-filter:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+    visibility: visible;
 }
-i.yellow {
-    color: var(--yellow-clr);
+
+/* =================== STATUS ICONS =================== */
+.status__icon i,
+i {
+    &.purple {
+        color: var(--purple-clr);
+    }
+    &.red {
+        color: var(--red-clr);
+    }
+    &.green {
+        color: var(--green-clr);
+    }
+    &.yellow {
+        color: var(--yellow-clr);
+    }
 }
 
 abbr {
@@ -194,42 +212,14 @@ abbr {
     cursor: pointer;
 }
 
+/* =================== FOOTER =================== */
 #footer {
     box-shadow: 0 -8px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ========= Scrollbar ========== */
-
-/* Menghilangkan scrollbar thumb */
-.card-items-scroll::-webkit-scrollbar {
-    height: 6px; /* Tinggi scrollbar */
-    background: transparent; /* Background scrollbar invisible */
-    border-radius: 999px;
-    /* Scrollbar bulat */
-}
-
-/* Scrollbar track (jalur scrollbar) */
-.card-items-scroll::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1); /* Warna track */
-    border-radius: 999px; /* Track bulat */
-}
-
-/* Scrollbar thumb (bagian yang bisa digerakkan) */
-.card-items-scroll::-webkit-scrollbar-thumb {
-    background: var(--border-2-clr); /* Warna thumb */
-    border-radius: 999px; /* Thumb bulat */
-    opacity: 0; /* Awalnya invisible */
-    transition: opacity 0.3s ease; /* Animasi muncul saat hover */
-}
-
-/* Scrollbar corner (kotak pertemuan scroll x dan y) */
-.card-items-scroll::-webkit-scrollbar-corner {
-    background: transparent; /* Hilangkan corner */
-}
-
-/* Munculkan scrollbar thumb saat hover */
-.card-items-scroll:hover::-webkit-scrollbar-thumb {
-    opacity: 1; /* Munculkan thumb saat hover */
+.category-selected-check {
+    left: 50%;
+    transform: translateX(-50%);
 }
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
