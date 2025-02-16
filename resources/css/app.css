@@ -1,25 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 :root {
-    --primary-clr: #435ebe;
-    --primary-hover-clr: #314eb6;
-    --body-clr: #151521;
-    --text-clr: #c2c2d9;
-    --red-clr: #ff7976;
-    --green-clr: #4fcaa5;
-    --blue-clr: #48b6d4;
-    --yellow-clr: #d2db4c;
-    --purple-clr: #9694ff;
+    --primary-clr: rgba(67, 94, 190, 1);
+    --primary-hover-clr: rgba(49, 78, 182, 1);
+    --body-clr: rgba(21, 21, 33, 1);
+    --text-clr: rgba(194, 194, 217, 1);
+    --red-clr: rgba(255, 121, 118, 1);
+    --green-clr: rgba(79, 202, 165, 1);
+    --blue-clr: rgba(72, 182, 212, 1);
+    --yellow-clr: rgba(210, 219, 76, 1);
+    --purple-clr: rgba(150, 148, 255, 1);
     --secondary-clr: rgba(222, 226, 230, 0.75);
     --text-2-clr: rgba(250, 250, 250, 0.75);
     --border-2-clr: rgba(255, 255, 255, 0.2);
-    --title-clr: #9899ac;
-    --icon-clr: #7c8db5;
-    --container-clr: #1e1e2d;
-    --container-card-clr: #3131ade8;
-    --toggle-theme-bg: #435ebe;
-    --toggle-theme-border: #435ebe;
-    --border-clr: #393b42;
-    --toggle-theme-border-default: #a1afdf;
+    --highlight-card-clr: rgba(67, 94, 190, 1);
+    --title-clr: rgba(152, 153, 172, 1);
+    --icon-clr: rgba(124, 141, 181, 1);
+    --container-clr: rgba(30, 30, 45, 1);
+    --container-card-clr: rgba(49, 49, 173, 0.7); /* #3131ade8 */
+    --toggle-theme-bg: rgba(67, 94, 190, 1);
+    --toggle-theme-border: rgba(67, 94, 190, 1);
+    --border-clr: rgba(57, 59, 66, 1);
+    --toggle-theme-border-default: rgba(161, 175, 223, 1);
     --shadow-clr: rgba(67, 94, 190, 0.25);
     --red-2-clr: rgba(238, 62, 100, 0.8);
     --blue-2-clr: rgba(62, 132, 238, 0.8);
@@ -212,6 +213,60 @@ abbr {
     cursor: pointer;
 }
 
+/* =================== CARD =================== */
+.perspective {
+    perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+    transform-style: preserve-3d;
+}
+.rotate-y-180,
+.flipped {
+    transform: rotateY(180deg);
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+
+.card-item {
+    .card-item-title {
+        top: -100px;
+        backdrop-filter: blur(1rem);
+    }
+    .item-stock {
+        bottom: -100px;
+        backdrop-filter: blur(1rem);
+    }
+}
+.card-item:hover {
+    .card-item-title {
+        top: 0;
+    }
+    .item-stock {
+        bottom: 0;
+    }
+}
+
+.pagination a[href*="page"]:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+.pagination a.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.card-items-scroll {
+    transition: opacity 0.3s ease;
+}
+
+.card-items-scroll.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
 /* =================== FOOTER =================== */
 #footer {
     box-shadow: 0 -8px 12px rgba(0, 0, 0, 0.1);
@@ -221,6 +276,7 @@ abbr {
     left: 50%;
     transform: translateX(-50%);
 }
+
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
     #menu-btn {

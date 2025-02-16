@@ -143,7 +143,14 @@
                 class="sub__menu grid grid-rows-[0fr] transition-all duration-[300ms] ease-in-out"
             >
                 <div class="overflow-hidden">
-                    <li><a href="{{route('items.index')}}" class="pl-[2em_!important]">Barang</a></li>
+                    <li>
+                        <a
+                            href="{{ route("items.index") }}"
+                            class="pl-[2em_!important]"
+                        >
+                            Barang
+                        </a>
+                    </li>
                     <li>
                         <a href="#" class="pl-[2em_!important]">Kategori</a>
                     </li>

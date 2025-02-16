@@ -23,6 +23,7 @@ return new class extends Migration {
         Schema::create('items', function (Blueprint $table) {
             $table->increments('item_id');
             $table->string('item_name', 255);
+            $table->string('slug_item', 255)->unique();
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('location_id');
             $table->integer('stock');

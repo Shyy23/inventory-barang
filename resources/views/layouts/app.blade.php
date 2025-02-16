@@ -10,6 +10,7 @@
         />
         <meta name="author" content="Syahrul Hidayatulloh" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <!--===== Title =====-->
         <title>@yield("title", "Inventory-barang")</title>
 
@@ -86,5 +87,7 @@
             type="text/javascript"
             defer
         ></script>
+
+        @stack("scripts")
     </body>
 </html>

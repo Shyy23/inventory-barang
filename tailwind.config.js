@@ -25,6 +25,9 @@ export default {
                 accent: "#5e63ff",
                 secondary: "#b0b3c1",
             },
+            rotate: {
+                "y-180": "180deg",
+            },
         },
     },
     plugins: [],

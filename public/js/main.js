@@ -45,36 +45,37 @@ const showSidebar = () => {
     sidebar.classList.add("active");
     overlay.classList.add("active");
 };
-
 // Fungsi untuk menyembunyikan sidebar
-const hideSidebar = () => {
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
+// Fungsi untuk menampilkan/menyembunyikan sidebar
+const toggleActive = (isActive) => {
+    sidebar.classList.toggle("active", isActive);
+    overlay.classList.toggle("active", isActive);
 };
 
-// Pasang event listener untuk tombol menu, tombol close, dan overlay
-menuBtn.addEventListener("click", showSidebar);
-closeBtn.addEventListener("click", hideSidebar);
-overlay.addEventListener("click", hideSidebar);
+menuBtn.addEventListener("click", () => toggleActive(true));
+closeBtn.addEventListener("click", () => toggleActive(false));
+overlay.addEventListener("click", () => toggleActive(false));
 
-// Tutup sidebar ketika tombol Escape ditekan
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && sidebar.classList.contains("active")) {
-        hideSidebar();
+        toggleActive(false);
     }
 });
 
-// Fungsi untuk menangani perubahan ukuran layar
+// Handle resize dengan debounce
+let resizeTimeout;
 const handleResize = () => {
-    if (window.innerWidth <= 1240) {
-        // Pada tampilan kecil, pastikan sidebar dan overlay tidak aktif dan submenu ditutup
-        sidebar.classList.remove("active", "close");
-        overlay.classList.remove("active");
-    } else {
-        // Pada tampilan besar, pastikan overlay tidak aktif
-        overlay.classList.remove("active");
-    }
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        if (window.innerWidth <= 1240) {
+            sidebar.classList.remove("active", "close");
+            overlay.classList.remove("active");
+        } else {
+            overlay.classList.remove("active");
+        }
+    }, 100);
 };
+window.addEventListener("resize", handleResize);
 
 window.addEventListener("resize", handleResize);
 
@@ -83,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const items = document.querySelectorAll(".item-stock");
     const statusIcons = document.querySelectorAll(".status__icon");
 
-    // Objek konfigurasi untuk status
     const statusConfig = {
         borrowed: { classes: ["fa-clock", "purple"], tooltip: "Dipinjam" },
         returned: {
