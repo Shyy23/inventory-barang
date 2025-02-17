@@ -22,6 +22,16 @@
                 <br />
                 <span class="text-[1.3rem]">di Website Inventory Barang</span>
             </h3>
+            <p
+                class="description mt-4 pr-[7rem] text-justify text-[1rem] leading-relaxed text-[--text-2-clr]"
+            >
+                Website Inventory Barang ini dirancang untuk membantu
+                pengelolaan barang di jurusan Pengembangan Perangkat Lunak & Gim
+                (PPLG). Sistem ini mempermudah pencatatan, peminjaman, dan
+                pelacakan barang secara real-time. Tujuannya adalah meningkatkan
+                efisiensi pengelolaan inventaris, mengurangi risiko kehilangan
+                barang, serta mendukung kelancaran kegiatan belajar-mengajar.
+            </p>
         </div>
     </div>
 @endsection

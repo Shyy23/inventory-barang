@@ -54,7 +54,18 @@
                 <h3 class="font-nunito text-[1.4rem] font-bold uppercase">
                     Inventory Barang
                 </h3>
-                <i class="fa-solid fa-box text-[1.4rem]"></i>
+                <div class="group-auth grid grid-cols-2 gap-3">
+                    <button
+                        class="rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
+                    >
+                        Login
+                    </button>
+                    <button
+                        class="rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                    >
+                        Register
+                    </button>
+                </div>
             </header>
             <!--========== MAIN CONTENT START ==========-->
             <main
