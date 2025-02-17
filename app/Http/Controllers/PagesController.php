@@ -85,4 +85,8 @@ class PagesController extends Controller
             'jumlahSiswaKelas'
         ));
     }
+
+    public function home(){
+      return view('home');  
+    }
 }

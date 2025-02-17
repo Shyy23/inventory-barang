@@ -29,6 +29,7 @@
     --purple-2-clr: rgba(204, 54, 218, 0.8);
     --yellow-2-clr: rgba(213, 224, 54, 0.8);
     --orange-2-clr: rgba(218, 114, 45, 0.8);
+    --glass-clr: rgba(67, 94, 190, 0.5);
 }
 
 .light:root {
