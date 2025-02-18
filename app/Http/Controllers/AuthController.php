@@ -82,8 +82,10 @@ class AuthController extends Controller
         $user = User::updateOrCreate(
             ['email'=>$socialUser->getEmail()],
             [
+                'name'=> $socialUser->name,
                 'provider'=>$provider,
                 'provider_id'=>$socialUser->getId(),
+                'password'=>bcrypt(Str::random(24)),
             ]
             );
 
