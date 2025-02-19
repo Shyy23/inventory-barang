@@ -11,6 +11,13 @@
         <meta name="author" content="Syahrul Hidayatulloh" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+
         <!--===== Title =====-->
         <title>@yield("title", "Inventory-barang")</title>
 
@@ -27,6 +34,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!--===== Styles / Scripts =====-->
         @if (file_exists(public_path("build/manifest.json")) || file_exists(public_path("hot")))
@@ -89,5 +97,22 @@
         ></script>
 
         @stack("scripts")
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            html: `@foreach($errors->all() as $error)
+                                                    <p>{{ $error }}</p>
+                                                  @endforeach`
+                                        });
+                                    });
+                    history.pushState(null, document.title, location.href);
+                    window.addEventListener('popstate', function(event) {
+                    history.pushState(null, document.title, location.href);
+                    });
+            </script>
+        @endif
     </body>
 </html>

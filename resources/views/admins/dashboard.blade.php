@@ -459,7 +459,29 @@
             </div>
         </section>
     </div>
+    @if (session("success"))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session("success") }}',
+                    confirmButtonColor: '#3085d6',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                });
+            });
+        </script>
+    @endif
 
+    <script>
+        // Memastikan halaman tidak dapat diakses melalui tombol "Back"
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script src="{{ asset("js/chart.js") }}"></script>

@@ -25,10 +25,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard')->with('success', 'Login berhasil!');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return back()->withErrors(['email' => 'Invalid credentials'])->with('error', 'Invalid credentials');
     }
 
     // Show register form
@@ -44,7 +44,7 @@ class AuthController extends Controller
         $request->validate([
             'name'=>'required',
             'email'=>'required|email',
-            'password'=>'required|min:6|confirmed'
+            'password'=>'required|min:6'
 
         ]);
 
@@ -57,12 +57,12 @@ class AuthController extends Controller
         }catch (\Exception $e){
             return back()->withErrors([
                 'email'=>'Gagal membuat akun. Silakan coba lagi'
-            ]);
+            ])->with('error', 'Oops! Gagal membuat Akun');
         }
          
 
         Auth::login($user);
-        return redirect('/dashboard'); 
+        return redirect('/dashboard')->with('success', 'Login berhasil!');; 
     }
 
     public function redirectToProvider($provider)
@@ -76,13 +76,13 @@ class AuthController extends Controller
             $socialUser = Socialite::driver($provider)->user();
 
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors(['error' => 'Authentication failed']);
+            return redirect('/')->withErrors(['error' => 'Authentication failed'])->with('error', 'Autentication failed');
         }
 
         $user = User::updateOrCreate(
             ['email'=>$socialUser->getEmail()],
             [
-                'name'=> $socialUser->name,
+                'name'=> $socialUser->name  ?? $socialUser->getName() ?? $socialUser->getNickname() ?? $socialUser->getId(),
                 'provider'=>$provider,
                 'provider_id'=>$socialUser->getId(),
                 'password'=>bcrypt(Str::random(24)),
@@ -90,13 +90,17 @@ class AuthController extends Controller
             );
 
             if(!$user->wasRecentlyCreated){
-                $user->update(['name'=>$user->name ?? $socialUser->getName()]);
+                $user->update(['name'=>$user->name ?? $socialUser->getName() ?? $socialUser->getNickname() ?? $socialUser->getId()]);
             } else {
                 $user->update(['password'=>Hash::make(uniqid())]);
             }
 
         Auth::login($user);
-        return redirect('/dashboard');
+        return redirect('/dashboard')->with('success', 'Login berhasil!');;
+    }
+
+    public function showForgotPasswordForm(){
+        return view('auth.forgot-password');
     }
 
     public function sendResetLink(Request $request)
@@ -110,5 +114,20 @@ class AuthController extends Controller
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Logout user
+    
+        // Hapus sesi dan regenerasi token CSRF
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        // Tambahkan header untuk mencegah caching
+        return redirect('/')->withHeaders([
+            'Cache-Control' => 'no-cache, no-store, must-revalidate', // Mencegah caching
+            'Pragma' => 'no-cache', // Untuk kompatibilitas dengan browser lama
+            'Expires' => '0', // Pastikan halaman tidak disimpan di cache
+        ])->with('success', 'Berhasil Logout'); // Redirect ke halaman login
     }
 }

@@ -278,6 +278,19 @@ abbr {
     transform: translateX(-50%);
 }
 
+/* =================== MODAL =================== */
+
+.modal-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.modal-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
     #menu-btn {
