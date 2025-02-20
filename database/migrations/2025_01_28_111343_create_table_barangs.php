@@ -15,11 +15,6 @@ return new class extends Migration {
             $table->string('category_name', 255);
         });
 
-        Schema::create('locations', function (Blueprint $table) {
-            $table->increments('location_id');
-            $table->string('location_name', 255);
-        });
-
         Schema::create('items', function (Blueprint $table) {
             $table->increments('item_id');
             $table->string('item_name', 255);
@@ -30,6 +25,7 @@ return new class extends Migration {
             $table->longText('description');
             $table->string('image', 255);
             $table->enum('status', ['available', 'out_of_stock']);
+            $table->timestamps();
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade')->onUpdate('cascade')->index('idx_category_item');
             $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade')->onUpdate('cascade')->index('idx_location_item');
         });
@@ -40,6 +36,7 @@ return new class extends Migration {
             $table->string('unit_name', 100);
             $table->enum('unit_status', ['available', 'borrowed', 'damaged']);
             $table->string('unit_image', 255);
+            $table->timestamps();
             $table->foreign('item_id')->references('item_id')->on('items')->onDelete('cascade')->onUpdate('cascade')->index('idx_item_unit');
         });
     }
@@ -52,6 +49,5 @@ return new class extends Migration {
         Schema::dropIfExists('item_units');
         Schema::dropIfExists('items');
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('locations');
     }
 };

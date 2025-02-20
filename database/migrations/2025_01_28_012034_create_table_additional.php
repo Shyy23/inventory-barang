@@ -19,13 +19,19 @@ return new class extends Migration {
             $table->increments('subject_id');
             $table->string('subject_name', 100);
         });
-
+        Schema::create('locations', function (Blueprint $table) {
+            $table->increments('location_id');
+            $table->string('location_name', 255);
+            $table->enum('type', ['item', 'class']);
+        });
         Schema::create('classes', function (Blueprint $table) {
             $table->increments('class_id');
             $table->enum('level', ['10', '11', '12']);
             $table->enum('major', ['RPL'])->default('RPL');
             $table->unsignedInteger('abc_id');
+            $table->unsignedInteger('location_id');
             $table->foreign('abc_id')->references('abc_id')->on('abcs')->onDelete('cascade')->onUpdate('cascade')->index('idx_abc_class');
+            $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade')->onUpdate('cascade')->index('idx_location_class');
         });
     }
 
@@ -35,6 +41,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('classes');
+        Schema::dropIfExists('locations');
         Schema::dropIfExists('subjects');
         Schema::dropIfExists('abcs');
     }
