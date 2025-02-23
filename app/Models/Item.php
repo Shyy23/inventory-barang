@@ -8,7 +8,7 @@ class Item extends Model
 {
     protected $table = 'items';
     protected $primaryKey = 'item_id';
-    protected $fillable = ['item_name', 'category_id', 'location_id', 'stock', 'description', 'image', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['item_name', 'category_id', 'slug_item','location_id', 'stock', 'description', 'image', 'status', 'created_at', 'updated_at'];
     public $timestamps = true;
 
     public function item_loan()

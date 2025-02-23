@@ -61,11 +61,11 @@
                 <h3 class="font-nunito text-[1.4rem] font-bold uppercase">
                     Inventory Barang
                 </h3>
-                <div class="group-auth grid grid-cols-2 gap-3">
+                <div class="group-auth grid grid-cols-2 gap-2">
                     <div x-data="{ activeTab: 'login' }">
                         <button
                             onclick="showAuthModal('login')"
-                            class="rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
+                            class="w-[80px] rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
                         >
                             Login
                         </button>
@@ -73,7 +73,7 @@
                     </div>
                     <div x-data="{ activeTab: 'register' }">
                         <button
-                            class="rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                            class="w-[80px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
                             onclick="showAuthModal('register')"
                         >
                             Register

@@ -82,3 +82,9 @@ GROUP BY
     ll.return_time,
     ll.loan_date,
     ll.loan_id;
+
+    CREATE OR REPLACE VIEW vteacher_details AS
+SELECT vt.teacher_detail_id, t.name AS teacher_name, c.class_name, s.subject_name, vt.academic_year, vt.created_at, vt.updated_at  FROM `teacher_details` vt
+JOIN teachers t ON vt.nip = t.nip
+JOIN vclasses c ON vt.class_id = c.class_id
+JOIN subjects s ON vt.subject_id = s.subject_id

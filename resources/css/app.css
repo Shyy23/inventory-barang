@@ -2,6 +2,7 @@
 :root {
     --primary-clr: rgba(67, 94, 190, 1);
     --primary-hover-clr: rgba(49, 78, 182, 1);
+    --btn-hover-clr: rgb(34, 67, 187);
     --body-clr: rgba(21, 21, 33, 1);
     --text-clr: rgba(194, 194, 217, 1);
     --red-clr: rgba(255, 121, 118, 1);
@@ -30,6 +31,8 @@
     --yellow-2-clr: rgba(213, 224, 54, 0.8);
     --orange-2-clr: rgba(218, 114, 45, 0.8);
     --glass-clr: rgba(67, 94, 190, 0.5);
+    --shadow-input-clr: rgba(0, 0, 0, 0.2);
+    --shadow-input-light-clr: rgba(0, 0, 0, 0.4);
 }
 
 .light:root {
@@ -192,6 +195,27 @@
     visibility: visible;
 }
 
+#loanModalContainer::-webkit-scrollbar {
+    width: 3px;
+    margin-block: 2px;
+    background-color: transparent;
+}
+#loanModalContainer::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+#loanModalContainer:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+    visibility: visible;
+}
+
+textarea,
+select,
+input {
+    field-sizing: content;
+}
 /* =================== STATUS ICONS =================== */
 .status__icon i,
 i {
@@ -291,6 +315,130 @@ abbr {
     transform: translateY(0);
 }
 
+.inputModalLogin {
+    box-shadow:
+        2px 2px 2px var(--shadow-input-clr) inset,
+        -1px -1px 1px var(--shadow-input-clr) inset;
+}
+.social-login-icon {
+    box-shadow:
+        4px 4px 4px var(--shadow-input-light-clr) inset,
+        -4px -4px 4px var(--shadow-input-light-clr) inset;
+}
+
+.modal-btn:hover {
+    box-shadow:
+        5px 5px 5px var(--btn-hover-clr) inset,
+        -1px -1px 1px transparent inset;
+}
+
+/* Class utama untuk modal */
+.modal-show {
+    animation: modalFade 0.3s ease-in-out;
+}
+
+/* Styling awal untuk modal */
+.container-modal,
+#loanModalContainer {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Styling saat modal aktif */
+.container-modal.opacity-100,
+#loanModalContainer.opacity-100 {
+    opacity: 1;
+}
+
+.container-modal.scale-100,
+#loanModalContainer.scale-100 {
+    transform: scale(1);
+}
+
+.container-modal.translate-y-0,
+#loanModalContainer.translate-y-0 {
+    transform: translateY(0);
+}
+/* Animasi fade-in dasar */
+@keyframes modalFade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Elemen pseudo untuk efek kabut garis hitam diagonal */
+.modal-show::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%; /* Lebih besar dari modal */
+    height: 150%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.5),
+        /* Warna hitam semi-transparan */ rgba(0, 0, 0, 0.5) 20px,
+        transparent 20px,
+        transparent 40px
+    );
+    transform: rotate(-45deg); /* Rotasi diagonal */
+    animation: diagonalLines 0.6s linear forwards;
+    z-index: -1; /* Agar berada di belakang modal */
+}
+
+/* Animasi untuk kabut garis hitam diagonal */
+@keyframes diagonalLines {
+    0% {
+        transform: translateX(-100%) rotate(-45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(-45deg);
+    }
+}
+
+/* Elemen pseudo untuk efek cahaya glow putih */
+.modal-show::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+    transform: translate(-50%, -50%);
+    animation: glowEffect 0.6s ease-in-out forwards;
+    z-index: -2; /* Agar berada di belakang modal dan garis hitam */
+}
+
+/* Animasi untuk cahaya glow putih */
+@keyframes glowEffect {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+.status-detail {
+    text-shadow: 2px 2px 4px var(--body-clr);
+}
+#submitIndividu,
+#submitKelas {
+    text-shadow:
+        2px 2px 2px var(--body-clr),
+        1px -1px 4px var(--body-clr);
+}
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
     #menu-btn {

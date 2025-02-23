@@ -245,29 +245,6 @@
                     </div>
                 </div>
                 <!-- Latest Loan  End -->
-                <!-- Stat Category Start -->
-                <div
-                    class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
-                >
-                    <!-- Card Start -->
-                    <div class="grid items-center">
-                        <!-- Card header -->
-                        <div class="mb-4 p-2">
-                            <h4 class="text-[1.2rem] font-bold">
-                                Kategory Barang
-                            </h4>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="p-4">
-                            <div id="chart-container">
-                                <canvas id="categoryPieChart"></canvas>
-                                <div id="legend-container"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  Card End -->
-                </div>
-                <!-- Stat Category End -->
             </div>
             <!-- Stat of Highlight User -->
             <div
@@ -309,6 +286,31 @@
                         </div>
                     </div>
                 </div>
+                <!-- Stat Category Start -->
+                <div
+                    class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
+                >
+                    <!-- Card -->
+                    <div class="grid items-center">
+                        <!-- Card header -->
+                        <div class="mb-4 p-2">
+                            <h4 class="text-[1.2rem] font-bold">
+                                Kategori Barang
+                            </h4>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="p-4">
+                            <div
+                                id="chart-container"
+                                class="relative w-[200px]"
+                            >
+                                <canvas id="categoryPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat Category End -->
                 <!-- Delayed Info Start -->
                 <div
                     class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"

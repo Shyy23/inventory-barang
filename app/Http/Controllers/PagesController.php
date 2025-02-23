@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Item;
-use App\Models\LoanLog;
+use App\Models\Loan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -20,8 +20,8 @@ class PagesController extends Controller
         // Menghitung jumlah Data dari Tabel
         $jumlahSiswa = Student::count();
         $jumlahBarang = Item::count();
-        $jumlahPinjamanTertunda = LoanLog::where('loan_status', 'delayed')->count();
-        $jumlahBarangDipinjam = LoanLog::where('loan_status', 'borrowed')->count();
+        $jumlahPinjamanTertunda = Loan::where('loan_status', 'delayed')->count();
+        $jumlahBarangDipinjam = Loan::where('loan_status', 'borrowed')->count();
 
         // Mengambil barang yang baru saja diperbarui (berdasarkan updated_at)
         $barangBaruDipinjam = Item::latest()->first('updated_at');
@@ -48,7 +48,7 @@ class PagesController extends Controller
             ->get();
 
         // Mengambil 5 aktivitas terbaru dari view `vloan_details`
-        $aktivitasTerbaru = DB::table('vloan_details')
+        $aktivitasTerbaru = DB::table('vloans')
             ->orderBy('updated_at', 'desc')
             ->take(5)
             ->get();

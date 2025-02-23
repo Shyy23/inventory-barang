@@ -35,6 +35,7 @@
         />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @stack("styles")
 
         <!--===== Styles / Scripts =====-->
         @if (file_exists(public_path("build/manifest.json")) || file_exists(public_path("hot")))

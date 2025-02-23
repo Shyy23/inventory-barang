@@ -143,19 +143,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: "right",
-                        align: "start",
-                        labels: {
-                            font: {
-                                size: 10,
-                            },
-                            color: textColor,
-                            boxWidth: 12,
-                            padding: 10,
-                            usePointStyle: true,
-                        },
-                    },
+                    legend: { display: false },
                     tooltip: {
                         enabled: true,
                         callbacks: {
