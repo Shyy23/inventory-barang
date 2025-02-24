@@ -82,7 +82,8 @@
     }
 }
 
-#sidebar ul li.active a {
+#sidebar ul li.active a,
+#sidebar ul li.active form {
     color: var(--primary-clr);
 
     svg {
@@ -92,7 +93,8 @@
 
 #sidebar a,
 #sidebar .dropdown__btn,
-#sidebar .logo {
+#sidebar .logo,
+#sidebar form {
     border-radius: 0.5em;
     padding: 0.85em;
     color: var(--text-clr);
@@ -115,6 +117,7 @@
 }
 
 #sidebar a:hover,
+#sidebar form:hover,
 #sidebar .dropdown__btn:hover {
     background-color: var(--primary-clr);
 
@@ -320,12 +323,14 @@ abbr {
         2px 2px 2px var(--shadow-input-clr) inset,
         -1px -1px 1px var(--shadow-input-clr) inset;
 }
-.social-login-icon {
+.social-link {
     box-shadow:
         4px 4px 4px var(--shadow-input-light-clr) inset,
         -4px -4px 4px var(--shadow-input-light-clr) inset;
 }
-
+.social-link:hover {
+    transform: scale(1.1);
+}
 .modal-btn:hover {
     box-shadow:
         5px 5px 5px var(--btn-hover-clr) inset,
@@ -430,15 +435,6 @@ abbr {
     }
 }
 
-.status-detail {
-    text-shadow: 2px 2px 4px var(--body-clr);
-}
-#submitIndividu,
-#submitKelas {
-    text-shadow:
-        2px 2px 2px var(--body-clr),
-        1px -1px 4px var(--body-clr);
-}
 /*============= BREAKPOINTS =============*/
 @media screen and (min-width: 1240px) {
     #menu-btn {

@@ -35,7 +35,7 @@ class AuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.login');
     }
 
 
@@ -123,11 +123,14 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
     
+        // Hapus cookie sesi jika ada
+        $cookie = \Cookie::forget('laravel_session');
+    
         // Tambahkan header untuk mencegah caching
         return redirect('/')->withHeaders([
-            'Cache-Control' => 'no-cache, no-store, must-revalidate', // Mencegah caching
-            'Pragma' => 'no-cache', // Untuk kompatibilitas dengan browser lama
-            'Expires' => '0', // Pastikan halaman tidak disimpan di cache
-        ])->with('success', 'Berhasil Logout'); // Redirect ke halaman login
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ])->withCookie($cookie)->with('success', 'Berhasil Logout');
     }
 }

@@ -1,4 +1,35 @@
 @extends("layouts.app")
+@push("styles")
+    <style>
+            .input-field {
+            @apply w-full rounded border border-[--border-clr] bg-[--body-clr] p-2 text-[--text-clr];
+        }
+
+        .btn-submit {
+            @apply rounded-lg bg-[--green-3-clr] px-4 py-2 text-white transition-colors hover:bg-[--green-4-clr];
+        }
+
+        .btn-cancel {
+            @apply rounded-lg bg-[--red-2-clr] px-4 py-2 text-white transition-colors hover:bg-[--red-3-clr];
+        }
+        #tambah-barang-modal input,
+        #tambah-barang-modal textarea,
+        #tambah-barang-modal select {
+            min-height: 42px;
+            box-shadow:
+                4px 4px 4px var(--shadow-input-clr) inset,
+                -3px -3px 3px var(--shadow-input-clr) inset;
+            border-radius: .25rem;
+            background: var(--body-clr);
+            color: var(--text-clr);
+        }
+
+        textarea {
+            max-height: 150px;
+        }
+    </style>
+@endpush
+
 @section("title", "Manage Barang")
 @section("page title", "Manage Barang")
 @section("breadcrumbs")
@@ -64,14 +95,53 @@
                             </button>
                         </div>
                     </form>
-                    <div
-                        class="tambah cursor-pointer rounded-lg border-2 border-[--green-3-clr] bg-transparent p-4 text-center font-semibold text-[--green-3-clr] transition-all duration-[.3s] ease-in-out hover:bg-[--green-3-clr] hover:text-[--text-clr]"
-                    >
-                        <a href="{{ route("items.create") }}" class="">
+                    <!-- Dropdown Tambah -->
+                    <div class="relative" id="tambah-dropdown-container">
+                        <!-- Hidden checkbox -->
+                        <input
+                            type="checkbox"
+                            id="tambah-toggle"
+                            class="peer hidden"
+                        />
+
+                        <!-- Toggle Button -->
+                        <label
+                            for="tambah-toggle"
+                            class="flex cursor-pointer select-none items-center justify-center gap-2 rounded-lg border-2 border-[--green-3-clr] bg-transparent p-4 text-center font-semibold text-[--green-3-clr] transition-all duration-[.3s] ease-in-out hover:bg-[--green-3-clr] hover:text-[--text-clr]"
+                        >
                             <i class="fa-solid fa-plus"></i>
-                            <span>Tambah Barang</span>
-                        </a>
+                            <span>Tambah</span>
+                            <i
+                                class="fas fa-caret-down ml-2 transition-transform peer-checked:rotate-180"
+                            ></i>
+                        </label>
+
+                        <!-- Dropdown Menu -->
+                        <div
+                            class="invisible absolute z-10 mt-2 w-full origin-top rounded-lg border-2 border-[--green-3-clr] bg-[--container-clr] opacity-0 shadow-lg transition-all duration-200 peer-checked:visible peer-checked:opacity-100"
+                        >
+                            <div class="space-y-2 p-2">
+                                <button
+                                    onclick="openModal('tambah-barang-modal')"
+                                    class="flex w-full items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--green-3-clr] hover:text-white"
+                                >
+                                    <i class="fas fa-box"></i>
+                                    Tambah Barang
+                                </button>
+                                <button
+                                    onclick="openModal('tambah-unit-modal')"
+                                    class="flex w-full items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--green-3-clr] hover:text-white"
+                                >
+                                    <i class="fas fa-cube"></i>
+                                    Tambah Unit
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                    <!-- Tambah Barang -->
+                    @include("components.items.add-item-modal")
+                    <!-- Modal Tambah Unit -->
+                    @include("components.item-units.add-item-unit-modal")
                     <div class="relative" id="dropdown-container">
                         <!-- Hidden checkbox -->
                         <input
@@ -83,7 +153,7 @@
                         <!-- Toggle Button -->
                         <label
                             for="dropdown-toggle"
-                            class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-[--primary-clr] bg-transparent p-4 text-center font-semibold text-[--primary-clr] transition-all duration-[.3s] ease-in-out hover:bg-[--primary-clr] hover:text-[--text-clr]"
+                            class="flex cursor-pointer select-none items-center justify-center gap-2 rounded-lg border-2 border-[--primary-clr] bg-transparent p-4 text-center font-semibold text-[--primary-clr] transition-all duration-[.3s] ease-in-out hover:bg-[--primary-clr] hover:text-[--text-clr]"
                         >
                             <i class="fa-solid fa-file"></i>
                             <span>Print</span>
@@ -94,7 +164,7 @@
 
                         <!-- Dropdown Menu -->
                         <div
-                            class="invisible absolute z-10 mt-2 w-full origin-top rounded-lg bg-[--container-clr] opacity-0 shadow-lg transition-all duration-200 peer-checked:visible peer-checked:opacity-100"
+                            class="invisible absolute z-10 mt-2 w-full origin-top rounded-lg border-2 border-[--primary-clr] bg-[--container-clr] opacity-0 shadow-lg transition-all duration-200 peer-checked:visible peer-checked:opacity-100"
                         >
                             <div class="space-y-2 p-2">
                                 <a
@@ -339,5 +409,52 @@
                 dropdown.checked = false;
             }
         });
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById('tambah-toggle').checked = false; // Close dropdown
+            document.getElementById(modalId).classList.add('z-10');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal-enter-add')) {
+                event.target.classList.add('hidden');
+            }
+        };
+        function previewImage(inputId, previewId, containerId = null) {
+            document
+                .getElementById(inputId)
+                .addEventListener('change', function (event) {
+                    const [file] = event.target.files;
+                    const preview = document.getElementById(previewId);
+                    const previewContainer = containerId
+                        ? document.getElementById(containerId)
+                        : null;
+
+                    if (file) {
+                        preview.src = URL.createObjectURL(file);
+                        if (previewContainer)
+                            previewContainer.classList.remove('hidden');
+                        else preview.classList.remove('hidden');
+                    } else {
+                        preview.src = '';
+                        if (previewContainer)
+                            previewContainer.classList.add('hidden');
+                        else preview.classList.add('hidden');
+                    }
+                });
+        }
+
+        // Panggil fungsi untuk masing-masing input file
+        previewImage('image', 'image-preview'); // Untuk add items
+        previewImage(
+            'unit_image',
+            'image-unit-preview',
+            'image-preview-container',
+        );
     </script>
 @endpush

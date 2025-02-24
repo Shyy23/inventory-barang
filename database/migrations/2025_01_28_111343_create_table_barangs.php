@@ -34,7 +34,7 @@ return new class extends Migration {
             $table->increments('unit_id');
             $table->unsignedInteger('item_id');
             $table->string('unit_name', 100);
-            $table->enum('unit_status', ['available', 'borrowed', 'damaged']);
+            $table->enum('unit_status', ['available', 'borrowed', 'damaged', 'delayed']);
             $table->string('unit_image', 255);
             $table->timestamps();
             $table->foreign('item_id')->references('item_id')->on('items')->onDelete('cascade')->onUpdate('cascade')->index('idx_item_unit');

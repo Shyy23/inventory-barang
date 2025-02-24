@@ -57,29 +57,40 @@
                 </form>
 
                 <!-- Social Login -->
-                <div class="social-group-login flex justify-center gap-2">
-                    <div class="mt-4 text-center">
+                <div class="mt-4">
+                    <div class="relative my-4">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="bg-[--container-clr] px-2 text-sm text-gray-500">
+                                atau login dengan
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
                         <a
                             href="{{ route("social.redirect", "google") }}"
-                            class="social-login-icon block rounded bg-[--text-clr] p-2 text-center text-[--text-clr]"
+                            class="flex w-full items-center justify-center gap-3 rounded bg-[--body-clr] p-2 text-sm font-medium text-[--text-clr] transition-all social-link "
                         >
                             <img
                                 src="{{ asset("assets/icons/google.png") }}"
-                                alt=""
-                                class="w-8"
+                                class="w-6 h-6"
+                                alt="Google"
                             />
+                            <span>Google</span>
                         </a>
-                    </div>
-                    <div class="mt-4 text-center">
                         <a
                             href="{{ route("social.redirect", "github") }}"
-                            class="social-login-icon block rounded bg-[--text-clr] p-2 text-center text-[--text-clr]"
+                            class="flex w-full items-center justify-center gap-3 rounded bg-[--body-clr] p-2 text-sm font-medium text-[--text-clr] transition-all social-link "
                         >
                             <img
                                 src="{{ asset("assets/icons/github.png") }}"
-                                alt=""
-                                class="w-8"
+                                class="w-6 h-6"
+                                alt="Github"
                             />
+                            <span>Github</span>
                         </a>
                     </div>
                 </div>
@@ -130,6 +141,45 @@
                         Daftar
                     </button>
                 </form>
+
+                <!-- Social Register -->
+                <div class="mt-4">
+                    <div class="relative my-4">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="bg-[--container-clr] px-2 text-sm text-gray-500">
+                                atau daftar dengan
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <a
+                            href="{{ route("social.redirect", "google") }}"
+                            class="flex w-full items-center justify-center gap-3 rounded bg-[--body-clr] p-2 text-sm font-medium text-[--text-clr] transition-all social-link "
+                        >
+                            <img
+                                src="{{ asset("assets/icons/google.png") }}"
+                                class="w-6 h-6"
+                                alt="Google"
+                            />
+                            <span>Google</span>
+                        </a>
+                        <a
+                            href="{{ route("social.redirect", "github") }}"
+                            class="flex w-full items-center justify-center gap-3 rounded bg-[--body-clr] p-2 text-sm font-medium text-[--text-clr] transition-all social-link "
+                        >
+                            <img
+                                src="{{ asset("assets/icons/github.png") }}"
+                                class="w-6 h-6"
+                                alt="Github"
+                            />
+                            <span>Github</span>
+                        </a>
+                    </div>
+                </div>
 
                 <!-- Link Halaman Terpisah -->
                 <div class="mt-4 text-center">

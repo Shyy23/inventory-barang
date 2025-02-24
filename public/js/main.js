@@ -126,4 +126,28 @@ document.addEventListener("DOMContentLoaded", () => {
             icon.setAttribute("title", "Stok Aman");
         }
     });
+
+    document
+        .getElementById("logout")
+        .addEventListener("click", function (event) {
+            event.preventDefault(); // Mencegah form terkirim langsung
+
+            Swal.fire({
+                title: "Apakah Anda yakin ingin logout?",
+                text: "Anda akan keluar dari sesi ini.",
+                icon: "warning",
+                iconColor: "rgba(238, 62, 100, 1)",
+                color: "rgba(194, 194, 217, 1)",
+                background: "rgba(30, 30, 45, 1)",
+                showCancelButton: true,
+                confirmButtonColor: "rgba(40, 156, 46, 1)",
+                cancelButtonColor: "rgba(238, 62, 100, 1)",
+                confirmButtonText: "Ya, Logout!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.querySelector("form.w-full").submit(); // Kirim form logout
+                }
+            });
+        });
 });

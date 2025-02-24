@@ -468,9 +468,10 @@
                     icon: 'success',
                     title: 'Success!',
                     text: '{{ session("success") }}',
-                    confirmButtonColor: '#3085d6',
-                    background: '#1a1a1a',
-                    color: '#fff',
+                    confirmButtonColor: 'rgba(40, 156, 46, 1)',
+                    iconColor: 'rgba(40, 156, 46, 1)',
+                    color: 'rgba(194, 194, 217, 1)',
+                    background: 'rgba(30, 30, 45, 1)',
                 });
             });
         </script>

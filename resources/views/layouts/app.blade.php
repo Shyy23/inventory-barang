@@ -98,11 +98,32 @@
         ></script>
 
         @stack("scripts")
+        @if (session("success") || session("info") || session("danger"))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: '{{ session("success") ? "success" : (session("info") ? "info" : "error") }}',
+                        title: '{{ session("success") ? "Success!" : (session("info") ? "Updated!" : "Deleted!") }}',
+                        text: '{{ session("success") ?? (session("info") ?? session("danger")) }}',
+                        confirmButtonColor:
+                            '{{ session("success") ? "rgba(40, 156, 46, 1)" : (session("info") ? "rgba(54, 162, 235, 1)" : "rgba(255, 77, 77, 1)") }}',
+                        iconColor:
+                            '{{ session("success") ? "rgba(40, 156, 46, 1)" : (session("info") ? "rgba(54, 162, 235, 1)" : "rgba(255, 77, 77, 1)") }}',
+                        color: 'rgba(194, 194, 217, 1)',
+                        background: 'rgba(30, 30, 45, 1)',
+                    });
+                });
+            </script>
+        @endif
+
         @if ($errors->any())
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                                         Swal.fire({
                                             icon: 'error',
+                                            iconColor: 'rgba(238, 62, 100, 1)',
+                                            color: 'rgba(194, 194, 217, 1)',
+                                            background: 'rgba(30, 30, 45, 1)',
                                             title: 'Oops...',
                                             html: `@foreach($errors->all() as $error)
                                                     <p>{{ $error }}</p>

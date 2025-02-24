@@ -61,27 +61,41 @@
                 <h3 class="font-nunito text-[1.4rem] font-bold uppercase">
                     Inventory Barang
                 </h3>
-                <div class="group-auth grid grid-cols-2 gap-2">
-                    <div x-data="{ activeTab: 'login' }">
-                        <button
-                            onclick="showAuthModal('login')"
-                            class="w-[80px] rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
-                        >
-                            Login
-                        </button>
-                        @include("components/auth-modal")
-                    </div>
-                    <div x-data="{ activeTab: 'register' }">
-                        <button
-                            class="w-[80px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
-                            onclick="showAuthModal('register')"
-                        >
-                            Register
-                        </button>
-                        @include("components/auth-modal")
-                    </div>
+               <!-- Tombol Berdasarkan Status Login -->
+            @if (!auth()->check())
+            <!-- Jika Pengguna Belum Login -->
+            <div class="group-auth grid grid-cols-2 gap-2">
+                <div x-data="{ activeTab: 'login' }">
+                    <button
+                        onclick="showAuthModal('login')"
+                        class="w-[80px] rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
+                    >
+                        Login
+                    </button>
+                    @include("components/auth-modal")
                 </div>
-            </header>
+                <div x-data="{ activeTab: 'register' }">
+                    <button
+                        class="w-[80px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                        onclick="showAuthModal('register')"
+                    >
+                        Register
+                    </button>
+                    @include("components/auth-modal")
+                </div>
+            </div>
+            @else
+            <!-- Jika Pengguna Sudah Login -->
+            <div>
+                <a
+                    href="{{ route('admin.dashboard') }}"
+                    class="w-[150px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                >
+                    Dashboard
+                </a>
+            </div>
+            @endif
+        </header>
             <!--========== MAIN CONTENT START ==========-->
             <main
                 id="main"
@@ -131,9 +145,10 @@
                         icon: 'success',
                         title: 'Success!',
                         text: '{{ session("success") }}',
-                        confirmButtonColor: '#3085d6',
-                        background: '#1a1a1a',
-                        color: '#fff',
+                        confirmButtonColor: 'rgba(40, 156, 46, 1)',
+                        iconColor: 'rgba(40, 156, 46, 1)',
+                        color: 'rgba(194, 194, 217, 1)',
+                        background: 'rgba(30, 30, 45, 1)',
                     });
                 });
             </script>
@@ -144,10 +159,15 @@
                 document.addEventListener('DOMContentLoaded', function() {
                                         Swal.fire({
                                             icon: 'error',
+                                            confirmButtonColor: 'rgba(40, 156, 46, 1)',
+                                            iconColor: 'rgba(238, 62, 100, 1)',
+                                            color: 'rgba(194, 194, 217, 1)',
+                                            background: 'rgba(30, 30, 45, 1)',
                                             title: 'Oops...',
                                             html: `@foreach($errors->all() as $error)
                                                     <p>{{ $error }}</p>
                                                   @endforeach`
+
                                         });
                                     });
 
