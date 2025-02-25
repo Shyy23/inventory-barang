@@ -101,7 +101,7 @@
                         <input
                             type="checkbox"
                             id="tambah-toggle"
-                            class="peer hidden"
+                            class="peer hidden dropdown-toggle"
                         />
 
                         <!-- Toggle Button -->
@@ -147,7 +147,7 @@
                         <input
                             type="checkbox"
                             id="dropdown-toggle"
-                            class="peer hidden"
+                            class="peer hidden dropdown-toggle"
                         />
 
                         <!-- Toggle Button -->
@@ -168,6 +168,7 @@
                         >
                             <div class="space-y-2 p-2">
                                 <a
+                                id="export-pdf"
                                     href="{{ route("items.export.pdf") }}?{{ http_build_query(request()->all()) }}"
                                     class="flex items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--primary-clr] hover:text-white"
                                 >
@@ -175,6 +176,7 @@
                                     PDF
                                 </a>
                                 <a
+                                id="export-excel"
                                     href="{{ route("items.export.excel") }}?{{ http_build_query(request()->all()) }}"
                                     class="flex items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--primary-clr] hover:text-white"
                                 >
@@ -456,5 +458,65 @@
             'image-unit-preview',
             'image-preview-container',
         );
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+    // Tambahkan event listener ke setiap toggle
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Tutup semua dropdown lainnya
+                dropdownToggles.forEach(otherToggle => {
+                    if (otherToggle !== this) {
+                        otherToggle.checked = false;
+                    }
+                });
+            }
+        });
+    });
+
+    // Tambahkan event listener untuk menutup dropdown saat klik di luar
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.relative')) {
+            dropdownToggles.forEach(toggle => {
+                toggle.checked = false;
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fungsi untuk menampilkan SweetAlert
+        function confirmExport(event, format) {
+            event.preventDefault(); // Mencegah navigasi langsung
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: `Anda akan mencetak file dalam format ${format.toUpperCase()}.`,
+                icon: 'question',
+                iconColor:'rgba(67, 94, 190, 1)',
+                color: 'rgba(194, 194, 217, 1)',
+                background: 'rgba(30, 30, 45, 1)',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, cetak!',
+                cancelButtonText: 'Batal',
+                cancelButtonColor: 'rgba(238, 62, 100, 1)',
+                confirmButtonColor: 'rgba(67, 94, 190, 1)',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Lanjutkan ke URL jika dikonfirmasi
+                    window.location.href = event.target.closest('a').href;
+                }
+            });
+        }
+
+        // Tambahkan event listener untuk PDF
+        document.getElementById('export-pdf').addEventListener('click', function (event) {
+            confirmExport(event, 'pdf');
+        });
+
+        // Tambahkan event listener untuk Excel
+        document.getElementById('export-excel').addEventListener('click', function (event) {
+            confirmExport(event, 'excel');
+        });
+    });
     </script>
 @endpush
