@@ -31,7 +31,7 @@ class ItemController extends Controller
                 return $query->where('item_name', 'like', "%{$search}%");
             })->when($selectedCategories, function ($query) use ($selectedCategories) {
                 return $query->whereIn('category_name', $selectedCategories);
-            })->paginate(12);
+            })->paginate(18);
 
 
         if ($request->ajax()) {
@@ -101,7 +101,7 @@ class ItemController extends Controller
      */
     public function show($slug)
     {
-        $students = Student::all();
+        $students = DB::table('vstudents')->get();
         $items = Item::all();
         $item = DB::table('vitems')->where('slug_item', $slug)->first();
         $units = DB::table('vitem_units')->where('item_name', '=', $item->item_name)->get();

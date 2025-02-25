@@ -134,7 +134,8 @@
 
                             <!-- Login Sosial -->
                             <div class="space-y-3">
-                                <button
+                                <a
+                               href="{{ route("social.redirect", "google") }}"
                                     class="flex w-full items-center justify-center gap-3 rounded-lg border border-[--border-clr] bg-[--body-clr] p-3 text-[--text-clr] transition-colors hover:bg-[--container-clr]"
                                 >
                                     <img
@@ -143,9 +144,10 @@
                                         class="aspect-square w-6"
                                     />
                                     <span>Lanjutkan dengan Google</span>
-                                </button>
+                            </a>
 
-                                <button
+                                <a
+                                href="{{ route("social.redirect", "github") }}"
                                     class="flex w-full items-center justify-center gap-3 rounded-lg border border-[--border-clr] bg-[--body-clr] p-3 text-[--text-clr] transition-colors hover:bg-[--container-clr]"
                                 >
                                     <img
@@ -154,7 +156,7 @@
                                         class="aspect-square w-5"
                                     />
                                     <span>Lanjutkan dengan GitHub</span>
-                                </button>
+                        </a>
                             </div>
                         </div>
                     </div>
@@ -210,7 +212,8 @@
 
                             <!-- Login Sosial -->
                             <div class="space-y-3">
-                                <button
+                                <a
+                                href="{{ route("social.redirect", "google") }}"
                                     class="flex w-full items-center justify-center gap-3 rounded-lg border border-[--border-clr] bg-[--body-clr] p-3 text-[--text-clr] transition-colors hover:bg-[--container-clr]"
                                 >
                                     <img
@@ -219,9 +222,10 @@
                                         class="aspect-square w-6"
                                     />
                                     <span>Lanjutkan dengan Google</span>
-                                </button>
+                            </a>
 
-                                <button
+                                <a
+                                href="{{ route("social.redirect", "github") }}"
                                     class="flex w-full items-center justify-center gap-3 rounded-lg border border-[--border-clr] bg-[--body-clr] p-3 text-[--text-clr] transition-colors hover:bg-[--container-clr]"
                                 >
                                     <img
@@ -230,7 +234,7 @@
                                         class="aspect-square w-5"
                                     />
                                     <span>Lanjutkan dengan GitHub</span>
-                                </button>
+                        </a>
                             </div>
                         </div>
                     </div>

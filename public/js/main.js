@@ -67,7 +67,7 @@ let resizeTimeout;
 const handleResize = () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        if (window.innerWidth <= 1240) {
+        if (window.innerWidth <= 1620) {
             sidebar.classList.remove("active", "close");
             overlay.classList.remove("active");
         } else {
