@@ -21,10 +21,11 @@ return new class extends Migration {
             $table->string('slug_item', 255)->unique();
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('location_id');
-            $table->integer('stock');
+            $table->enum('item_type', ['unit', 'consumable'])->default('unit');
+            $table->integer('stock')->default(0);
             $table->longText('description');
             $table->string('image', 255);
-            $table->enum('status', ['available', 'out_of_stock']);
+            $table->enum('status', ['available', 'out_of_stock', 'pending']);
             $table->timestamps();
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade')->onUpdate('cascade')->index('idx_category_item');
             $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade')->onUpdate('cascade')->index('idx_location_item');
@@ -33,9 +34,9 @@ return new class extends Migration {
         Schema::create('item_units', function (Blueprint $table) {
             $table->increments('unit_id');
             $table->unsignedInteger('item_id');
-            $table->string('unit_name', 100);
-            $table->enum('unit_status', ['available', 'borrowed', 'damaged', 'delayed']);
-            $table->string('unit_image', 255);
+            $table->string('unit_name', 100)->nullable();
+            $table->enum('unit_status', ['available', 'borrowed', 'damaged', 'pending']);
+            $table->string('unit_image', 255)->nullable();
             $table->timestamps();
             $table->foreign('item_id')->references('item_id')->on('items')->onDelete('cascade')->onUpdate('cascade')->index('idx_item_unit');
         });
