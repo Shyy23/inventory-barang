@@ -14,7 +14,10 @@
         }
         #tambah-barang-modal input,
         #tambah-barang-modal textarea,
-        #tambah-barang-modal select {
+        #tambah-barang-modal select,
+        #tambah-unit-modal input,
+        #tambah-unit-modal textarea,
+        #tambah-unit-modal select {
             min-height: 42px;
             box-shadow:
                 4px 4px 4px var(--shadow-input-clr) inset,
@@ -22,6 +25,11 @@
             border-radius: .25rem;
             background: var(--body-clr);
             color: var(--text-clr);
+
+        }
+        #tambah-barang-modal select,
+        #tambah-unit-modal select{
+            cursor: pointer;
         }
 
         textarea {
@@ -68,9 +76,9 @@
         class="wrapper grid min-h-screen grid-cols-[1fr_auto] gap-4 text-[--text-clr]"
     >
         <section
-            class="category-select order-1 h-screen w-[150px] rounded-lg bg-[--container-clr] p-4 lg:w-[250px]"
+            class="category-select relative order-1 flex h-screen w-[150px] flex-col overflow-hidden rounded-lg bg-[--container-clr] py-4 lg:w-[250px]"
         >
-            <div class="tools border-b-2 border-[--border-2-clr] pb-2">
+            <div class="tools border-b-2 border-[--border-2-clr] px-4 pb-2">
                 <div class="grid gap-6 p-4">
                     <form
                         action="{{ route("items.index") }}"
@@ -101,7 +109,7 @@
                         <input
                             type="checkbox"
                             id="tambah-toggle"
-                            class="peer hidden dropdown-toggle"
+                            class="dropdown-toggle peer hidden"
                         />
 
                         <!-- Toggle Button -->
@@ -147,7 +155,7 @@
                         <input
                             type="checkbox"
                             id="dropdown-toggle"
-                            class="peer hidden dropdown-toggle"
+                            class="dropdown-toggle peer hidden"
                         />
 
                         <!-- Toggle Button -->
@@ -168,7 +176,7 @@
                         >
                             <div class="space-y-2 p-2">
                                 <a
-                                id="export-pdf"
+                                    id="export-pdf"
                                     href="{{ route("items.export.pdf") }}?{{ http_build_query(request()->all()) }}"
                                     class="flex items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--primary-clr] hover:text-white"
                                 >
@@ -176,7 +184,7 @@
                                     PDF
                                 </a>
                                 <a
-                                id="export-excel"
+                                    id="export-excel"
                                     href="{{ route("items.export.excel") }}?{{ http_build_query(request()->all()) }}"
                                     class="flex items-center gap-2 rounded-md px-4 py-2 text-[--text-clr] transition-colors hover:bg-[--primary-clr] hover:text-white"
                                 >
@@ -277,7 +285,7 @@
                     </div>
                 </div>
             </div>
-            <div class="filtering relative mt-4 flex flex-col rounded-lg p-2">
+            <div class="filtering relative mt-4 flex flex-col rounded-lg px-4">
                 <!-- Bagian Selection Filter -->
                 <form
                     id="filterForm"
@@ -285,7 +293,7 @@
                     action="{{ route("items.index") }}"
                 >
                     <div
-                        class="selection-filter relative grid max-h-[200px] flex-1 grid-cols-2 gap-4 overflow-y-auto pr-2"
+                        class="selection-filter relative grid max-h-[200px] flex-1 grid-cols-2 gap-4 overflow-y-auto pb-[3rem] pr-2"
                     >
                         @foreach ($categories as $category)
                             <div
@@ -310,18 +318,19 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="clear bottom-0 mt-auto p-4">
-                        <button
-                            class="w-full rounded-lg bg-[--primary-clr] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-[--primary-hover-clr]"
-                            type="button"
-                            onclick="clearFilters()"
-                        >
-                            Clear
-                        </button>
-                    </div>
                 </form>
-
-                <!-- Bagian Clear Button -->
+            </div>
+            <!-- Bagian Clear Button -->
+            <div
+                class="clear absolute bottom-0 z-10 mt-auto flex w-full justify-center overflow-hidden bg-[--container-clr] p-4"
+            >
+                <button
+                    class="w-full rounded-lg bg-[--primary-clr] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-[--primary-hover-clr]"
+                    type="button"
+                    onclick="clearFilters()"
+                >
+                    Clear
+                </button>
             </div>
         </section>
         <!-- Container utama untuk scroll -->
@@ -357,6 +366,9 @@
             async function applyFilters() {
                 try {
                     const formData = new FormData(filterForm);
+                    console.log('Selected Categories:', [
+                        ...formData.getAll('categories[]'),
+                    ]); // Debugging
                     const params = new URLSearchParams(formData).toString();
 
                     // Tampilkan loading state
@@ -415,10 +427,24 @@
             document.getElementById(modalId).classList.remove('hidden');
             document.getElementById('tambah-toggle').checked = false; // Close dropdown
             document.getElementById(modalId).classList.add('z-10');
+
+            const modal = document.getElementById(modalId);
+            const containerModal = modal.querySelector('.container-modal');
+            setTimeout(() => {
+                containerModal.classList.add('active');
+            }, 50);
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
+            const modal = document.getElementById(modalId);
+            const containerModal = modal.querySelector('.container-modal');
+            // Nonaktifkan animasi
+            containerModal.classList.remove('active');
+
+            // Sembunyikan modal setelah animasi selesai
+            setTimeout(() => {
+                document.getElementById(modalId).classList.add('hidden');
+            }, 300); // Sesuaikan dengan durasi animasi
         }
 
         // Close modal when clicking outside
@@ -460,63 +486,67 @@
         );
         const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 
-    // Tambahkan event listener ke setiap toggle
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('change', function() {
-            if (this.checked) {
-                // Tutup semua dropdown lainnya
-                dropdownToggles.forEach(otherToggle => {
-                    if (otherToggle !== this) {
-                        otherToggle.checked = false;
-                    }
+        // Tambahkan event listener ke setiap toggle
+        dropdownToggles.forEach((toggle) => {
+            toggle.addEventListener('change', function () {
+                if (this.checked) {
+                    // Tutup semua dropdown lainnya
+                    dropdownToggles.forEach((otherToggle) => {
+                        if (otherToggle !== this) {
+                            otherToggle.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        // Tambahkan event listener untuk menutup dropdown saat klik di luar
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.relative')) {
+                dropdownToggles.forEach((toggle) => {
+                    toggle.checked = false;
                 });
             }
         });
-    });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fungsi untuk menampilkan SweetAlert
+            function confirmExport(event, format) {
+                event.preventDefault(); // Mencegah navigasi langsung
 
-    // Tambahkan event listener untuk menutup dropdown saat klik di luar
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.relative')) {
-            dropdownToggles.forEach(toggle => {
-                toggle.checked = false;
-            });
-        }
-    });
-    document.addEventListener('DOMContentLoaded', function () {
-        // Fungsi untuk menampilkan SweetAlert
-        function confirmExport(event, format) {
-            event.preventDefault(); // Mencegah navigasi langsung
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: `Anda akan mencetak file dalam format ${format.toUpperCase()}.`,
+                    icon: 'question',
+                    iconColor: 'rgba(67, 94, 190, 1)',
+                    color: 'rgba(194, 194, 217, 1)',
+                    background: 'rgba(30, 30, 45, 1)',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, cetak!',
+                    cancelButtonText: 'Batal',
+                    cancelButtonColor: 'rgba(238, 62, 100, 1)',
+                    confirmButtonColor: 'rgba(67, 94, 190, 1)',
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Lanjutkan ke URL jika dikonfirmasi
+                        window.location.href = event.target.closest('a').href;
+                    }
+                });
+            }
 
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: `Anda akan mencetak file dalam format ${format.toUpperCase()}.`,
-                icon: 'question',
-                iconColor:'rgba(67, 94, 190, 1)',
-                color: 'rgba(194, 194, 217, 1)',
-                background: 'rgba(30, 30, 45, 1)',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, cetak!',
-                cancelButtonText: 'Batal',
-                cancelButtonColor: 'rgba(238, 62, 100, 1)',
-                confirmButtonColor: 'rgba(67, 94, 190, 1)',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Lanjutkan ke URL jika dikonfirmasi
-                    window.location.href = event.target.closest('a').href;
-                }
-            });
-        }
+            // Tambahkan event listener untuk PDF
+            document
+                .getElementById('export-pdf')
+                .addEventListener('click', function (event) {
+                    confirmExport(event, 'pdf');
+                });
 
-        // Tambahkan event listener untuk PDF
-        document.getElementById('export-pdf').addEventListener('click', function (event) {
-            confirmExport(event, 'pdf');
+            // Tambahkan event listener untuk Excel
+            document
+                .getElementById('export-excel')
+                .addEventListener('click', function (event) {
+                    confirmExport(event, 'excel');
+                });
         });
-
-        // Tambahkan event listener untuk Excel
-        document.getElementById('export-excel').addEventListener('click', function (event) {
-            confirmExport(event, 'excel');
-        });
-    });
     </script>
 @endpush

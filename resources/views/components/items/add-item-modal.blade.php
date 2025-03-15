@@ -3,7 +3,7 @@
     id="tambah-barang-modal"
     class="modal-enter-add fixed inset-0 hidden bg-black/50"
 >
-    <div class="flex min-h-screen items-center justify-center">
+    <div class="container-modal flex min-h-screen items-center justify-center">
         <div class="min-w-[650px] max-w-md rounded-lg bg-[--container-clr] p-6">
             <div class="flex justify-between border-b pb-3">
                 <h3 class="text-lg font-semibold">Tambah Barang</h3>
@@ -35,7 +35,7 @@
                         name="item_name"
                         id="item_name"
                         required
-                        class="mt-1 block w-full rounded-md border border-[--text-clr] px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan nama barang"
                     />
                 </div>
@@ -52,7 +52,7 @@
                         name="category_id"
                         id="category_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-[--text-clr] px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>
                             Pilih kategori
@@ -77,7 +77,7 @@
                         name="location_id"
                         id="location_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-[--text-clr] px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>Pilih lokasi</option>
                         @foreach ($locations as $location)
@@ -101,7 +101,7 @@
                         name="stock"
                         id="stock"
                         required
-                        class="mt-1 block w-full rounded-md border border-[--text-clr] px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan jumlah stok"
                     />
                 </div>
@@ -119,7 +119,7 @@
                         id="description"
                         required
                         rows="3"
-                        class="mt-1 block w-full rounded-md border border-[--text-clr] px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan deskripsi barang"
                     ></textarea>
                 </div>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,10 +14,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -25,44 +24,73 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard')->with('success', 'Login berhasil!');
+            return redirect()->route('admin.dashboard')->with('success', 'Login berhasil!');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->with('error', 'Invalid credentials');
     }
 
-    // Show register form
 
-    public function showRegisterForm()
-    {
-        return view('auth.login');
-    }
+
+
 
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name'=>'required',
-            'email'=>'required|email',
-            'password'=>'required|min:6'
-
-        ]);
-
         try{
-            $user = User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>Hash::make($request->password)
-            ]);
-        }catch (\Exception $e){
-            return back()->withErrors([
-                'email'=>'Gagal membuat akun. Silakan coba lagi'
-            ])->with('error', 'Oops! Gagal membuat Akun');
-        }
-         
+            $isGuest = $request->has('is_guest');
 
-        Auth::login($user);
-        return redirect('/dashboard')->with('success', 'Login berhasil!');; 
+            $userData = $request->validate([
+                'name' => 'required|max:255',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6'
+            ]);
+
+            if(!$isGuest) {
+                $request->validate([
+                    'nisn',
+                    'student_name' => 'required|max:255',
+                    'gender'=>'required|in:F,M',
+                    'class_id' => 'required|exists:classes,class_id',
+                    'phone_number'=>'required',
+                    'address'=>'required'
+                ]);
+            }
+
+            $user = User::create([
+                'name' => $userData['name'],
+                'email'=>$userData['email'],
+                'password' => Hash::make($userData['password']),
+                'role' => $isGuest ? 'guest' : 'student'
+            ]);
+
+            if(!$isGuest){
+                Student::create([
+                    'nisn' => $request->nisn,
+                    'name'=>$request->student_name,
+                    'gender'=>$request->gender,
+                    'class_id'=>$request->class_id,
+                    'phone_number' => $request->phone_number,
+                    'address'=>$request->address,
+                    'user_id'=>$user->user_id
+                ]);
+            }
+
+            Auth::login($user);
+            return redirect()->route('admin.dashboard')->with('success', 'Registrasi berhasil!');
+        }catch(\Illuminate\Validation\ValidationException $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $e->errors() // Kirimkan semua error validasi
+            ], 422);
+        } catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan server: '.$e->getMessage()
+            ], 500);
+        }
+        
     }
 
     public function redirectToProvider($provider)
@@ -96,11 +124,12 @@ class AuthController extends Controller
             }
 
         Auth::login($user);
-        return redirect('/dashboard')->with('success', 'Login berhasil!');;
+        return redirect()->route('admin.dashboard')->with('success', 'Login berhasil!');;
     }
 
     public function showForgotPasswordForm(){
-        return view('auth.forgot-password');
+        $classes = DB::table('vclasses')->get();
+        return view('auth.forgot-password', compact('classes'));
     }
 
     public function sendResetLink(Request $request)

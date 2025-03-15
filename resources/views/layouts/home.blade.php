@@ -61,41 +61,37 @@
                 <h3 class="font-nunito text-[1.4rem] font-bold uppercase">
                     Inventory Barang
                 </h3>
-               <!-- Tombol Berdasarkan Status Login -->
-            @if (!auth()->check())
-            <!-- Jika Pengguna Belum Login -->
-            <div class="group-auth grid grid-cols-2 gap-2">
-                <div x-data="{ activeTab: 'login' }">
-                    <button
-                        onclick="showAuthModal('login')"
-                        class="w-[80px] rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
-                    >
-                        Login
-                    </button>
+                <!-- Tombol Berdasarkan Status Login -->
+                @if (! auth()->check())
+                    <!-- Jika Pengguna Belum Login -->
+                    <div class="group-auth grid grid-cols-2 gap-2">
+                        <button
+                            onclick="showAuthModal('login')"
+                            class="w-[80px] rounded-md border border-[--primary-clr] p-2 font-semibold text-[--primary-clr] transition-colors hover:border-[--border-2-clr] hover:bg-[--primary-clr] hover:text-[--text-clr]"
+                        >
+                            Login
+                        </button>
+
+                        <button
+                            class="w-[80px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                            onclick="showAuthModal('register')"
+                        >
+                            Register
+                        </button>
+                    </div>
                     @include("components/auth-modal")
-                </div>
-                <div x-data="{ activeTab: 'register' }">
-                    <button
-                        class="w-[80px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
-                        onclick="showAuthModal('register')"
-                    >
-                        Register
-                    </button>
-                    @include("components/auth-modal")
-                </div>
-            </div>
-            @else
-            <!-- Jika Pengguna Sudah Login -->
-            <div>
-                <a
-                    href="{{ route('admin.dashboard') }}"
-                    class="w-[150px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
-                >
-                    Dashboard
-                </a>
-            </div>
-            @endif
-        </header>
+                @else
+                    <!-- Jika Pengguna Sudah Login -->
+                    <div>
+                        <a
+                            href="{{ route("admin.dashboard") }}"
+                            class="w-[150px] rounded-md border border-[--primary-hover-clr] bg-[--primary-clr] p-2 font-semibold text-[--text-clr] transition-colors hover:border-[--border-2-clr]"
+                        >
+                            Dashboard
+                        </a>
+                    </div>
+                @endif
+            </header>
             <!--========== MAIN CONTENT START ==========-->
             <main
                 id="main"
@@ -135,47 +131,54 @@
             </footer>
         </div>
 
-        <script src="//unpkg.com/alpinejs" defer></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.14.8/cdn.js"
+            defer
+        ></script>
+        <script>
+            window.route = (name) => {
+                const routes = {
+                    register: '{{ route("register.submit") }}',
+                    dashboard: '{{ route("admin.dashboard") }}',
+                };
+                return routes[name] || '';
+            };
+        </script>
         <script src="{{ asset("js/auth-modal.js") }}"></script>
+        <script src="{{ asset("js/alertHandler.js") }}"></script>
+        <script src="{{ asset("js/registrationHandler.js") }}"></script>
+
         @stack("scripts")
-        @if (session("success"))
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: '{{ session("success") }}',
-                        confirmButtonColor: 'rgba(40, 156, 46, 1)',
-                        iconColor: 'rgba(40, 156, 46, 1)',
-                        color: 'rgba(194, 194, 217, 1)',
-                        background: 'rgba(30, 30, 45, 1)',
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                @if(session("success"))
+                    SwalHelper.showSuccess({
+                        text: "{{ session('success') }}"
                     });
-                });
-            </script>
-        @endif
+                @endif
 
-        @if (session("error"))
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            confirmButtonColor: 'rgba(40, 156, 46, 1)',
-                                            iconColor: 'rgba(238, 62, 100, 1)',
-                                            color: 'rgba(194, 194, 217, 1)',
-                                            background: 'rgba(30, 30, 45, 1)',
-                                            title: 'Oops...',
-                                            html: `@foreach($errors->all() as $error)
-                                                    <p>{{ $error }}</p>
-                                                  @endforeach`
+                @if(session("error"))
+                SwalHelper.showError({
+                    text: "{{ session('error') }}",
+                })
+                @endif
 
-                                        });
-                                    });
+                @if ($errors->any())
+                    let errorMessage = "";
+                    @foreach($errors->all() as  $error)
+                     errorMessage += "<p>{{ $error }}</p>"
+                    @endforeach
+
+                    SwalHelper.showError({
+                        html: errorMessage,
+                    });
 
                     history.pushState(null, document.title, location.href);
-                    window.addEventListener('popstate', function(event) {
-                    history.pushState(null, document.title, location.href);
+                    window.addEventListener("popstate", function () {
+                        history.pushState(null, document.title, location.href);
                     });
-            </script>
-        @endif
+                @endif
+            });
+        </script>
     </body>
 </html>

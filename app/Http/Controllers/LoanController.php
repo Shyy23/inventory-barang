@@ -66,7 +66,7 @@ class LoanController extends Controller
                     'nisn' => $validated['nisn'],
                     'return_time' => $validated['return_time'],
                     'loan_type' => $validated['loan_type'],
-                    'loan_status' => 'delayed' // Sesuaikan dengan status awal yang diperlukan
+                    'loan_status' => 'pending' // Sesuaikan dengan status awal yang diperlukan
                 ]);
 
                 // Step 2: Simpan ke loan_details
@@ -98,14 +98,14 @@ class LoanController extends Controller
         }
     }
 
-    public function delayedLoan()
+    public function pendingLoan()
     {
-        $loans = DB::table('vloan_delayed')->get()->map(function ($loan) {
+        $loans = DB::table('vloan_pending')->get()->map(function ($loan) {
             $loan->loan_date = Carbon::parse($loan->loan_date);
             $loan->return_time = Carbon::parse($loan->return_time);
             return $loan;
         });
-        return view('loans.delayed-loan', compact('loans'));
+        return view('loans.pending-loan', compact('loans'));
     }
 
     public function approve(Loan $loan)

@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('activity_logs', function (Blueprint $table) {
-            $table->increments('activity_log_id');
+        Schema::create('user_activity_logs', function (Blueprint $table) {
+            $table->bigIncrements('activity_log_id');
             $table->unsignedInteger('user_id');
-            $table->string('action', 255);
+            $table->string('action', 100);
             $table->enum('level', ['info', 'warning', 'error'])->default('info');
-            $table->text('description')->nullable();
-            $table->string('ip')->nullable();
+            $table->string('table_name', 50)->nullable();
+            $table->unsignedInteger('record_id')->nullable();
+            $table->json('old_data')->nullable();
+            $table->json('new_data')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_activity_logs');
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activity_logs');
+        Schema::dropIfExists('user_activity_logs');
     }
 };

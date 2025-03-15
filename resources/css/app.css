@@ -177,7 +177,8 @@
     visibility: hidden;
 }
 
-.selection-filter::-webkit-scrollbar {
+.selection-filter::-webkit-scrollbar,
+.top-section::-webkit-scrollbar {
     width: 3px;
     background: transparent;
     border-radius: 999px;
@@ -185,15 +186,18 @@
 }
 
 .card-items-scroll::-webkit-scrollbar-thumb,
-.selection-filter::-webkit-scrollbar-thumb {
+.selection-filter::-webkit-scrollbar-thumb,
+.top-section::-webkit-scrollbar-thumb {
     background: var(--border-2-clr);
     border-radius: 999px;
     visibility: hidden;
     transition: opacity 0.3s ease;
+    cursor: pointer;
 }
 
 .card-items-scroll:hover::-webkit-scrollbar-thumb,
-.selection-filter:hover::-webkit-scrollbar-thumb {
+.selection-filter:hover::-webkit-scrollbar-thumb,
+.top-section:hover::-webkit-scrollbar-thumb {
     opacity: 1;
     visibility: visible;
 }
@@ -350,20 +354,11 @@ abbr {
     transition: all 0.3s ease-in-out;
 }
 
-/* Styling saat modal aktif */
-.container-modal.opacity-100,
-#loanModalContainer.opacity-100 {
-    opacity: 1;
-}
-
-.container-modal.scale-100,
-#loanModalContainer.scale-100 {
-    transform: scale(1);
-}
-
-.container-modal.translate-y-0,
-#loanModalContainer.translate-y-0 {
+.container-modal.active,
+#loanModalContainer.active {
     transform: translateY(0);
+    transform: scale(1);
+    opacity: 1;
 }
 /* Animasi fade-in dasar */
 @keyframes modalFade {

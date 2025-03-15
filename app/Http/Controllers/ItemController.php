@@ -30,7 +30,7 @@ class ItemController extends Controller
             ->when($search, function ($query) use ($search) {
                 return $query->where('item_name', 'like', "%{$search}%");
             })->when($selectedCategories, function ($query) use ($selectedCategories) {
-                return $query->whereIn('category_name', $selectedCategories);
+                return $query->whereIn(DB::raw('TRIM(category_name)'), $selectedCategories);
             })->paginate(18);
 
 

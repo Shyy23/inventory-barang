@@ -311,7 +311,7 @@
                 </div>
 
                 <!-- Stat Category End -->
-                <!-- Delayed Info Start -->
+                <!-- Pending Info Start -->
                 <div
                     class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"
                 >
@@ -358,7 +358,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Delayed Info End -->
+                <!-- Pending Info End -->
                 <!-- Data Stock Item Darurat Start -->
                 <div
                     class="rounded-xl bg-[--container-clr] p-6 text-[--text-clr] shadow-lg"

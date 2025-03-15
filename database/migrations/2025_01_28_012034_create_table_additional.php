@@ -27,7 +27,7 @@ return new class extends Migration {
         Schema::create('classes', function (Blueprint $table) {
             $table->increments('class_id');
             $table->enum('level', ['10', '11', '12']);
-            $table->enum('major', ['RPL'])->default('RPL');
+            $table->enum('major', ['RPL', 'ORACLE', 'GAMELAB'])->default('RPL');
             $table->unsignedInteger('abc_id');
             $table->unsignedInteger('location_id');
             $table->foreign('abc_id')->references('abc_id')->on('abcs')->onDelete('cascade')->onUpdate('cascade')->index('idx_abc_class');

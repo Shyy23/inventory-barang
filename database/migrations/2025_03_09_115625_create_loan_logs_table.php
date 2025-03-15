@@ -15,10 +15,12 @@ return new class extends Migration
             $table->increments('loan_log_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('loan_id');
-            $table->string('action', 255);
+            $table->string('action', 100);
             $table->enum('level',  ['info', 'warning', 'error'])->default('info');
             $table->json('details')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade')->index('idx_user_loan_logs');
         });
     }
 

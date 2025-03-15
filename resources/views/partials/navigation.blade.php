@@ -2,8 +2,8 @@
     id="sidebar"
     class="fixed top-0 z-[100] box-border h-screen w-[250px] self-start overflow-hidden text-nowrap border-r border-solid border-line bg-[--container-clr] p-[5px_1em] transition-all duration-[300ms] ease-in-out"
 >
-    <ul>
-        <li>
+    <ul class="top-section max-h-[400px] overflow-x-hidden overflow-y-scroll">
+        <li class="sticky top-0 bg-[--container-clr]">
             <span class="logo font-audioWide">Inventory</span>
             <button
                 id="close-btn"
@@ -31,7 +31,7 @@
             </button>
         </li>
         <li>
-            <a href="{{ route('home') }}">
+            <a href="{{ route("home") }}">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="24px"
@@ -199,12 +199,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('loans.delayed-loans') }}"} class="pl-[2em_!important]">
+                        <a
+                            href="{{ route("loans.pending-loans") }}"
+                            }
+                            class="pl-[2em_!important]"
+                        >
                             Peminjaman Tertunda
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('loans.monitoring') }}" class="pl-[2em_!important]">
+                        <a
+                            href="{{ route("loans.monitoring") }}"
+                            class="pl-[2em_!important]"
+                        >
                             Detail Peminjaman
                         </a>
                     </li>
@@ -219,7 +226,7 @@
     </ul>
     <!-- Bottom section -->
     <ul
-        class="absolute bottom-0 box-border flex w-[220px] flex-col self-end overflow-hidden"
+        class="bottom-section absolute bottom-0 box-border flex w-[220px] flex-col self-end overflow-hidden"
     >
         <li></li>
         <li class="order-1">

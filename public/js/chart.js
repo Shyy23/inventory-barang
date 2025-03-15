@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         new Chart(ctx2, {
-            type: "pie",
+            type: "doughnut",
             data: {
                 labels: labelsKategori,
                 datasets: [

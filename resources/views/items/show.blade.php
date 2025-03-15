@@ -351,11 +351,7 @@
             const container = document.getElementById('loanModalContainer');
             modal.classList.remove('hidden');
             setTimeout(() => {
-                container.classList.add(
-                    'opacity-100',
-                    'scale-100',
-                    'translate-y-0',
-                );
+                container.classList.add('active');
             }, 50);
         }
 
@@ -364,11 +360,7 @@
             const modal = document.getElementById('loanModal');
             const container = document.getElementById('loanModalContainer');
 
-            container.classList.remove(
-                'opacity-100',
-                'scale-100',
-                'translate-y-0',
-            );
+            container.classList.remove('active');
             setTimeout(() => {
                 modal.classList.add('hidden');
                 // Reset form ke step 1

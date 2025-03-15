@@ -20,7 +20,7 @@ class PagesController extends Controller
         // Menghitung jumlah Data dari Tabel
         $jumlahSiswa = Student::count();
         $jumlahBarang = Item::count();
-        $jumlahPinjamanTertunda = Loan::where('loan_status', 'delayed')->count();
+        $jumlahPinjamanTertunda = Loan::where('loan_status', 'pending')->count();
         $jumlahBarangDipinjam = Loan::where('loan_status', 'borrowed')->count();
 
         // Mengambil barang yang baru saja diperbarui (berdasarkan updated_at)
@@ -32,7 +32,7 @@ class PagesController extends Controller
             ->first();
 
         // Mengambil 5 barang dengan stok paling sedikit
-        $barangStokMauHabis = Item::orderBy('stock', 'asc')
+        $barangStokMauHabis = DB::table('vitems')->orderBy('stock', 'asc')
             ->take(5)
             ->get();
 
@@ -41,8 +41,8 @@ class PagesController extends Controller
             ->take(5)
             ->get();
 
-        // Mengambil 5 pinjaman tertunda terbaru dari view `vloan_delayed`
-        $pinjamanTertunda = DB::table('vloan_delayed')
+        // Mengambil 5 pinjaman tertunda terbaru dari view `vloan_pending`
+        $pinjamanTertunda = DB::table('vloan_pending')
             ->orderBy('loan_date', 'desc')
             ->take(5)
             ->get();
@@ -87,6 +87,7 @@ class PagesController extends Controller
     }
 
     public function home(){
-      return view('home');  
+    $classes = DB::table('vclasses')->get();
+      return view('home', compact('classes'));  
     }
 }

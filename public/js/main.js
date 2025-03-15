@@ -94,9 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
             classes: ["fa-triangle-exclamation", "red"],
             tooltip: "Rusak",
         },
-        delayed: {
+        pending: {
             classes: ["fa-circle-exclamation", "yellow"],
             tooltip: "Tertunda",
+        },
+        rejected: {
+            classes: ["fa-circle-xmark", "red"],
+            tooltip: "Ditolak",
         },
     };
 
@@ -115,7 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const stock = parseInt(item.getAttribute("data-stock"));
         const icon = item.querySelector(".icon-stock");
 
-        if (stock < 5) {
+        if (stock === 0) {
+            icon.classList.add("fa-triangle-exclamation", "red");
+            icon.setAttribute("title", "Stok Habis");
+        } else if (stock < 5) {
             icon.classList.add("fa-triangle-exclamation", "red");
             icon.setAttribute("title", "Stok Hampir Habis");
         } else if (stock < 10) {
