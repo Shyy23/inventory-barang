@@ -170,24 +170,15 @@
     }
 }
 /* =================== SCROLLBAR =================== */
-.card-items-scroll::-webkit-scrollbar {
-    height: 6px;
-    background: transparent;
-    border-radius: 999px;
-    visibility: hidden;
-}
 
-.selection-filter::-webkit-scrollbar,
-.top-section::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
     width: 3px;
     background: transparent;
     border-radius: 999px;
     visibility: hidden;
 }
 
-.card-items-scroll::-webkit-scrollbar-thumb,
-.selection-filter::-webkit-scrollbar-thumb,
-.top-section::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
     background: var(--border-2-clr);
     border-radius: 999px;
     visibility: hidden;
@@ -195,27 +186,19 @@
     cursor: pointer;
 }
 
-.card-items-scroll:hover::-webkit-scrollbar-thumb,
-.selection-filter:hover::-webkit-scrollbar-thumb,
-.top-section:hover::-webkit-scrollbar-thumb {
+.scrollbar:hover::-webkit-scrollbar-thumb {
     opacity: 1;
     visibility: visible;
+}
+.card-items-scroll::-webkit-scrollbar {
+    height: 6px;
+    background: transparent;
+    border-radius: 999px;
+    visibility: hidden;
 }
 
 #loanModalContainer::-webkit-scrollbar {
-    width: 3px;
     margin-block: 2px;
-    background-color: transparent;
-}
-#loanModalContainer::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 999px;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-}
-#loanModalContainer:hover::-webkit-scrollbar-thumb {
-    opacity: 1;
-    visibility: visible;
 }
 
 textarea,
@@ -223,6 +206,7 @@ select,
 input {
     field-sizing: content;
 }
+
 /* =================== STATUS ICONS =================== */
 .status__icon i,
 i {
@@ -299,6 +283,57 @@ abbr {
     opacity: 0.5;
     pointer-events: none;
 }
+/* =================== TOOLTIP =================== */
+[data-tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    font-family: "Nunito", sans-serif;
+    transform: translateX(-50%);
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(100% + 5px);
+}
+
+/* Untuk tooltip di samping */
+[data-tooltip-position="right"]::after {
+    left: 100%;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    margin-left: 5px;
+}
+
+[data-tooltip-position="right"]:hover::after {
+    left: calc(100% + 5px);
+    bottom: auto;
+}
+/* =================== SHADOW =================== */
+.shadow-card {
+    box-shadow:
+        4px 4px 4px rgba(0, 0, 0, 0.5),
+        -2px -2px 4px rgba(0, 0, 0, 0.5);
+}
 /* =================== FOOTER =================== */
 #footer {
     box-shadow: 0 -8px 12px rgba(0, 0, 0, 0.1);
@@ -341,6 +376,21 @@ abbr {
         -1px -1px 1px transparent inset;
 }
 
+.input-form {
+    min-height: 42px;
+    box-shadow:
+        4px 4px 4px var(--shadow-input-clr) inset,
+        -3px -3px 3px var(--shadow-input-clr) inset;
+    border-radius: 0.25rem;
+    background: var(--body-clr);
+    color: var(--text-clr);
+    outline: none;
+}
+.shadow-in {
+    box-shadow:
+        4px 4px 4px var(--shadow-input-clr) inset,
+        -3px -3px 3px var(--shadow-input-clr) inset;
+}
 /* Class utama untuk modal */
 .modal-show {
     animation: modalFade 0.3s ease-in-out;
@@ -360,6 +410,7 @@ abbr {
     transform: scale(1);
     opacity: 1;
 }
+
 /* Animasi fade-in dasar */
 @keyframes modalFade {
     0% {

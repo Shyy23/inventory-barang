@@ -92,49 +92,47 @@
         </div>
         <!-- Main Js -->
         <script
-            src="{{ asset("js/main.js") }}"
+            src="{{ asset("js/Main.js") }}"
             type="text/javascript"
             defer
         ></script>
-
+        <script src="{{ asset("js/Handler/AlertHandler.js") }}"></script>
         @stack("scripts")
-        @if (session("success") || session("info") || session("danger"))
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        icon: '{{ session("success") ? "success" : (session("info") ? "info" : "error") }}',
-                        title: '{{ session("success") ? "Success!" : (session("info") ? "Updated!" : "Deleted!") }}',
-                        text: '{{ session("success") ?? (session("info") ?? session("danger")) }}',
-                        confirmButtonColor:
-                            '{{ session("success") ? "rgba(40, 156, 46, 1)" : (session("info") ? "rgba(54, 162, 235, 1)" : "rgba(255, 77, 77, 1)") }}',
-                        iconColor:
-                            '{{ session("success") ? "rgba(40, 156, 46, 1)" : (session("info") ? "rgba(54, 162, 235, 1)" : "rgba(255, 77, 77, 1)") }}',
-                        color: 'rgba(194, 194, 217, 1)',
-                        background: 'rgba(30, 30, 45, 1)',
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                    @if(session('success'))
+                    SwalHelper.showSuccess({
+                        title: "Success!",
+                        text: "{{ session('success') }}",
                     });
-                });
-            </script>
-        @endif
+                    @endif
 
-        @if ($errors->any())
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            iconColor: 'rgba(238, 62, 100, 1)',
-                                            color: 'rgba(194, 194, 217, 1)',
-                                            background: 'rgba(30, 30, 45, 1)',
-                                            title: 'Oops...',
-                                            html: `@foreach($errors->all() as $error)
-                                                    <p>{{ $error }}</p>
-                                                  @endforeach`
-                                        });
-                                    });
-                    history.pushState(null, document.title, location.href);
-                    window.addEventListener('popstate', function(event) {
-                    history.pushState(null, document.title, location.href);
+                    @if(session('info'))
+                    SwalHelper.showInfo({
+                        title: 'Updated!',
+                        text: '{{ session('info') }}',
                     });
-            </script>
-        @endif
+                    @endif
+                    @if(session('warning'))
+                    SwalHelper.showWarning({
+                        title: 'Deleted!',
+                        text: '{{ session('warning') }}',
+                    })
+                    @endif
+                    @if($errors->any())
+                    SwalHelper.showError({
+                        title: 'Oops...',
+                        html: `@foreach ( $errors->all() as $error )
+                        <p>{{ $error }}</p>           
+                        @endforeach`,
+                    });
+                    @endif
+                    // Blok kode untuk mencegah kembali setelah submit error
+            history.pushState(null, document.title, location.href);
+            window.addEventListener('popstate', function(event) {
+                history.pushState(null, document.title, location.href);
+                });
+            });
+        </script>
     </body>
 </html>

@@ -1,5 +1,5 @@
 <div
-    class="modal-enter fixed inset-0 hidden bg-black/50"
+    class="modal-enter fixed inset-0 hidden"
     id="authModal"
     x-data="{ activeTab: 'login' }"
     x-cloak
@@ -122,7 +122,8 @@
             <div class="flex flex-col" x-show="activeTab === 'register'">
                 <!-- Register Form -->
                 <div
-                    class="step-1 register-content w-full translate-y-0 transform opacity-100 transition-all duration-300 ease-out"
+                id="step-1-reg"
+                    class=" register-content w-full translate-y-0 transform opacity-100 transition-all duration-300 ease-out"
                 >
                     <form
                         action="{{ route("register.submit") }}"
@@ -209,7 +210,8 @@
 
                 <!-- Step 2: Student Form -->
                 <div
-                    class="step-2 StudentForm hidden w-full translate-y-4 transform opacity-0 transition-all duration-300 ease-out"
+                id="step-2-reg"
+                    class=" StudentForm hidden w-full translate-y-4 transform opacity-0 transition-all duration-300 ease-out"
                 >
                     <button
                         type="button"

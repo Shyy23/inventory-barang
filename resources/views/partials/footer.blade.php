@@ -1,20 +1,24 @@
 <footer
     id="footer"
-    class="footer mt-auto bg-[--container-clr] px-[5rem] text-[--text-clr]"
+    class="footer mt-auto bg-[--container-clr] px-4 text-[--text-clr] sm:px-8 md:px-[5rem]"
 >
+    <!-- Top Section -->
     <div
-        id="footer-top "
-        class="grid grid-cols-12 gap-4 border-b-2 border-[--border-2-clr] py-6"
+        id="footer-top"
+        class="grid grid-cols-1 gap-6 border-b-2 border-[--border-2-clr] py-6 md:grid-cols-12"
     >
-        <div id="footer-top-left " class="col-span-3 p-4">
+        <!-- Left Column -->
+        <div class="col-span-1 p-4 md:col-span-3">
             <div class="title mb-3">
                 <h3
-                    class="font-audioWide text-[1.25rem] font-bold text-[--primary-clr]"
+                    class="font-audioWide text-lg font-bold text-[--primary-clr] md:text-xl"
                 >
                     Inventory Barang
                 </h3>
             </div>
-            <div class="desc text-justify text-[.5rem] font-medium leading-4">
+            <div
+                class="desc text-justify text-xs font-medium leading-5 sm:text-sm md:text-xs"
+            >
                 <p>
                     Kami menyediakan layanan
                     <span class="text-[--primary-clr]">
@@ -33,29 +37,32 @@
                     dengan tujuan mempermudah pengelolaan aset secara efisien
                     dan transparan.
                 </p>
-                <p>
+                <p class="mt-2">
                     Melalui sistem yang kami kembangkan, kami berharap dapat
                     mendukung kelancaran operasional serta meningkatkan
                     akuntabilitas dalam penggunaan barang.
                 </p>
             </div>
         </div>
+
+        <!-- Right Columns -->
         <div
-            id="footer-top-right"
-            class="col-span-8 grid grid-cols-1 gap-4 p-4 md:grid-cols-12"
+            class="col-span-1 grid grid-cols-1 gap-8 p-4 sm:grid-cols-2 md:col-span-8 md:grid-cols-12 lg:gap-12"
         >
-            <!-- INFORMASI -->
-            <div class="info__inventory col-span-12 md:col-span-4">
+            <!-- Informasi -->
+            <div class="col-span-1 md:col-span-4">
                 <div class="title mb-3">
-                    <h3 class="text-[1rem] font-bold text-[--primary-clr]">
+                    <h3
+                        class="text text-[1rem] font-bold text-[--primary-clr] md:text-lg"
+                    >
                         INFORMASI
                     </h3>
                 </div>
-                <ul class="space-y-1">
+                <ul class="space-y-2">
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Periksa Barang
                         </a>
@@ -63,7 +70,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Status Stock Barang
                         </a>
@@ -71,7 +78,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Kategori Barang
                         </a>
@@ -79,7 +86,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Kondisi Barang
                         </a>
@@ -87,7 +94,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Riwayat Peminjaman
                         </a>
@@ -95,18 +102,20 @@
                 </ul>
             </div>
 
-            <!-- TOOLS -->
-            <div class="info__tool col-span-12 md:col-span-4">
+            <!-- Tools -->
+            <div class="col-span-1 md:col-span-4">
                 <div class="title mb-3">
-                    <h3 class="text-[1rem] font-bold text-[--primary-clr]">
+                    <h3
+                        class="text text-[1rem] font-bold text-[--primary-clr] md:text-lg"
+                    >
                         TOOLS
                     </h3>
                 </div>
-                <ul class="space-y-1">
+                <ul class="space-y-2">
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Tambah Stock
                         </a>
@@ -114,7 +123,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Update Status
                         </a>
@@ -122,7 +131,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Generate Laporan
                         </a>
@@ -130,7 +139,7 @@
                     <li>
                         <a
                             href="#"
-                            class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                            class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                         >
                             Manajemen User
                         </a>
@@ -138,18 +147,21 @@
                 </ul>
             </div>
 
-            <!-- PERUSAHAAN & BANTUAN -->
-            <div class="info__lainnya col-span-12 space-y-6 md:col-span-4">
-                <!-- PERUSAHAAN -->
+            <!-- Perusahaan & Bantuan -->
+            <div class="col-span-1 space-y-6 md:col-span-4">
                 <div class="company">
                     <div class="title mb-3">
-                        <h3 class="text-[1rem] font-bold text-[--primary-clr]">
+                        <h3
+                            class="text-[1rem] font-bold text-[--primary-clr] md:text-lg"
+                        >
                             SMKN 4 PADALARANG
                         </h3>
                     </div>
-                    <div class="text-[.5rem] leading-4 text-[--text-2-clr]">
+                    <div
+                        class="text-xs leading-5 text-[--text-2-clr] sm:text-sm"
+                    >
                         <p>Jl. Raya Padalarang No.451.</p>
-                        <p>
+                        <p class="mt-1">
                             Kertajaya, Kec. Padalarang, Kabupaten Bandung Barat
                         </p>
                         <p>Jawa Barat 40553</p>
@@ -162,18 +174,19 @@
                     </div>
                 </div>
 
-                <!-- BANTUAN -->
                 <div class="help">
                     <div class="title mb-3">
-                        <h3 class="text-[1rem] font-bold text-[--primary-clr]">
+                        <h3
+                            class="text-[1rem] font-bold text-[--primary-clr] md:text-lg"
+                        >
                             BANTUAN
                         </h3>
                     </div>
-                    <ul class="leading-4">
+                    <ul class="space-y-2 leading-5">
                         <li>
                             <a
                                 href="#"
-                                class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                                class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                             >
                                 Laporkan Bug
                             </a>
@@ -181,7 +194,7 @@
                         <li>
                             <a
                                 href="#"
-                                class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                                class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                             >
                                 Panduan Penggunaan
                             </a>
@@ -189,15 +202,15 @@
                         <li>
                             <a
                                 href="#"
-                                class="block text-[.5rem] font-medium text-[--text-2-clr] transition hover:text-[--primary-clr]"
+                                class="block text-xs text-[--text-2-clr] transition hover:text-[--primary-clr] sm:text-sm"
                             >
                                 FAQ
                             </a>
                         </li>
-                        <li>
-                            <div class="mt-2 text-[.5rem] text-[--text-2-clr]">
+                        <li class="mt-2">
+                            <div class="text-xs text-[--text-2-clr] sm:text-sm">
                                 <p>Layanan Service:</p>
-                                <p class="font-semibold">
+                                <p class="mt-1 font-semibold">
                                     inventory@smkn4pdl.sch.id
                                 </p>
                                 <p>(022) 6865XXX</p>
@@ -208,22 +221,31 @@
             </div>
         </div>
     </div>
-    <div id="footer-bottom" class="grid grid-cols-12 py-6">
-        <div id="copyright-group" class="col-span-8 grid grid-cols-[auto_1fr]">
-            <h3 class="font-audioWide text-[1.25rem] font-bold">Shyy</h3>
-            <p class="self-end pl-4 text-xs font-medium">
+
+    <!-- Bottom Section -->
+    <div
+        id="footer-bottom"
+        class="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between"
+    >
+        <div
+            id="copyright-group"
+            class="flex flex-col gap-2 sm:flex-row sm:items-center"
+        >
+            <h3 class="font-audioWide text-lg font-bold md:text-xl">Shyy</h3>
+            <p class="text-balance text-xs font-medium sm:text-sm md:pl-4">
                 Copyright © 2025 Syahrul Hidayatulloh. All Right Reserved
             </p>
         </div>
-        <div id="social-brands" class="col-span-4 flex gap-4 justify-self-end">
-            <a href="#" class="flex items-center justify-center">
-                <i class="fa-brands fa-whatsapp text-[1rem]"></i>
+
+        <div id="social-brands" class="flex gap-4 sm:self-end">
+            <a href="#" class="transition hover:text-[--primary-clr]">
+                <i class="fa-brands fa-whatsapp text-sm sm:text-[1rem]"></i>
             </a>
-            <a href="#" class="flex items-center justify-center">
-                <i class="fa-brands fa-instagram text-[1rem]"></i>
+            <a href="#" class="transition hover:text-[--primary-clr]">
+                <i class="fa-brands fa-instagram text-sm sm:text-[1rem]"></i>
             </a>
-            <a href="#" class="flex items-center justify-center">
-                <i class="fa-brands fa-github text-[1rem]"></i>
+            <a href="#" class="transition hover:text-[--primary-clr]">
+                <i class="fa-brands fa-github text-sm sm:text-[1rem]"></i>
             </a>
         </div>
     </div>

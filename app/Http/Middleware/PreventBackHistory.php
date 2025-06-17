@@ -10,9 +10,17 @@ class PreventBackHistory
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        return $response->header('Cache-Control', 'no-cache, no-store, must-revalidate')
-                        ->header('Pragma', 'no-cache')
-                        ->header('Expires', '0');
+
+        // Periksa apakah respons adalah instance dari BinaryFileResponse
+        if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+            return $response; 
+        }
+
+        return $response->withHeaders([
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]);
     }
 }
 

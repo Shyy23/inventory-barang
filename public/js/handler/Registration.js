@@ -7,6 +7,10 @@ class Registration {
         this.inputEmail = document.getElementById("emailRegister");
         this.inputPassword = document.getElementById("passwordRegister");
         this.backButton = document.getElementById("backButton");
+        this.step1 = document.getElementById("step-1-reg");
+        this.step2 = document.getElementById("step-2-reg");
+        this.studentName = document.getElementById("student_name");
+
         this.initializeEventListeners();
     }
 
@@ -33,12 +37,10 @@ class Registration {
         this.inputPassword.disabled = false;
 
         // Animate step transition
-        document
-            .querySelector(".step-2")
-            .classList.add("translate-y-4", "opacity-0");
+        this.step2.classList.add("translate-y-4", "opacity-0");
         setTimeout(() => {
-            document.querySelector(".step-1").classList.remove("hidden");
-            document.querySelector(".step-2").classList.add("hidden");
+            this.step1.classList.remove("hidden", "translate-y-4", "opacity-0");
+            this.step2.classList.add("hidden");
         }, 300);
     }
     handleRegister() {
@@ -56,17 +58,11 @@ class Registration {
         this.inputPassword.disabled = true;
 
         // Show step 2
-        document
-            .querySelector(".step-1")
-            .classList.add("translate-y-4", "opacity-0");
+        this.step1.classList.add("translate-y-4", "opacity-0");
         setTimeout(() => {
-            document.querySelector(".step-1").classList.add("hidden");
-            document.querySelector(".step-2").classList.remove("hidden");
-            document.getElementById("student_name").value =
-                this.inputName.value;
-            document
-                .querySelector(".step-2")
-                .classList.remove("translate-y-4", "opacity-0");
+            this.step2.classList.remove("hidden", "translate-y-4", "opacity-0");
+            this.step1.classList.add("hidden");
+            this.studentName.value = this.inputName.value;
         }, 300);
     }
 
@@ -84,7 +80,7 @@ class Registration {
 
     showStudentModal(name) {
         this.studentModal?.classList.replace("hidden", "block");
-        document.getElementById("student_name").value = name;
+        this.studentName.value = name;
     }
 
     handleGuest() {

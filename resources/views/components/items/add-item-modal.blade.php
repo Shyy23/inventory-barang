@@ -1,16 +1,15 @@
 <!-- Modal Tambah Barang -->
-<div
-    id="tambah-barang-modal"
-    class="modal-enter-add fixed inset-0 hidden bg-black/50"
->
-    <div class="container-modal flex min-h-screen items-center justify-center">
+<div id="addItemModal" class="modal-enter-add fixed inset-0 hidden bg-black/50">
+    <div
+        id="addItemContainerModal"
+        class="container-modal flex min-h-screen items-center justify-center"
+    >
         <div class="min-w-[650px] max-w-md rounded-lg bg-[--container-clr] p-6">
-            <div class="flex justify-between border-b pb-3">
+            <div
+                class="flex justify-between border-b border-[--border-clr] pb-3"
+            >
                 <h3 class="text-lg font-semibold">Tambah Barang</h3>
-                <button
-                    onclick="closeModal('tambah-barang-modal')"
-                    class="hover:text-[--primary-clr]"
-                >
+                <button id="closeItemModal" class="hover:text-[--red-2-clr]">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -19,7 +18,8 @@
                 action="{{ route("items.store") }}"
                 method="POST"
                 enctype="multipart/form-data"
-                class="mt-4 grid max-h-[80vh] grid-cols-2 gap-4 overflow-y-auto px-4"
+                id="addItemForm"
+                class="scrollbar mt-4 grid max-h-[80vh] grid-cols-2 gap-4 overflow-y-auto px-4"
             >
                 @csrf
 
@@ -52,7 +52,7 @@
                         name="category_id"
                         id="category_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>
                             Pilih kategori
@@ -77,7 +77,7 @@
                         name="location_id"
                         id="location_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>Pilih lokasi</option>
                         @foreach ($locations as $location)
@@ -88,8 +88,30 @@
                     </select>
                 </div>
 
-                <!-- Stok -->
+                <!-- Item Type -->
                 <div class="col-span-1">
+                    <label
+                        for="item_type"
+                        class="block text-sm font-medium text-[--text-clr]"
+                    >
+                        Item Type
+                    </label>
+                    <select
+                        name="item_type"
+                        id="item_type"
+                        required
+                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                    >
+                        <option value="" disabled selected>
+                            Pilih Tipe Item
+                        </option>
+                        <option value="unit">Unit</option>
+                        <option value="consumable">Consumable</option>
+                    </select>
+                </div>
+
+                <!-- Stok -->
+                <div id="itemAddStockContainer" class="col-span-1 hidden">
                     <label
                         for="stock"
                         class="block text-sm font-medium text-[--text-clr]"
@@ -127,41 +149,48 @@
                 <!-- Gambar -->
                 <div class="col-span-1">
                     <label
-                        for="image"
+                        for="itemAddImageInput"
                         class="block text-sm font-medium text-[--text-clr]"
                     >
                         Gambar Barang
                     </label>
-                    <input
-                        type="file"
-                        name="image"
-                        id="image"
-                        accept="image/*"
-                        class="mt-1 block w-full text-[.875rem] text-[--text-clr] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[--primary-clr] file:px-4 file:py-2 file:font-semibold file:text-[--text-clr] hover:file:bg-[--primary-hover-clr] focus:border-[--primary-clr] focus:ring-[--primary-clr]"
-                    />
-                    <!-- Preview Gambar -->
-                    <div class="mt-2">
-                        <img
-                            id="image-preview"
-                            src="#"
-                            alt="Preview Gambar"
-                            class="hidden max-h-[100px] max-w-[100px]"
+
+                    <!-- Container Preview dengan ID baru -->
+                    <div
+                        class="relative mt-1 h-[100px] w-[100px] overflow-hidden rounded"
+                    >
+                        <!-- Input File -->
+                        <input
+                            type="file"
+                            name="image"
+                            id="itemAddImageInput"
+                            accept="image/*"
+                            class="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                         />
+                        <!-- Preview Gambar -->
+                        <img
+                            id="itemAddImagePreview"
+                            src="https://placehold.co/100"
+                            alt="Preview Gambar"
+                            class="h-full w-full cursor-pointer object-contain opacity-75 transition-opacity hover:opacity-100"
+                        />
+
+                        <!-- Overlay Icon -->
+                        <div
+                            class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/30"
+                        >
+                            <i
+                                class="fas fa-arrow-up-from-bracket text-3xl text-white"
+                            ></i>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Tombol Aksi -->
-                <div class="col-span-2 flex justify-end space-x-4 pt-4">
-                    <button
-                        type="button"
-                        onclick="closeModal('tambah-barang-modal')"
-                        class="inline-flex items-center rounded-md border border-[--red-2-clr] bg-transparent px-4 py-2 text-sm font-semibold text-[--text-clr] shadow-sm hover:bg-[--red-2-clr] focus:outline-none focus:ring-2 focus:ring-[--red-2-clr] focus:ring-offset-2"
-                    >
-                        Batal
-                    </button>
+                <div class="col-span-2 flex justify-center pt-4">
                     <button
                         type="submit"
-                        class="inline-flex items-center rounded-md border-2 border-[--primary-clr] bg-transparent px-4 py-2 text-sm font-semibold text-[--text-clr] hover:border-[--primary-hover-clr] hover:bg-[--primary-clr] focus:outline-none focus:ring-2 focus:ring-[--primary-hover-clr] focus:ring-offset-2"
+                        class="inline-flex items-center rounded-md border-2 border-[--primary-clr] bg-transparent px-6 py-2 text-sm font-semibold text-[--text-clr] hover:border-[--primary-hover-clr] hover:bg-[--primary-clr] focus:outline-none focus:ring-2 focus:ring-[--primary-hover-clr] focus:ring-offset-2"
                     >
                         Simpan
                     </button>

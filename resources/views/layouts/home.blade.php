@@ -100,31 +100,50 @@
                 @yield("content")
             </main>
             <footer class="bg-[--container-clr] px-[5rem]">
-                <div id="footer-bottom" class="grid grid-cols-12 py-6">
+                <!-- Bottom Section -->
+                <div
+                    id="footer-bottom"
+                    class="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between"
+                >
                     <div
                         id="copyright-group"
-                        class="col-span-8 grid grid-cols-[auto_1fr]"
+                        class="flex flex-col gap-2 sm:flex-row sm:items-center"
                     >
-                        <h3 class="font-audioWide text-[1.25rem] font-bold">
+                        <h3 class="font-audioWide text-lg font-bold md:text-xl">
                             Shyy
                         </h3>
-                        <p class="self-end pl-4 text-xs font-medium">
+                        <p
+                            class="text-balance text-xs font-medium sm:text-sm md:pl-4"
+                        >
                             Copyright © 2025 Syahrul Hidayatulloh. All Right
                             Reserved
                         </p>
                     </div>
-                    <div
-                        id="social-brands"
-                        class="col-span-4 flex gap-4 justify-self-end"
-                    >
-                        <a href="#" class="flex items-center justify-center">
-                            <i class="fa-brands fa-whatsapp text-[1rem]"></i>
+
+                    <div id="social-brands" class="flex gap-4 sm:self-end">
+                        <a
+                            href="#"
+                            class="transition hover:text-[--primary-clr]"
+                        >
+                            <i
+                                class="fa-brands fa-whatsapp text-sm sm:text-[1rem]"
+                            ></i>
                         </a>
-                        <a href="#" class="flex items-center justify-center">
-                            <i class="fa-brands fa-instagram text-[1rem]"></i>
+                        <a
+                            href="#"
+                            class="transition hover:text-[--primary-clr]"
+                        >
+                            <i
+                                class="fa-brands fa-instagram text-sm sm:text-[1rem]"
+                            ></i>
                         </a>
-                        <a href="#" class="flex items-center justify-center">
-                            <i class="fa-brands fa-github text-[1rem]"></i>
+                        <a
+                            href="#"
+                            class="transition hover:text-[--primary-clr]"
+                        >
+                            <i
+                                class="fa-brands fa-github text-sm sm:text-[1rem]"
+                            ></i>
                         </a>
                     </div>
                 </div>
@@ -144,10 +163,9 @@
                 return routes[name] || '';
             };
         </script>
-        <script src="{{ asset("js/auth-modal.js") }}"></script>
-        <script src="{{ asset("js/alertHandler.js") }}"></script>
-        <script src="{{ asset("js/registrationHandler.js") }}"></script>
-
+        <script src="{{ asset("js/function/auth-modal.js") }}"></script>
+        <script src="{{ asset("js/handler/AlertHandler.js") }}"></script>
+        <script src="{{ asset("js/handler/Registration.js") }}"></script>
         @stack("scripts")
         <script>
             document.addEventListener("DOMContentLoaded", function () {

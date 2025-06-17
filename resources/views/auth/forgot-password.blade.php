@@ -265,10 +265,8 @@
             defer
             src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.14.8/cdn.min.js"
         ></script>
-
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-        <script src="{{ asset("js/alertHandler.js") }}"></script>
-        <script src="{{ asset("js/password-reset.js") }}"></script>
+        <script src="{{ asset("js/class/alertHandler.js") }}"></script>
+        <script src="{{ asset("js/utility/password-reset.js") }}"></script>
     </body>
 </html>

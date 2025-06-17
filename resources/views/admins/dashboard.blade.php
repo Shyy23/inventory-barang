@@ -210,7 +210,10 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="grid gap-4 p-4 text-[--text-clr]">
+                                <tbody
+                                    id="aktivitasTerbaru"
+                                    class="grid gap-4 p-4 text-[--text-clr]"
+                                >
                                     @foreach ($aktivitasTerbaru as $aktivitas)
                                         <tr
                                             class="grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] p-2"
@@ -229,11 +232,12 @@
                                                     class="status__icon d-inline-block group relative cursor-pointer"
                                                     data-status="{{ $aktivitas->loan_status }}"
                                                 >
-                                                    <i class="fas"></i>
-                                                    <span
-                                                        class="status__tooltip pl-1"
-                                                    >
-                                                        Dipinjam
+                                                    <i
+                                                        class="fas"
+                                                        data-tooltip=""
+                                                    ></i>
+                                                    <span class="pl-1">
+                                                        {{ $aktivitas->loan_status }}
                                                     </span>
                                                 </div>
                                             </td>
@@ -371,12 +375,11 @@
                             </h4>
                         </div>
                         <!-- card body -->
-                        <div class="grid gap-4">
+                        <div class="stock-info-item grid gap-4">
                             @foreach ($barangStokMauHabis as $barang)
                                 <!-- card content start-->
                                 <div
-                                    class="item-stock grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
-                                    data-stock="{{ $barang->stock }}"
+                                    class="grid grid-cols-4 border-b border-[rgba(255,255,255,.2)] pb-2"
                                 >
                                     <h3
                                         class="col-span-2 text-sm font-semibold"
@@ -388,11 +391,16 @@
                                     >
                                         {{ $barang->stock }}
                                     </p>
-                                    <p
-                                        class="col-span-1 text-center text-sm font-semibold text-[rgba(255,255,255,.2)]"
+                                    <!-- Untuk Stok Barang -->
+                                    <div
+                                        class="item-stock"
+                                        data-stock="{{ $barang->stock }}"
                                     >
-                                        <i class="fas icon-stock"></i>
-                                    </p>
+                                        <i
+                                            class="fas icon-stock"
+                                            data-tooltip=""
+                                        ></i>
+                                    </div>
                                 </div>
                                 <!-- card content end-->
                             @endforeach
@@ -461,31 +469,10 @@
             </div>
         </section>
     </div>
-    @if (session("success"))
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: '{{ session("success") }}',
-                    confirmButtonColor: 'rgba(40, 156, 46, 1)',
-                    iconColor: 'rgba(40, 156, 46, 1)',
-                    color: 'rgba(194, 194, 217, 1)',
-                    background: 'rgba(30, 30, 45, 1)',
-                });
-            });
-        </script>
-    @endif
 
-    <script>
-        // Memastikan halaman tidak dapat diakses melalui tombol "Back"
-        window.onpageshow = function (event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="{{ asset("js/chart.js") }}"></script>
+    @push("scripts")
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        <script src="{{ asset("js/utility/Chart.js") }}"></script>
+    @endpush
 @endsection

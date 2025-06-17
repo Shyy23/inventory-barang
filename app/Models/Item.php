@@ -8,11 +8,16 @@ class Item extends Model
 {
     protected $table = 'items';
     protected $primaryKey = 'item_id';
-    protected $fillable = ['item_name', 'category_id', 'slug_item','location_id', 'stock', 'description', 'image', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['item_name', 'category_id', 'slug_item', 'location_id', 'item_type', 'stock', 'description', 'image', 'status', 'created_at', 'updated_at'];
     public $timestamps = true;
 
     public function item_loan()
     {
         return $this->hasMany(LoanDetail::class, 'item_id', 'item_id');
     }
+    public function units()
+    {
+        return $this->hasMany(ItemUnit::class, 'item_id');
+    }
+    
 }

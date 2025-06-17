@@ -23,21 +23,32 @@ class ItemsExport implements FromCollection, WithHeadings, WithStyles, ShouldAut
 
     public function collection()
     {
-        return DB::table('vitems')
-            ->when($this->filters['search'] ?? null, function ($query, $search) {
-                $query->where('item_name', 'like', "%{$search}%");
+        $filters = $this->filters; // Biasanya diatur di constructor atau method lain
+
+        $query = DB::table('vitems')
+            ->when(!empty($filters['search']), function ($query) use ($filters) {
+                $query->where('item_name', 'like', "%{$filters['search']}%");
             })
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'ID' => $item->item_id,
-                    'Nama Barang' => $item->item_name,
-                    'Kategori' => $item->category_name,
-                    'Deskripsi' => $item->description,
-                    'Lokasi' => $item->location_name,
-                    'Stok' => $item->stock,
-                ];
+            ->when(!empty($filters['categories']), function ($query) use ($filters) {
+                // Konversi ke array dan filter nilai kosong
+                $categories = array_filter((array) $filters['categories']);
+                if (!empty($categories)) {
+                    $query->whereIn('category_name', $categories); // Sesuaikan kolom
+                }
             });
+    
+            
+        // Eksekusi query dan mapping ke format Excel
+        return $query->get()->map(function ($item) {
+            return [
+                'ID' => $item->item_id,
+                'Nama Barang' => $item->item_name,
+                'Kategori' => $item->category_name,
+                'Deskripsi' => $item->description,
+                'Lokasi' => $item->location_name,
+                'Stok' => $item->stock,
+            ];
+        });
     }
 
     public function headings(): array

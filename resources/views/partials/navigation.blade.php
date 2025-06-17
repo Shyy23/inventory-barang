@@ -2,7 +2,10 @@
     id="sidebar"
     class="fixed top-0 z-[100] box-border h-screen w-[250px] self-start overflow-hidden text-nowrap border-r border-solid border-line bg-[--container-clr] p-[5px_1em] transition-all duration-[300ms] ease-in-out"
 >
-    <ul class="top-section max-h-[400px] overflow-x-hidden overflow-y-scroll">
+    <ul
+        id="topSectionNav"
+        class="scrollbar max-h-[400px] overflow-x-hidden overflow-y-scroll"
+    >
         <li class="sticky top-0 bg-[--container-clr]">
             <span class="logo font-audioWide">Inventory</span>
             <button
@@ -67,7 +70,6 @@
         </li>
         <li>
             <button
-                onclick="toggleSubMenu(this)"
                 class="dropdown__btn w-full cursor-pointer border-none bg-none text-left"
             >
                 <svg
@@ -100,17 +102,20 @@
                 class="sub__menu grid grid-rows-[0fr] transition-all duration-[300ms] ease-in-out"
             >
                 <div class="overflow-hidden">
-                    <li><a href="#" class="pl-[2em_!important]">Siswa</a></li>
-                    <li><a href="#" class="pl-[2em_!important]">Guru</a></li>
                     <li>
-                        <a href="#" class="pl-[2em_!important]">Detail Guru</a>
+                        <a
+                            href="{{ route("classes.index") }}"
+                            class="pl-[2em_!important]"
+                        >
+                            Class
+                        </a>
                     </li>
+                    <li><a href="#" class="pl-[2em_!important]">Guru</a></li>
                 </div>
             </ul>
         </li>
         <li>
             <button
-                onclick="toggleSubMenu(this)"
                 class="dropdown__btn w-full cursor-pointer border-none bg-none text-left"
             >
                 <svg
@@ -152,15 +157,26 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="pl-[2em_!important]">Kategori</a>
+                        <a
+                            href="{{ route("categories.index") }}"
+                            class="pl-[2em_!important]"
+                        >
+                            Kategori
+                        </a>
                     </li>
-                    <li><a href="#" class="pl-[2em_!important]">Lokasi</a></li>
+                    <li>
+                        <a
+                            href="{{ route("locations.index") }}"
+                            class="pl-[2em_!important]"
+                        >
+                            Lokasi
+                        </a>
+                    </li>
                 </div>
             </ul>
         </li>
         <li>
             <button
-                onclick="toggleSubMenu(this)"
                 class="dropdown__btn w-full cursor-pointer border-none bg-none text-left"
             >
                 <svg
@@ -247,7 +263,12 @@
             </a>
         </li>
         <li class="">
-            <form action="{{ route("logout") }}" method="POST" class="w-full">
+            <form
+                id="formLogout"
+                action="{{ route("logout") }}"
+                method="POST"
+                class="w-full"
+            >
                 @csrf
                 <button
                     id="logout"

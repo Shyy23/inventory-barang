@@ -8,7 +8,7 @@ class ItemUnit extends Model
 {
     protected $table = 'item_units';
     protected $primaryKey = 'unit_id';
-    protected $fillable = ['item_id', 'unit_name', 'unit_image'];
-    public $timestamps = false;
+    protected $fillable = ['item_id', 'unit_name', 'unit_status', 'unit_image'];
+    public $timestamps = true;
 
 }

@@ -1,160 +1,234 @@
-// Ambil elemen DOM yang diperlukan
+class Sidebar {
+    constructor(toggleBtnId, sidebarId, overlayId, menuBtnId, closeBtnId) {
+        // Ambil elemen DOM yang diperlukan
+        this.toggleButton = document.getElementById(toggleBtnId);
+        this.sidebar = document.getElementById(sidebarId);
+        this.overlay = document.getElementById(overlayId);
+        this.menuBtn = document.getElementById(menuBtnId);
+        this.closeBtn = document.getElementById(closeBtnId);
+        this.dropdownButtons = this.sidebar.querySelectorAll(".dropdown__btn");
 
-const toggleButton = document.getElementById("toggle-btn");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-btn");
-
-// Fungsi untuk toggle sidebar (menutup/membuka sidebar)
-const toggleSidebar = () => {
-    sidebar.classList.toggle("close");
-    toggleButton.classList.toggle("rotate");
-    closeAllSubMenus();
-};
-
-// Fungsi untuk toggle submenu
-const toggleSubMenu = (button) => {
-    const submenu = button.nextElementSibling;
-    if (!submenu.classList.contains("show")) {
-        closeAllSubMenus();
+        // Binding event listeners
+        this.init();
     }
-    submenu.classList.toggle("show");
-    button.classList.toggle("rotate");
 
-    // Jika sidebar dalam kondisi tertutup, buka sidebar terlebih dahulu
-    if (sidebar.classList.contains("close")) {
-        sidebar.classList.toggle("close");
-        toggleButton.classList.toggle("rotate");
+    // Inisialisasi event listeners
+    init() {
+        this.toggleButton.addEventListener("click", () => this.toggleSidebar());
+        this.menuBtn.addEventListener("click", () => this.showSidebar());
+        this.closeBtn.addEventListener("click", () => this.hideSidebar());
+        this.overlay.addEventListener("click", () => this.hideSidebar());
+        document.addEventListener("keydown", (event) =>
+            this.handleKeydown(event),
+        );
+        this.dropdownButtons.forEach((button) => {
+            button.addEventListener("click", (e) =>
+                this.toggleSubMenu(e.currentTarget),
+            );
+        });
+        window.addEventListener("resize", () => this.handleResize());
     }
-};
 
-// Fungsi untuk menutup semua submenu yang sedang terbuka
-const closeAllSubMenus = () => {
-    const openSubmenus = sidebar.getElementsByClassName("show");
-    Array.from(openSubmenus).forEach((submenu) => {
-        submenu.classList.remove("show");
-        if (submenu.previousElementSibling) {
-            submenu.previousElementSibling.classList.remove("rotate");
+    // Fungsi untuk toggle sidebar (menutup/membuka sidebar)
+    toggleSidebar() {
+        this.sidebar.classList.toggle("close");
+        this.toggleButton.classList.toggle("rotate");
+        this.closeAllSubMenus();
+    }
+
+    // Fungsi untuk toggle submenu
+    toggleSubMenu(button) {
+        const submenu = button.nextElementSibling;
+        const isOpening = !submenu.classList.contains("show");
+
+        this.closeAllSubMenus();
+
+        if (isOpening) {
+            submenu.classList.add("show");
+            button.classList.add("rotate");
+
+            // Jika sidebar dalam mode tertutup (desktop), buka sidebar
+            if (this.sidebar.classList.contains("close")) {
+                this.toggleSidebar();
+            }
         }
-    });
-};
-
-// Fungsi untuk menampilkan sidebar (digunakan pada tampilan mobile)
-const showSidebar = () => {
-    sidebar.classList.add("active");
-    overlay.classList.add("active");
-};
-// Fungsi untuk menyembunyikan sidebar
-// Fungsi untuk menampilkan/menyembunyikan sidebar
-const toggleActive = (isActive) => {
-    sidebar.classList.toggle("active", isActive);
-    overlay.classList.toggle("active", isActive);
-};
-
-menuBtn.addEventListener("click", () => toggleActive(true));
-closeBtn.addEventListener("click", () => toggleActive(false));
-overlay.addEventListener("click", () => toggleActive(false));
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && sidebar.classList.contains("active")) {
-        toggleActive(false);
     }
-});
 
-// Handle resize dengan debounce
-let resizeTimeout;
-const handleResize = () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        if (window.innerWidth <= 1620) {
-            sidebar.classList.remove("active", "close");
-            overlay.classList.remove("active");
-        } else {
-            overlay.classList.remove("active");
+    // Fungsi untuk menutup semua submenu yang sedang terbuka
+    closeAllSubMenus() {
+        this.dropdownButtons.forEach((button) => {
+            button.classList.remove("rotate");
+            button.nextElementSibling.classList.remove("show");
+        });
+    }
+
+    // Fungsi untuk menampilkan sidebar (digunakan pada tampilan mobile)
+    showSidebar() {
+        this.sidebar.classList.add("active");
+        this.overlay.classList.add("active");
+    }
+
+    // Fungsi untuk menyembunyikan sidebar
+    hideSidebar() {
+        this.sidebar.classList.remove("active");
+        this.overlay.classList.remove("active");
+    }
+
+    // Handle keydown (Escape key)
+    handleKeydown(event) {
+        if (
+            event.key === "Escape" &&
+            this.sidebar.classList.contains("active")
+        ) {
+            this.hideSidebar();
         }
-    }, 100);
-};
-window.addEventListener("resize", handleResize);
+    }
 
-window.addEventListener("resize", handleResize);
+    // Handle resize dengan debounce
+    handleResize() {
+        let resizeTimeout;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (window.innerWidth <= 1620) {
+                this.sidebar.classList.remove("active", "close");
+                this.overlay.classList.remove("active");
+            } else {
+                this.overlay.classList.remove("active");
+            }
+        }, 100);
+    }
+}
 
-// Atur ikon status setelah DOM selesai dimuat
-document.addEventListener("DOMContentLoaded", () => {
-    const items = document.querySelectorAll(".item-stock");
-    const statusIcons = document.querySelectorAll(".status__icon");
-
-    const statusConfig = {
-        borrowed: { classes: ["fa-clock", "purple"], tooltip: "Dipinjam" },
-        returned: {
-            classes: ["fa-check-circle", "green"],
-            tooltip: "Dikembalikan",
+class DynamicIconHandler {
+    static config = {
+        status: {
+            selector: ".status__icon",
+            dataAttr: "data-status",
+            iconMap: {
+                borrowed: {
+                    classes: ["fa-clock", "purple"],
+                    tooltip: "Dipinjam",
+                },
+                returned: {
+                    classes: ["fa-check-circle", "green"],
+                    tooltip: "Dikembalikan",
+                },
+                damaged: {
+                    classes: ["fa-triangle-exclamation", "red"],
+                    tooltip: "Rusak",
+                },
+                pending: {
+                    classes: ["fa-circle-exclamation", "yellow"],
+                    tooltip: "Tertunda",
+                },
+                rejected: {
+                    classes: ["fa-circle-xmark", "red"],
+                    tooltip: "Ditolak",
+                },
+            },
         },
-        damaged: {
-            classes: ["fa-triangle-exclamation", "red"],
-            tooltip: "Rusak",
-        },
-        pending: {
-            classes: ["fa-circle-exclamation", "yellow"],
-            tooltip: "Tertunda",
-        },
-        rejected: {
-            classes: ["fa-circle-xmark", "red"],
-            tooltip: "Ditolak",
+        stock: {
+            selector: ".item-stock",
+            dataAttr: "data-stock",
+            iconMap: {
+                0: { class: "fa-circle-xmark red", tooltip: "Stok Habis" },
+                5: {
+                    class: "fa-triangle-exclamation red",
+                    tooltip: "Stok Hampir Habis",
+                },
+                10: {
+                    class: "fa-circle-exclamation yellow",
+                    tooltip: "Stok Menipis",
+                },
+                default: {
+                    class: "fa-check-circle green",
+                    tooltip: "Stok Aman",
+                },
+            },
         },
     };
 
-    statusIcons.forEach((icon) => {
-        const status = icon.getAttribute("data-status");
-        const iconElement = icon.querySelector("i");
-        const tooltipElement = icon.querySelector(".status__tooltip");
+    constructor(containerSelector) {
+        this.container = document.querySelector(containerSelector);
+        if (!this.container) return;
 
-        if (statusConfig[status]) {
-            iconElement.classList.add(...statusConfig[status].classes);
-            tooltipElement.textContent = statusConfig[status].tooltip;
-        }
-    });
+        this.init();
+        this.setupObserver();
+    }
 
-    items.forEach((item) => {
-        const stock = parseInt(item.getAttribute("data-stock"));
-        const icon = item.querySelector(".icon-stock");
+    init() {
+        this.updateIcons("status");
+        this.updateIcons("stock");
+    }
 
-        if (stock === 0) {
-            icon.classList.add("fa-triangle-exclamation", "red");
-            icon.setAttribute("title", "Stok Habis");
-        } else if (stock < 5) {
-            icon.classList.add("fa-triangle-exclamation", "red");
-            icon.setAttribute("title", "Stok Hampir Habis");
-        } else if (stock < 10) {
-            icon.classList.add("fa-circle-exclamation", "yellow");
-            icon.setAttribute("title", "Stok Menipis");
-        } else {
-            icon.classList.add("fa-check-circle", "green");
-            icon.setAttribute("title", "Stok Aman");
-        }
-    });
+    updateIcons(type) {
+        const { selector, dataAttr, iconMap } = DynamicIconHandler.config[type];
 
-    document
-        .getElementById("logout")
-        .addEventListener("click", function (event) {
-            event.preventDefault(); // Mencegah form terkirim langsung
+        this.container.querySelectorAll(selector).forEach((element) => {
+            const rawValue = element.getAttribute(dataAttr); // Ambil nilai mentah
 
-            Swal.fire({
-                title: "Apakah Anda yakin ingin logout?",
-                text: "Anda akan keluar dari sesi ini.",
-                icon: "warning",
-                iconColor: "rgba(238, 62, 100, 1)",
-                color: "rgba(194, 194, 217, 1)",
-                background: "rgba(30, 30, 45, 1)",
-                showCancelButton: true,
-                confirmButtonColor: "rgba(40, 156, 46, 1)",
-                cancelButtonColor: "rgba(238, 62, 100, 1)",
-                confirmButtonText: "Ya, Logout!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.querySelector("form.w-full").submit(); // Kirim form logout
+            let value = NaN;
+            if (type === "stock") {
+                value = parseInt(rawValue, 10);
+                if (isNaN(value)) {
+                    console.warn(`Invalid stock value for element:`, element);
+                    value = 0; // Fallback ke 0 jika invalid
                 }
-            });
+            } else {
+                value = rawValue;
+            }
+
+            const icon = element.querySelector("i");
+            const tooltip = element.querySelector("[data-tooltip]");
+
+            this.applyIconConfig(type, value, icon, tooltip);
         });
+    }
+    applyIconConfig(type, value, icon, tooltip) {
+        const config = this.getConfig(type, value);
+
+        // Update icon class
+        icon.className = `fas ${type === "status" ? config.classes.join(" ") : config.class}`;
+
+        // Update tooltip attribute
+        if (tooltip) {
+            tooltip.setAttribute("data-tooltip", config.tooltip);
+        }
+    }
+    getConfig(type, value) {
+        if (type === "stock") {
+            if (value === 0) return DynamicIconHandler.config.stock.iconMap[0]; // Stok Habis
+            if (value <= 5) return DynamicIconHandler.config.stock.iconMap[5]; // Stok Hampir Habis
+            if (value <= 10) return DynamicIconHandler.config.stock.iconMap[10]; // Stok Menipis
+            if (value >= 11)
+                return DynamicIconHandler.config.stock.iconMap.default; // Stok Aman
+            // Jika nilai antara 10 dan 20, gunakan konfigurasi default (atau tambahkan logika khusus)
+            return DynamicIconHandler.config.stock.iconMap.default;
+        }
+        return DynamicIconHandler.config.status.iconMap[value] || {};
+    }
+
+    setupObserver() {
+        const observer = new MutationObserver(() => this.init());
+        observer.observe(this.container, {
+            childList: true,
+            subtree: true,
+        });
+    }
+}
+
+// Atur ikon status setelah DOM selesai dimuat
+document.addEventListener("DOMContentLoaded", () => {
+    new DynamicIconHandler(".card-items-scroll");
+    new DynamicIconHandler(".stock-info-item"); // Untuk stok barang
+    new DynamicIconHandler("#aktivitasTerbaru");
+    new Sidebar("toggle-btn", "sidebar", "overlay", "menu-btn", "close-btn");
+
+    SwalHelper.handleConfirmation(
+        "logout",
+        "formLogout",
+        "Apakah Anda yakin ingin logout?",
+        "Anda akan keluar dari sesi ini.",
+        "Ya, logout!",
+    );
 });

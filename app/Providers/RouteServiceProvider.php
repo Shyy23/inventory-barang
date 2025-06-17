@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        RateLimiter::for('login', function (Request $request) {
+        RateLimiter::for('login.submit', function (Request $request) {
             return Limit::perMinute(5)->by($request->email);
         });
     }

@@ -14,8 +14,9 @@ class SwalHelper {
             confirmButtonColor: "rgba(54,162,235,1)",
         },
         warning: {
-            iconColor: "rgba(255,77,77,1)",
+            iconColor: "rgba(238, 62, 100, 1)",
             confirmButtonColor: "rgba(40,156,46,1)",
+            cancelButtonColor: 'rgba(238, 62, 100, 1)',
         },
         error: {
             iconColor: "rgba(238,62,100,1)",
@@ -62,4 +63,23 @@ class SwalHelper {
             ...config,
         });
     }
+    
+    static handleConfirmation(buttonId,formId,title,text,confirmText = 'Ya, lanjutkan'){
+        document.getElementById(buttonId).addEventListener('click', (event) => {
+            event.preventDefault();
+
+            SwalHelper.showWarning({
+                title: title,
+                text: text,
+                confirmButtonText: confirmText,
+            }).then((result) => {
+                if(result.isConfirmed){
+                    document.getElementById(formId).submit();
+                }
+            })
+        })
+    }
 }
+
+
+

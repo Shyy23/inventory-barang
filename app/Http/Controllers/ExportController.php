@@ -19,12 +19,19 @@ class ExportController extends Controller
     public function exportPdf(Request $request)
     {
         $filters = $request->all();
-        
+        // dd($filters);
         $items = DB::table('vitems')
-            ->when($filters['search'] ?? null, function ($query, $search) {
-                $query->where('item_name', 'like',"%{$search}%");
-            })
-            ->get();
+        ->when(!empty($filters['search']), function ($query) use ($filters) {
+            $query->where('item_name', 'like', "%{$filters['search']}%");
+        })
+        ->when(!empty($filters['categories']), function ($query) use ($filters) {
+            // Pastikan categories adalah array dan filter nilai kosong
+            $categories = array_filter((array) $filters['categories']);
+            if (!empty($categories)) {
+                $query->whereIn('category_name', $categories); // Sesuaikan dengan kolom di database
+            }
+        })
+        ->get();
 
         $pdf = Pdf::loadView('exports.items-pdf', compact('items'));
         return $pdf->download('items.pdf');

@@ -2,46 +2,57 @@
     id="loanModal"
     class="fixed inset-0 z-50 hidden overflow-y-auto transition-all duration-300"
 >
-    <div class="flex min-h-screen items-center justify-center p-4 text-center">
+    <div
+        class="grid min-h-screen grid-cols-1 place-items-center p-4 text-center"
+    >
         <!-- Overlay -->
         <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
 
         <!-- Modal Container -->
         <div
             id="loanModalContainer"
-            class="inline-block max-h-[90vh] w-full max-w-2xl transform overflow-hidden overflow-y-auto rounded-lg bg-[--body-clr] text-left align-middle text-[--text-clr] shadow-xl transition-all"
+            class="scrollbar inline-block max-h-[90vh] w-full max-w-4xl transform overflow-hidden rounded-lg bg-[--container-clr] text-left align-middle text-[--text-clr] shadow-xl transition-all"
         >
             <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 pb-0">
+            <div
+                class="mx-12 mt-6 flex items-center justify-between border-b border-[--border-clr] pb-4"
+            >
                 <h3 class="text-xl font-bold">Form Peminjaman</h3>
-                <button
-                    onclick="closeLoanModal()"
-                    class="hover:text-[--primary-clr]"
-                >
-                    <i class="fas fa-times"></i>
+                <button id="closeLoanModal" class="hover:text-[--red-2-clr]">
+                    <i class="fas fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="p-6">
+            <div
+                class="{{ $item->item_type == "unit" ? "grid grid-cols-2 gap-4" : "" }} overflow-hidden p-6"
+            >
                 <form
+                    id="loanForm"
                     action="{{ route("loans.store") }}"
                     method="POST"
-                    class="mx-auto max-w-4xl bg-[--body-clr] p-6 text-[--text-clr]"
+                    class="{{ $item->item_type == "unit" ? "px-6" : "p-6" }} mx-auto w-full max-w-4xl text-[--text-clr]"
                 >
                     @csrf
 
                     <!-- Step 1 -->
-                    <div id="step1" class="grid grid-cols-2 items-center gap-4">
-                        <!-- NISN Pemohon -->
+                    <div
+                        id="step1"
+                        class="{{ $item->item_type == "unit" ? "flex flex-col" : "grid grid-cols-2" }} gap-4"
+                    >
                         <div>
-                            <label class="mb-2 block">Nama Peminjam</label>
+                            <label class="mb-2 block" for="loanInputNisn">
+                                Nama Peminjam
+                            </label>
                             <select
                                 name="nisn"
+                                id="loanInputNisn"
                                 required
-                                class="w-full rounded border border-[--border-2-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                class="input-form w-full cursor-pointer border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                             >
-                                <option value="">Pilih Siswa</option>
+                                <option value="" disabled selected>
+                                    Pilih Siswa
+                                </option>
                                 @foreach ($students as $student)
                                     <option value="{{ $student->nisn }}">
                                         {{ $student->student_name }}
@@ -51,76 +62,74 @@
                             </select>
                         </div>
 
-                        <!-- Return Time -->
-                        <div>
-                            <label class="mb-2 block">Waktu Pengembalian</label>
-                            <input
-                                type="time"
-                                name="return_time"
-                                required
-                                class="w-full rounded border border-[--border-clr] bg-[--body-clr] p-2 text-[--text-clr]"
-                            />
-                        </div>
-
                         <!-- Item Details -->
 
                         <input
+                            id="loanItemInputId"
                             type="hidden"
                             name="item_id"
+                            data-stock="{{ $item->stock }}"
                             value="{{ $item->item_id }}"
                         />
 
-                        @if ($units->isNotEmpty())
-                            <!-- Periksa apakah ada data -->
-                            <div>
-                                <label class="mb-2 block">Unit</label>
-                                <select
-                                    name="unit_id"
-                                    required
-                                    class="w-full rounded border border-[--border-clr] bg-[--body-clr] p-2 text-[--text-clr]"
-                                >
-                                    <option value="">Pilih Unit</option>
-                                    @foreach ($units as $unit)
-                                        <option value="{{ $unit->unit_id }}">
-                                            {{ $unit->unit_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
+                        <!-- Item Qantity -->
 
-                        <div>
-                            <label class="mb-2 block">Jumlah</label>
+                        @if ($item->item_type == "unit")
                             <input
-                                type="number"
+                                type="hidden"
                                 name="item_quantity"
+                                id="loanInputQuantity"
                                 min="1"
                                 required
-                                class="w-full rounded border border-[--border-2-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                value="1"
                             />
-                        </div>
-
+                        @else
+                            <div>
+                                <label
+                                    class="mb-2 block"
+                                    for="loanInputQuantity"
+                                >
+                                    Jumlah
+                                </label>
+                                <input
+                                    type="number"
+                                    name="item_quantity"
+                                    id="loanInputQuantity"
+                                    placeholder="Masukkan Jumlah yang ingin dipinjam"
+                                    min="1"
+                                    required
+                                    value="{{ $item->item_type == "unit" ? 1 : "" }}"
+                                    class="input-form w-full border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                                />
+                            </div>
+                        @endif
                         <div>
-                            <label class="mb-2 block">
+                            <label class="mb-2 block" for="loanInputDesc">
                                 Deskripsi Peminjaman
                             </label>
                             <textarea
                                 name="loan_description"
+                                id="loanInputDesc"
+                                placeholder="mohon deskripsikan mengapa dan berapa lama waktu yang dibutuhkan"
                                 rows="3"
-                                class="w-full rounded border border-[--border-2-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                class="input-form w-full border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                             ></textarea>
                         </div>
 
                         <!-- Loan Type -->
                         <div>
-                            <label class="mb-2 block">Jenis Peminjaman</label>
+                            <label class="mb-2 block" for="loanType">
+                                Jenis Peminjaman
+                            </label>
                             <select
                                 id="loanType"
                                 required
                                 name="loan_type"
-                                class="w-full rounded border border-[--border-2-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                class="input-form w-full cursor-pointer border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                             >
-                                <option value="">Pilih Jenis Peminjaman</option>
+                                <option value="" disabled selected>
+                                    Pilih Jenis Peminjaman
+                                </option>
                                 <option value="individu">
                                     Peminjaman Individu
                                 </option>
@@ -142,7 +151,7 @@
                             <button
                                 type="submit"
                                 id="submitIndividu"
-                                class="absolute bottom-0 z-10 ml-auto w-[11.25rem] rounded-lg border-2 border-[--green-3-clr] bg-transparent px-6 py-2 text-[--green-3-clr] transition hover:bg-[--green-3-clr] hover:text-[--text-clr] hover:opacity-90"
+                                class="absolute bottom-0 z-10 ml-auto block w-[11.25rem] rounded-lg border-2 border-[--green-3-clr] bg-transparent px-6 py-2 text-[--green-3-clr] transition hover:bg-[--green-3-clr] hover:text-[--text-clr] hover:opacity-90"
                             >
                                 Pinjam Sekarang
                             </button>
@@ -152,10 +161,13 @@
                     <!-- Step 2 (Class Loan) -->
                     <div id="step2" class="hidden grid-cols-2 gap-4">
                         <div>
-                            <label class="mb-2 block">Kelas</label>
+                            <label class="mb-2 block" for="loanInputKelas">
+                                Kelas
+                            </label>
                             <select
                                 name="class_id"
-                                class="w-full rounded border border-[--border-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                id="loanInputKelas"
+                                class="input-form w-full cursor-pointer border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                             >
                                 <option value="">Pilih Kelas</option>
                                 @foreach ($classes as $class)
@@ -167,10 +179,13 @@
                         </div>
 
                         <div>
-                            <label class="mb-2 block">Mata Pelajaran</label>
+                            <label class="mb-2 block" for="loanInputMapel">
+                                Mata Pelajaran
+                            </label>
                             <select
                                 name="subject_id"
-                                class="w-full rounded border border-[--border-2-clr] bg-[--body-clr] p-2 text-[--text-clr]"
+                                id="loanInputMapel"
+                                class="input-form w-full cursor-pointer border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                             >
                                 <option value="">Pilih Mata Pelajaran</option>
                                 @foreach ($subjects as $subject)
@@ -180,7 +195,13 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <input
+                            type="hidden"
+                            name="item_type"
+                            id="loanItemType"
+                            value="{{ $item->item_type }}"
+                            data-type="{{ $item->item_type }}"
+                        />
                         <div class="col-span-2 mt-8 flex justify-between">
                             <button
                                 type="button"
@@ -200,6 +221,100 @@
                         </div>
                     </div>
                 </form>
+                @if ($item->item_type == "unit")
+                    <div
+                        id="container-unit-items"
+                        class="scrollbar h-full max-h-[400px] overflow-y-auto p-6 pr-2"
+                    >
+                        <div class="grid grid-cols-1 gap-4">
+                            @foreach ($units as $unit)
+                                <label
+                                    class="unit-card block cursor-pointer transition-transform hover:translate-y-[-2px]"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="unit_data"
+                                        value="{{ json_encode($unit) }}"
+                                        class="peer hidden"
+                                        required
+                                        @if($unit->unit_status != 'available') disabled @endif
+                                    />
+                                    <div
+                                        class="{{ $unit->unit_status != "available" ? "pointer-events-none opacity-50" : "" }} shadow-in relative rounded-lg border border-transparent bg-[--body-clr] p-4 transition-all hover:border-[--primary-clr] peer-checked:border-[--primary-clr] peer-checked:ring-2 peer-checked:ring-[--primary-clr]"
+                                    >
+                                        <div class="flex items-stretch gap-4">
+                                            <!-- Gambar Unit -->
+                                            <div class="shrink-0">
+                                                @if ($unit->unit_image && file_exists(public_path($unit->unit_image)))
+                                                    <img
+                                                        src="{{ asset($unit->unit_image) }}"
+                                                        alt="{{ $unit->unit_name }}"
+                                                        class="h-20 w-20 rounded-lg object-cover"
+                                                    />
+                                                @else
+                                                    <div
+                                                        class="flex h-20 w-20 items-center justify-center rounded-lg bg-gray-100"
+                                                    >
+                                                        <i
+                                                            class="fas fa-cube text-2xl text-gray-400"
+                                                        ></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <!-- Detail Unit -->
+                                            <div
+                                                class="relative flex w-full justify-between"
+                                            >
+                                                <div
+                                                    class="growflex-col flex flex-col items-start justify-center"
+                                                >
+                                                    <h4
+                                                        class="text-lg font-semibold"
+                                                    >
+                                                        {{ $unit->unit_name }}
+                                                    </h4>
+                                                    <span
+                                                        class="hidden text-sm text-[--text-clr]"
+                                                    >
+                                                        {{ $unit->unit_id }}
+                                                    </span>
+                                                    <span
+                                                        class="text-sm text-[--secondary-clr]"
+                                                    >
+                                                        Item:
+                                                        {{ $unit->item_name }}
+                                                    </span>
+                                                </div>
+                                                <span
+                                                    class="{{ $unit->unit_status == "damaged" ? "bg-[--red-2-clr]" : ($unit->unit_status == "available" ? "bg-[--green-2-clr]" : "bg-[--primary-clr]") }} self-start rounded-full px-3 py-1 text-center text-[--text-clr]"
+                                                >
+                                                    {{ $unit->unit_status }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Indicator Pilihan -->
+                                        <div
+                                            class="absolute right-4 top-4 hidden text-[--primary-clr] peer-checked:block"
+                                        >
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Hidden Inputs untuk Data Terpilih -->
+                    <input
+                        type="hidden"
+                        name="unit_id"
+                        form="loanForm"
+                        id="selectedUnitId"
+                        required
+                    />
+                @endif
             </div>
         </div>
     </div>

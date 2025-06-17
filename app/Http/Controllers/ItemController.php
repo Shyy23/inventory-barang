@@ -6,13 +6,11 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemUnit;
 use App\Models\Location;
-use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-
-
+use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
@@ -26,21 +24,31 @@ class ItemController extends Controller
 
         $search = $request->input('search');
         $selectedCategories = $request->input('categories', []);
+        
         $items = DB::table('vitems')
             ->when($search, function ($query) use ($search) {
                 return $query->where('item_name', 'like', "%{$search}%");
             })->when($selectedCategories, function ($query) use ($selectedCategories) {
                 return $query->whereIn(DB::raw('TRIM(category_name)'), $selectedCategories);
-            })->paginate(18);
+            })->paginate(10);
+        $selectedUnitItems = DB::table('vitems')->where('item_type', '=', 'unit')->get(['item_id', 'item_name']);
 
+        if($request->ajax()){
+            $paginationHtml = view('components.pagination', [
+                'paginator' => $items,
+                'routeName' => 'items.index',
+                'routeParams' => $request->except('page')
+            ])->render();
 
-        if ($request->ajax()) {
             return response()->json([
                 'html' => view('items.partials.items-list', compact('items'))->render(),
-                'checks' => $selectedCategories // Kirim kategori yang terpilih
+                'pagination' => $paginationHtml,
+                'search' => $search,
+                'categories' => $selectedCategories,
             ]);
         }
-        return view('items.index', compact('items', 'categories', 'locations'));
+
+        return view('items.index', compact('items', 'categories', 'locations', 'selectedUnitItems'));
     }
 
 
@@ -58,17 +66,24 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'item_name' => 'required|string|max:255',
-            'category_id' => 'required|integer',
-            'location_id' => 'required|integer',
-            'stock' => 'required|integer',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'location_id' => 'required|integer|exists:locations,location_id',
+            'item_type' => 'required|string|in:unit,consumable',
+            'stock' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('item_type') === 'consumable';
+                }),
+                'integer',
+                'min:0'
+            ],
             'description' => 'required|string',
-            'image' => 'nullable|image',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Generate slug otomatis
-        $slug = Str::slug($request->item_name);
+        $slug = Str::slug($validatedData['item_name']);
         $count = Item::where('slug_item', 'LIKE', "$slug%")->count();
         if ($count > 0) {
             $slug .= '-' . ($count + 1);
@@ -76,12 +91,13 @@ class ItemController extends Controller
 
         // Simpan data barang
         $item = new Item();
-        $item->item_name = $request->item_name;
+        $item->item_name = $validatedData['item_name'];
         $item->slug_item = $slug;
-        $item->category_id = $request->category_id;
-        $item->location_id = $request->location_id;
-        $item->stock = $request->stock;
-        $item->description = $request->description;
+        $item->category_id = $validatedData['category_id'];
+        $item->location_id = $validatedData['location_id'];
+        $item->item_type = $validatedData['item_type'];
+        $item->stock = $validatedData['stock'] ?? 0; // Default 0 jika tidak ada
+        $item->description = $validatedData['description'];
 
         // Simpan gambar jika ada
         if ($request->hasFile('image')) {
@@ -95,7 +111,6 @@ class ItemController extends Controller
 
         return redirect()->route('items.index')->with('success', 'Barang berhasil ditambahkan.');
     }
-
     /**
      * Display the specified resource.
      */
@@ -123,16 +138,7 @@ class ItemController extends Controller
      */
     public function edit(string $id)
     {
-        // Cari item berdasarkan ID
-        $item = Item::find($id);
-
-        // Jika item tidak ditemukan, redirect dengan pesan error
-        if (!$item) {
-            return redirect()->route('items.index')->with('error', 'Item not found');
-        }
-
-        // Tampilkan view edit dengan data item
-        return view('items.edit', compact('item'));
+        // 
     }
 
     /**
@@ -142,24 +148,37 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        // Validasi input
-        $request->validate([
+        $validatedData = $request->validate([
             'item_name' => 'required|string|max:255',
-            'category_id' => 'required|integer',
-            'location_id' => 'required|integer',
-            'stock' => 'required|integer',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'location_id' => 'required|integer|exists:locations,location_id',
+            'item_type' => 'required|string|in:unit,consumable',
+            'stock' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('item_type') === 'consumable';
+                }),
+                'integer',
+                'min:0'
+            ],
             'description' => 'required|string',
-            'image' => 'nullable|image' // Ubah dari 'sometimes' ke 'nullable'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'units' => 'nullable|array',
+            'units.*.unit_id' => 'required|integer|exists:item_units,unit_id',
+            'units.*.unit_name' => 'required|string|max:255',
+            'units.*.unit_status' => 'required|in:available,borrowed,maintenance',
+            'units.*.unit_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Update data utama
-        $item->item_name = $request->item_name;
-        $item->category_id = $request->category_id;
-        $item->location_id = $request->location_id;
-        $item->stock = $request->stock;
-        $item->description = $request->description;
+        // ================== UPDATE ITEM UTAMA ==================
+        $item->update([
+            'item_name' => $validatedData['item_name'],
+            'category_id' => $validatedData['category_id'],
+            'location_id' => $validatedData['location_id'],
+            'item_type' => $validatedData['item_type'],
+            'stock' => $validatedData['stock'] ?? 0,
+            'description' => $validatedData['description']
+        ]);
 
-        // Update gambar jika ada file baru
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($item->image && file_exists(public_path($item->image))) {
@@ -168,19 +187,60 @@ class ItemController extends Controller
 
             // Ambil file gambar dan buat nama file unik
             $file = $request->file('image');
-            $imageName = $item->slug_item . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $imageName = $item->slug_item . '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/images/products'), $imageName);
 
             // Update kolom image
             $item->image = 'assets/images/products/' . $imageName;
+            $item->save();
+        }
+        // ================== UPDATE UNIT ITEM ==================
+        if ($item->item_type === 'unit' && isset($validatedData['units'])) {
+            foreach ($validatedData['units'] as $unitData) {
+                $unit = ItemUnit::where('unit_id', $unitData['unit_id'])
+                    ->where('item_id', $item->item_id) // Pastikan unit milik item ini
+                    ->firstOrFail();
+
+                $updateData = [
+                    'unit_name' => $unitData['unit_name'],
+                    'unit_status' => $unitData['unit_status']
+                ];
+
+                // Update gambar unit jika ada
+                if (isset($unitData['unit_image'])) {
+                    // Hapus gambar lama jika ada
+                    if ($unit->unit_image && file_exists(public_path($unit->unit_image))) {
+                        unlink(public_path($unit->unit_image));
+                    }
+
+                    // Ambil file gambar dan buat nama file unik
+                    $unitFile = $unitData['unit_image'];
+                    $unitImageName = strtolower(str_replace(' ', '_', $item->item_name)) . '_unit_' . $unit->unit_id . '_' . time() . '.' . $unitFile->getClientOriginalExtension();
+
+                    // Tentukan folder tujuan berdasarkan item_name
+                    $itemNameFolder = strtolower(str_replace(' ', '_', $item->item_name)) . 's'; // Contoh: "pc_desktops"
+                    $unitFolder = public_path("assets/images/unit_items/{$itemNameFolder}");
+
+                    // Pastikan folder tujuan ada
+                    if (!file_exists($unitFolder)) {
+                        mkdir($unitFolder, 0777, true);
+                    }
+
+                    // Pindahkan file ke folder tujuan
+                    $unitFile->move($unitFolder, $unitImageName);
+
+                    // Update kolom unit_image dengan path relatif
+                    $updateData['unit_image'] = "assets/images/unit_items/{$itemNameFolder}/{$unitImageName}";
+                }
+
+                // Simpan perubahan ke database
+                $unit->update($updateData);
+            }
         }
 
-        // Simpan perubahan ke database
-        $item->save();
+        return redirect()->route('items.show', $item->slug_item)
+            ->with('success', 'Item dan unit berhasil diperbarui');
 
-        // Redirect ke halaman detail item
-        return redirect()->route('items.show', ['item' => $item->slug_item])
-            ->with('status', 'Barang Berhasil di Edit');
     }
 
     /**
@@ -188,18 +248,23 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        $item = Item::findOrFail($id);
+        $item = Item::with('units')->findOrFail($id);
 
-        // Hapus gambar jika ada
-        if ($item->image) {
-            $imagePath = public_path($item->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+        // Hapus semua unit terkait
+        foreach ($item->units as $unit) {
+            // Hapus gambar unit jika ada
+            if ($unit->unit_image && file_exists(public_path($unit->unit_image))) {
+                unlink(public_path($unit->unit_image));
             }
+            $unit->delete();
+        }
+        // Hapus gambar jika ada
+        if ($item->image && file_exists(public_path($item->image))) {
+            unlink(public_path($item->image));
         }
 
         $item->delete();
 
-        return redirect()->route('items.index')->with('success', 'Item berhasil dihapus.');
+        return redirect()->route('items.index')->with('success', 'Item dan semua unit terkait berhasil dihapus');
     }
 }
