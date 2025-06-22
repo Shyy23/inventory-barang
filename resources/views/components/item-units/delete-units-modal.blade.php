@@ -49,11 +49,6 @@
                                         Pilih unit ini
                                     </span>
                                 </label>
-                                <span
-                                    class="select-none text-sm text-[--secondary-clr]"
-                                >
-                                    ID: {{ $unit->unit_id }}
-                                </span>
                             </div>
 
                             <div class="flex items-stretch gap-4">

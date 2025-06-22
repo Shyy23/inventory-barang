@@ -146,6 +146,24 @@ class DynamicIconHandler {
                 },
             },
         },
+        gender: {
+            selector: ".gender-student",
+            dataAttr: "data-gender",
+            iconMap: {
+                male: {
+                    class: "fa-mars blue", // Tambahkan class warna jika diperlukan
+                    tooltip: "Laki-laki",
+                },
+                female: {
+                    class: "fa-venus pink", // Tambahkan class warna jika diperlukan
+                    tooltip: "Perempuan",
+                },
+                unknown: {
+                    class: "fa-question",
+                    tooltip: "Tidak Diketahui",
+                },
+            },
+        },
     };
 
     constructor(containerSelector) {
@@ -159,6 +177,7 @@ class DynamicIconHandler {
     init() {
         this.updateIcons("status");
         this.updateIcons("stock");
+        this.updateIcons("gender");
     }
 
     updateIcons(type) {
@@ -204,6 +223,8 @@ class DynamicIconHandler {
                 return DynamicIconHandler.config.stock.iconMap.default; // Stok Aman
             // Jika nilai antara 10 dan 20, gunakan konfigurasi default (atau tambahkan logika khusus)
             return DynamicIconHandler.config.stock.iconMap.default;
+        } else if (type === "gender") {
+            return DynamicIconHandler.config.gender.iconMap[value] || {};
         }
         return DynamicIconHandler.config.status.iconMap[value] || {};
     }
@@ -221,6 +242,7 @@ class DynamicIconHandler {
 document.addEventListener("DOMContentLoaded", () => {
     new DynamicIconHandler(".card-items-scroll");
     new DynamicIconHandler(".stock-info-item"); // Untuk stok barang
+    new DynamicIconHandler(".student-list");
     new DynamicIconHandler("#aktivitasTerbaru");
     new Sidebar("toggle-btn", "sidebar", "overlay", "menu-btn", "close-btn");
 

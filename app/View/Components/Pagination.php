@@ -8,19 +8,12 @@ use Illuminate\View\Component;
 
 class Pagination extends Component
 {
-    public $paginator;
-    public $routeName;
-    public $routeParams;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct($paginator, $routeName = null, $routeParams = [])
-    {
-        $this->paginator = $paginator;
-        $this->routeName = $routeName;
-        $this->routeParams = $routeParams;
-    }
+    public function __construct(
+        public $paginator,
+        public ?string $routeName = null,
+        public array $routeParams = [],
+        public array $queryParams = []
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

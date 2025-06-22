@@ -35,7 +35,7 @@
                         name="item_name"
                         id="item_name"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full input-form rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan nama barang"
                     />
                 </div>
@@ -52,7 +52,7 @@
                         name="category_id"
                         id="category_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full input-form cursor-pointer rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>
                             Pilih kategori
@@ -77,7 +77,7 @@
                         name="location_id"
                         id="location_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full input-form cursor-pointer rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>Pilih lokasi</option>
                         @foreach ($locations as $location)
@@ -100,7 +100,7 @@
                         name="item_type"
                         id="item_type"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block input-form w-full cursor-pointer rounded-md border border-transparent px-3 py-2 shadow-sm outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>
                             Pilih Tipe Item
@@ -123,7 +123,7 @@
                         name="stock"
                         id="stock"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block input-form w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan jumlah stok"
                     />
                 </div>
@@ -141,7 +141,7 @@
                         id="description"
                         required
                         rows="3"
-                        class="mt-1 block w-full rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 block w-full input-form max-h-[150px] rounded-md border border-transparent px-3 py-2 shadow-sm focus:border-[--primary-clr] focus:outline-none focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan deskripsi barang"
                     ></textarea>
                 </div>
@@ -165,7 +165,7 @@
                             name="image"
                             id="itemAddImageInput"
                             accept="image/*"
-                            class="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+                            class="absolute input-form inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                         />
                         <!-- Preview Gambar -->
                         <img

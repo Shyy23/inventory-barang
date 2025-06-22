@@ -1,5 +1,6 @@
 import {
     AddCategoryForm,
+    CategoryFilter,
     DeleteCategoryForm,
     EditCategoryForm,
 } from "./../class/Category.js";
@@ -8,6 +9,7 @@ import { ClearFilter } from "../handler/Filter.js";
 import ToggleHandler from "../handler/ToggleHandler.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    new CategoryFilter();
     new DeleteCategoryForm();
     new EditCategoryForm();
     new AddCategoryForm();

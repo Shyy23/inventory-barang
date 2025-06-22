@@ -2,7 +2,7 @@
     @slot("tools")
         <!-- Search Form -->
         <form
-            action="{{ route("categories.index") }}"
+            action="{{ route("classes.students", ["slug_class" => $class->slug_class]) }}"
             method="GET"
             class="search-group relative w-full"
         >
@@ -10,7 +10,7 @@
                 <input
                     type="search"
                     name="search"
-                    placeholder="Cari Kategori"
+                    placeholder="Cari Siswa"
                     class="w-full rounded-lg border-2 border-[--border-2-clr] bg-transparent py-3 pl-4 pr-12 text-[--text-clr] transition-all duration-300 focus:border-[--primary-clr] focus:outline-none focus:ring-2 focus:ring-[--primary-clr]"
                     value="{{ request("search") }}"
                 />
@@ -26,36 +26,30 @@
         </form>
         <x-button-group spacing="4">
             <x-button-menu
-                id="showCategoryModal"
-                color="green"
-                icon="fas fa-plus text-xl"
-                text="Tambah"
-                class="px-4 py-3"
-            />
-
-            <x-button-menu
-                id="showEditCategoryModal"
+                id="showEditStudentModal"
                 color="primary"
                 icon="fas fa-edit text-xl"
                 text="Edit"
                 class="px-4 py-3"
             />
+
             <x-button-menu
-                id="showDeleteCategoryModal"
+                id="showDeleteStudentModal"
                 color="red"
                 icon="fas fa-trash text-xl"
                 text="Hapus"
                 class="px-4 py-3"
             />
         </x-button-group>
-
         <!-- Pagination Start -->
-        <x-pagination
-            :paginator="$categories"
-            routeName="categories.index"
-            :queryParams="request()->except('page')"
-        />
-        <!-- Pagination End -->
+        <div id="pagination-wrapper">
+            <x-pagination
+                :paginator="$students"
+                routeName="classes.students"
+                :routeParams="['slug_class' => $class->slug_class]"
+                :queryParams="request()->except('page')"
+            />
+        </div>
     @endslot
 
     @slot("clearButton")

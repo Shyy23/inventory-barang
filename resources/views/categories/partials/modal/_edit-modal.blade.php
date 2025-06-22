@@ -49,11 +49,6 @@
                                         Edit Kategori ini
                                     </span>
                                 </label>
-                                <span
-                                    class="select-none text-sm text-[--secondary-clr]"
-                                >
-                                    ID: {{ $category->category_id }}
-                                </span>
                             </div>
                             <div class="flex flex-col gap-4">
                                 <input

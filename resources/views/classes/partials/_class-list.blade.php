@@ -14,7 +14,7 @@
             <!-- Semua 16 Card -->
             @foreach ($classes as $class)
                 <a
-                    href="{{ route("classes.students", ["class" => $class->slug_class]) }}"
+                    href="{{ route("classes.students", ["slug_class" => $class->slug_class]) }}"
                 >
                     <article
                         class="card-location shadow-card relative flex aspect-square h-full cursor-pointer select-none flex-col items-center justify-between rounded-lg bg-[--body-clr] p-4 transition-transform duration-500 hover:-translate-y-2"

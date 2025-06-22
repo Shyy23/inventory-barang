@@ -7,7 +7,9 @@
     --text-clr: rgba(194, 194, 217, 1);
     --red-clr: rgba(255, 121, 118, 1);
     --green-clr: rgba(79, 202, 165, 1);
+    --pink-clr: rgba(218, 54, 168, 0.8);
     --blue-clr: rgba(72, 182, 212, 1);
+    --blue-dark-clr: rgba(67, 94, 190, 1);
     --yellow-clr: rgba(210, 219, 76, 1);
     --purple-clr: rgba(150, 148, 255, 1);
     --secondary-clr: rgba(227, 231, 235, 0.5);
@@ -42,6 +44,7 @@
     --red-clr: #ff7976;
     --green-clr: #5ddab4;
     --blue-clr: #57caeb;
+    --blue-dark-clr: #4a70eb;
     --purple-clr: #9694ff;
     --secondary-clr: rgba(96, 112, 128, 0.75);
     --title-clr: #25396f;
@@ -222,6 +225,12 @@ i {
     &.yellow {
         color: var(--yellow-clr);
     }
+    &.blue {
+        color: var(--blue-dark-clr);
+    }
+    &.pink {
+        color: var(--pink-clr);
+    }
 }
 
 abbr {
@@ -229,6 +238,19 @@ abbr {
     cursor: pointer;
 }
 
+/* =================== LOADING =================== */
+.loading {
+    position: relative;
+}
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 1);
+}
 /* =================== CARD =================== */
 .perspective {
     perspective: 1000px;
@@ -283,6 +305,8 @@ abbr {
     opacity: 0.5;
     pointer-events: none;
 }
+
+
 /* =================== TOOLTIP =================== */
 [data-tooltip] {
     position: relative;
@@ -333,6 +357,11 @@ abbr {
     box-shadow:
         4px 4px 4px rgba(0, 0, 0, 0.5),
         -2px -2px 4px rgba(0, 0, 0, 0.5);
+}
+.hover-shadow:hover {
+    box-shadow:
+        0 -2px 4px rgba(0, 0, 0, 0.5) inset,
+        0 2px 4px rgba(0, 0, 0, 0.5) inset;
 }
 /* =================== FOOTER =================== */
 #footer {
@@ -385,6 +414,7 @@ abbr {
     background: var(--body-clr);
     color: var(--text-clr);
     outline: none;
+    
 }
 .shadow-in {
     box-shadow:

@@ -1,17 +1,15 @@
 import BaseFormHandler from "../handler/BaseFormHandler.js";
 import BaseFilter from "../handler/Filter.js";
 
-// Delete Category Handler
-export class DeleteCategoryForm extends BaseFormHandler {
+export class DeleteStudentForm extends BaseFormHandler {
     constructor() {
         super(
-            "deleteCategoryForm",
-            "closeDeleteCategoryModal",
-            "deleteCategoryModal",
-            'input[name="categories[]"]',
+            "deleteStudentForm",
+            "closeDeleteStudentModal",
+            "deleteStudentModal",
+            'input[name="students[]"]',
         );
     }
-
     resetForm() {
         if (this.checkboxes) {
             this.checkboxes.forEach((checkbox) => {
@@ -23,15 +21,13 @@ export class DeleteCategoryForm extends BaseFormHandler {
         }
     }
 }
-
-// Edit Category Handler
-export class EditCategoryForm extends BaseFormHandler {
+export class EditStudentForm extends BaseFormHandler {
     constructor() {
         super(
-            "editCategoryForm",
-            "closeEditCategoryModal",
-            "editCategoryModal",
-            'input[name^="categories["][type="checkbox"]',
+            "editStudentForm",
+            "closeEditStudentModal",
+            "editStudentModal",
+            'input[name^="students["][type="checkbox"]',
         );
     }
     resetForm() {
@@ -58,24 +54,11 @@ export class EditCategoryForm extends BaseFormHandler {
     }
 }
 
-// Add Category Handler
-export class AddCategoryForm extends BaseFormHandler {
-    constructor() {
-        super("addCategoryForm", "closeCategoryModal", "addCategoryModal");
-    }
-
-    resetForm() {
-        if (this.form) {
-            super.resetForm();
-        }
-    }
-}
-
-export class CategoryFilter extends BaseFilter {
+export class StudentFilter extends BaseFilter {
     constructor() {
         super({
-            route: window.Laravel?.routes?.categoriesIndex,
-            itemsContainerSelector: ".card-items-scroll",
+            route: window.Laravel?.routes?.studentsIndex,
+            itemsContainerSelector: ".student-list",
             paginationContainerSelector: "#pagination-wrapper",
             searchInputSelector: 'input[name="search"]',
             clearButtonSelector: "#clearFilterSelection",
@@ -92,6 +75,27 @@ export class CategoryFilter extends BaseFilter {
 
         return params;
     }
+    updateContent(data) {
+        // Update konten
+        this.itemsContainer.innerHTML = data.html;
+
+        // Update pagination
+        if (this.paginationContainer) {
+            this.paginationContainer.innerHTML = data.pagination;
+        }
+
+        // Jalankan ulang DynamicIconHandler
+        this.runDynamicIconHandler();
+    }
+    runDynamicIconHandler() {
+        // Pastikan elemen sudah ada
+        const studentList = document.querySelector(".student-list");
+        if (!studentList) return;
+
+        // Jalankan handler untuk gender icon
+        new DynamicIconHandler(".student-list");
+    }
+    // Override: Pulihkan nilai input dari URL
     restoreInputState() {
         const urlParams = new URLSearchParams(window.location.search);
         const search = urlParams.get("search");
@@ -100,6 +104,7 @@ export class CategoryFilter extends BaseFilter {
             this.searchInput.value = search;
         }
     }
+
     // Override: Reset input filter
     resetInputs() {
         if (this.searchInput) {

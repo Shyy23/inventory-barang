@@ -60,14 +60,18 @@ Route::middleware(['auth', PreventBackHistory::class])->group(function () {
         Route::delete('/destroy', 'destroy')->name('locations.destroy');
     });
     // Untuk Class
-        // Untuk Class
-        Route::prefix('classes')->controller(ClassController::class)->group(function () {
-            Route::get('/', 'index')->name('classes.index');
-            Route::get('/{class}/students', 'show')->name('classes.students');
-            Route::post('/store', 'store')->name('classes.store');
-            Route::put('/update', 'update')->name('classes.update');
-            Route::delete('/destroy', 'destroy')->name('classes.destroy');
-        });
+    Route::prefix('classes')->controller(ClassController::class)->group(function () {
+        Route::get('/', 'index')->name('classes.index');
+        Route::get('/{slug_class}/students', 'show')->name('classes.students');
+        Route::post('/store', 'store')->name('classes.store');
+        Route::put('/update', 'update')->name('classes.update');
+        Route::delete('/destroy', 'destroy')->name('classes.destroy');
+    });
+    // Untuk Students
+    Route::prefix('students')->controller(StudentController::class)->group( function () {
+        Route::put('/update', 'update')->name('students.update');
+        Route::delete('/destroy', 'destroy')->name('students.destroy');
+    });
 });
 
 // Route diluar middleware yaitu sebelum user login

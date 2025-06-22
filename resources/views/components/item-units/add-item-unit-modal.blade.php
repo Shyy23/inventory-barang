@@ -43,7 +43,7 @@
                         name="item_id"
                         id="item_id"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent bg-[--body-clr] px-3 py-2 outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 input-form block w-full cursor-pointer rounded-md border border-transparent bg-[--body-clr] px-3 py-2 outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                     >
                         <option value="" disabled selected>Pilih barang</option>
                         @foreach ($selectedUnitItems as $item)
@@ -70,7 +70,7 @@
                         name="unit_name"
                         id="unit_name"
                         required
-                        class="mt-1 block w-full rounded-md border border-transparent bg-[--body-clr] px-3 py-2 outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
+                        class="mt-1 input-form block w-full rounded-md border border-transparent bg-[--body-clr] px-3 py-2 outline-none focus:border-[--primary-clr] focus:ring-[--primary-clr] sm:text-sm"
                         placeholder="Masukkan nama unit"
                     />
                 </div>
@@ -94,7 +94,7 @@
                             name="unit_image"
                             id="itemAddImageUnitInput"
                             accept="image/*"
-                            class="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+                            class="absolute input-form inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                         />
                         <!-- Preview Gambar -->
                         <img

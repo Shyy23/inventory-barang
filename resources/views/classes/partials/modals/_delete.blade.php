@@ -51,11 +51,6 @@
                                         Hapus Kelas ini
                                     </span>
                                 </label>
-                                <span
-                                    class="select-none text-sm text-[--secondary-clr]"
-                                >
-                                    ID: {{ $class->class_id }}
-                                </span>
                             </div>
                             <div
                                 class="flex items-stretch justify-between gap-4 text-[--secondary-clr]"

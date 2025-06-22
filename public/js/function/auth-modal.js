@@ -18,17 +18,16 @@ function showAuthModal(tab = "login") {
 function closeModal() {
     const modal = document.getElementById("authModal");
     const containerModal = document.getElementById("containerModal");
-    const step1Reg = document.getElementById('step-1-reg')
-    const step2Reg = document.getElementById('step-2-reg')
+    const step1Reg = document.getElementById("step-1-reg");
+    const step2Reg = document.getElementById("step-2-reg");
     const forms = [
         document.getElementById("initialRegisterForm"),
         document.getElementById("studentForm"),
-        document.getElementById("loginForm")
-    ]
-
+        document.getElementById("loginForm"),
+    ];
 
     // Validasi elemen modal
-    if(!modal || !containerModal || !step1Reg || step2Reg){
+    if (!modal || !containerModal || !step1Reg || !step2Reg) {
         console.error("Error: Required elements for closing modal not found.");
         return;
     }
@@ -42,7 +41,7 @@ function closeModal() {
         step1Reg.classList.remove("hidden", "translate-y-4", "opacity-0");
         step2Reg.classList.add("hidden");
         // Reset form
-        forms.forEach((form) =>  form?.reset());
+        forms.forEach((form) => form?.reset());
         modal.classList.remove("modal-show");
         modal.classList.add("hidden");
     }, 300); // Sesuaikan dengan durasi animasi

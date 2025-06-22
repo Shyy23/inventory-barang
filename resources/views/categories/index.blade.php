@@ -36,6 +36,13 @@
 @endsection
 
 @push("scripts")
+<script>
+        window.Laravel = {
+            routes: {
+                categoriesIndex: '{{ route("categories.index") }}',
+            },
+        };
+    </script>
     <script
         type="module"
         src="{{ asset("js/module/manage-categories.js") }}"

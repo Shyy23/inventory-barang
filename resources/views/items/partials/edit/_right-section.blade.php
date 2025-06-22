@@ -18,9 +18,6 @@
                     />
                     <span class="select-none">Edit unit ini</span>
                 </label>
-                <span class="select-none text-sm text-[--secondary-clr]">
-                    ID: {{ $unit->unit_id }}
-                </span>
             </div>
 
             <input

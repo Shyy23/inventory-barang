@@ -51,11 +51,6 @@
                                         Edit Kelas ini
                                     </span>
                                 </label>
-                                <span
-                                    class="select-none text-sm text-[--secondary-clr]"
-                                >
-                                    ID: {{ $class->class_id }}
-                                </span>
                             </div>
 
                             <div class="flex flex-col gap-4">

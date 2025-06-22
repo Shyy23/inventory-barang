@@ -99,7 +99,7 @@
             <x-pagination
                 :paginator="$items"
                 RouteName="items.index"
-                :routeParams="request()->except('page')"
+                :queryParams="request()->except('page')"
             ></x-pagination>
         </div>
     @endslot

@@ -262,12 +262,12 @@
                             <!-- Avatar Section -->
                             <div class="col-span-1 lg:col-span-4">
                                 <div
-                                    class="h-[60px] w-[60px] overflow-hidden rounded-full border-2 border-[--primary-clr]"
+                                    class="h-[60px] w-[60px] overflow-hidden rounded-full"
                                 >
                                     <img
-                                        src="{{ asset("assets/images/users/pp.jpg") }}"
+                                        src="{{ asset("assets/images/app/school.png") }}"
                                         alt="pp"
-                                        class="h-full w-full object-cover"
+                                        class="h-full w-full object-contain"
                                     />
                                 </div>
                             </div>
@@ -279,12 +279,12 @@
                                 <h5
                                     class="text-start text-lg font-semibold tracking-tight lg:text-[1rem] lg:leading-5"
                                 >
-                                    Syahrul Hidayatulloh
+                                    SMKN 4 Padalarang
                                 </h5>
                                 <h6
                                     class="text-sm font-medium text-[--text-clr]"
                                 >
-                                    @it.s_meshy_y
+                                    Inventory Barang PPLG
                                 </h6>
                             </div>
                         </div>

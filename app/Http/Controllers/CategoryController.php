@@ -28,7 +28,21 @@ class CategoryController extends Controller
             })
             ->paginate(12);
 
+        // 5. Respons AJAX
+        if ($request->ajax()) {
+            $paginationHtml = view('components.pagination', [
+                'paginator' => $categories,
+                'routeName' => 'categories.index',
+                'routeParams' => [],
+                'queryParams' => $request->except('page'),
+            ])->render();
 
+            return response()->json([
+                'html' => view('categories.partials._category-list', compact('categories'))->render(),
+                'pagination' => $paginationHtml,
+                'search' => $search,
+            ]);
+        }
         return view('categories.index', compact('categories'));
     }
 

@@ -37,7 +37,8 @@ class ItemController extends Controller
             $paginationHtml = view('components.pagination', [
                 'paginator' => $items,
                 'routeName' => 'items.index',
-                'routeParams' => $request->except('page')
+                'routeParams' => [],
+                'queryParams' => $request->except('page'),
             ])->render();
 
             return response()->json([

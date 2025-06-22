@@ -55,8 +55,8 @@
         <div id="pagination-wrapper">
             <x-pagination
                 :paginator="$locations"
-                RouteName="locations.index"
-                :RouteParams="request()->except('page')"
+                routeName="locations.index"
+                :queryParams="request()->except('page')"
             />
         </div>
         <!-- Pagination End -->

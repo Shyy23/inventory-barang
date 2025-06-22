@@ -52,8 +52,8 @@
         <div id="pagination-wrapper">
             <x-pagination
                 :paginator="$classes"
-                RouteName="classes.index"
-                :RouteParams="request()->except('page')"
+                routeName="classes.index"
+                :queryParams="request()->except('page')"
             />
         </div>
         <!-- Pagination End -->

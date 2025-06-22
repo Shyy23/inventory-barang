@@ -31,8 +31,9 @@ class LocationController extends Controller
         if ($request->ajax()) {
             $paginationHtml = view('components.pagination', [
                 'paginator' => $locations,
-                'RouteName' => 'locations.index',
-                'RouteParams' => $request->except('page'),
+                'routeName' => 'locations.index',
+                'routeParams' => [],
+                'queryParams' => $request->except('page'),
             ])->render();
 
             return response()->json([
